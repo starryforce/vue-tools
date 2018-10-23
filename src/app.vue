@@ -47,6 +47,12 @@ body {
   background: $color-body-bg;
 }
 
+// postcss-viewport-units
+// vw polyfill 图片显示 bug 修复
+img {
+  content: normal !important;
+}
+
 #app {
   @extend %typography-small;
 }

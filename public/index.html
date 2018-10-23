@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
     <title><%= webpackConfig.name %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
@@ -14,5 +14,12 @@
     <div id="app"></div>
 
     <!-- Built files will be auto injected here. -->
+    <!-- vw 单位的 polyfill -->
+    <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
+    <script>
+      window.onload = function () {
+        window.viewportUnitsBuggyfill.init({ hacks: window.viewportUnitsBuggyfillHacks });
+      }
+    </script>
   </body>
 </html>
