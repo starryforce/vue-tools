@@ -1,5 +1,6 @@
 {
-  "name": "frontend",
+  "name": "bebefocus-retail-terminal",
+  "description": "bebefocus-retail-terminal",
   "version": "0.0.0",
   "private": true,
   "scripts": {
