@@ -3,8 +3,47 @@ import store from '@state/store'
 export default [
   {
     path: '/',
-    name: 'home',
-    component: () => lazyLoadView(import('@views/home')),
+    redirect: '/home/workbench',
+  },
+  {
+    path: '/home/member',
+    name: 'home-member',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/HomeMember')),
+  },
+  {
+    path: '/home/activity',
+    name: 'home-activity',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/HomeActivity')),
+  },
+  {
+    path: '/home/workbench',
+    name: 'home-workbench',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/HomeWorkbench')),
+  },
+  {
+    path: '/home/order',
+    name: 'home-order',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/HomeOrder')),
+  },
+  {
+    path: '/home/my',
+    name: 'home-my',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/HomeMy')),
   },
   {
     path: '/login',

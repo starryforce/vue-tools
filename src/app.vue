@@ -1,5 +1,6 @@
 <script>
 import appConfig from '@src/app.config'
+import MainNav from '@components/MainNav'
 
 export default {
   page: {
@@ -9,17 +10,21 @@ export default {
       return title ? `${title} | ${appConfig.title}` : appConfig.title
     },
   },
+  components: {
+    MainNav,
+  },
 }
 </script>
 
 <template>
-  <div id="app">
+  <VApp id="app">
     <!--
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
     <router-view :key="$route.fullPath" />
-  </div>
+    <MainNav v-show="$route.meta.showMainNav" />
+  </VApp>
 </template>
 
 <!-- This should generally be the only global CSS in the app. -->
@@ -29,7 +34,7 @@ export default {
 
 // Normalize default styles across browsers,
 // https://necolas.github.io/normalize.css/
-@import '~normalize.css/normalize.css';
+// @import '~normalize.css/normalize.css';
 // Style loading bar between pages.
 // https://github.com/rstacruz/nprogress
 @import '~nprogress/nprogress.css';
@@ -37,54 +42,10 @@ export default {
 // Design variables and utilities from src/design.
 @import '@design';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  background: $color-body-bg;
-}
-
 // postcss-viewport-units
 // vw polyfill 图片显示 bug 修复
 img {
   content: normal !important;
-}
-
-#app {
-  @extend %typography-small;
-}
-
-// ===
-// Base element styles
-// ===
-
-a,
-a:visited {
-  color: $color-link-text;
-}
-
-h1 {
-  @extend %typography-xxlarge;
-}
-
-h2 {
-  @extend %typography-xlarge;
-}
-
-h3 {
-  @extend %typography-large;
-}
-
-h4 {
-  @extend %typography-medium;
-}
-
-h5,
-h6 {
-  @extend %typography-small;
 }
 
 // ===

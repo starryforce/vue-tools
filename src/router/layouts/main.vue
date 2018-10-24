@@ -1,14 +1,5 @@
-<script>
-import NavBar from '@components/nav-bar'
-
-export default {
-  components: { NavBar },
-}
-</script>
-
 <template>
   <div :class="$style.container">
-    <NavBar />
     <slot />
   </div>
 </template>
@@ -17,8 +8,6 @@ export default {
 @import '@design';
 
 .container {
-  min-width: $size-content-width-min;
-  max-width: $size-content-width-max;
-  margin: 0 auto;
+  height: 100%;
 }
 </style>
