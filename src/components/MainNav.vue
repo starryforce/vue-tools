@@ -21,6 +21,7 @@ export default {
       flat
       value="member"
       to="/home/member"
+      replace
     >
       <span>会员</span>
       <VIcon>people</VIcon>
@@ -31,6 +32,7 @@ export default {
       flat
       value="activity"
       to="/home/activity"
+      replace
     >
       <span>活动</span>
       <VIcon>event</VIcon>
@@ -41,6 +43,7 @@ export default {
       flat
       value="workbench"
       to="/home/workbench"
+      replace
     >
       <span>工作台</span>
       <VIcon>grid_on</VIcon>
@@ -51,6 +54,7 @@ export default {
       flat
       value="order"
       to="/home/order"
+      replace
     >
       <span>订单</span>
       <VIcon>assignment</VIcon>
@@ -61,6 +65,7 @@ export default {
       flat
       value="my"
       to="/home/my"
+      replace
     >
       <span>我的</span>
       <VIcon>person</VIcon>
