@@ -23,7 +23,10 @@ export default {
     as distinct and create the component again.
     -->
     <router-view :key="$route.fullPath" />
-    <MainNav v-show="$route.meta.showMainNav" />
+    <MainNav
+      v-show="$route.meta.showMainNav"
+      style="z-index:auto"
+    />
   </VApp>
 </template>
 

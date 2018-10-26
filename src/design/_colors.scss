@@ -1,6 +1,8 @@
 // CONTENT
+$color-brand: #1eb1ad;
+$color-brand-light: #57c5c2;
 $color-body-bg: #f9f7f5;
-$color-text: #444;
+$color-text: #212121;
 $color-heading-text: #35495e;
 
 // LINKS
@@ -11,6 +13,6 @@ $color-link-text-active: $color-text;
 $color-input-border: lighten($color-heading-text, 50%);
 
 // BUTTONS
-$color-button-bg: $color-link-text;
+$color-button-bg: #d9d9d9;
 $color-button-disabled-bg: darken(desaturate($color-button-bg, 20%), 10%);
 $color-button-text: white;

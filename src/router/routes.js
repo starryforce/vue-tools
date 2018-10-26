@@ -46,6 +46,18 @@ export default [
     component: () => lazyLoadView(import('@views/HomeMy')),
   },
   {
+    path: '/member/label',
+    name: 'member-label',
+    meta: {},
+    component: () => lazyLoadView(import('@views/MemberLabel')),
+  },
+  {
+    path: '/member/label/add',
+    name: 'member-label-add',
+    meta: {},
+    component: () => lazyLoadView(import('@views/MemberLabelAdd')),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),

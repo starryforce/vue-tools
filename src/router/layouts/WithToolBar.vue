@@ -1,5 +1,16 @@
+<script>
+import ToolBar from '@components/ToolBar'
+
+export default {
+  name: 'WithToolBar',
+  components: {
+    ToolBar,
+  },
+}
+</script>
 <template>
   <div :class="$style.container">
+    <ToolBar />
     <slot />
   </div>
 </template>
