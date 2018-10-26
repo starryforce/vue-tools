@@ -10,7 +10,7 @@ export default {
 </script>
 <template>
   <div :class="$style.container">
-    <ToolBar />
+    <ToolBar :class="$style.toolbar" />
     <slot />
   </div>
 </template>
@@ -20,6 +20,12 @@ export default {
 
 .container {
   height: 100vh;
+  padding-top: 56px;
   overflow: auto;
+}
+.toolbar {
+  position: absolute;
+  top: 0;
+  z-index: $layer-page-z-index;
 }
 </style>
