@@ -44,6 +44,7 @@ export default {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
           title: '你纸片人老婆',
         },
+        { divider: true, inset: true },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
           title: '你爸',
@@ -78,6 +79,7 @@ export default {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
           title: '你纸片人老婆',
         },
+        { divider: true, inset: true },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
           title: '你爸',
@@ -130,6 +132,7 @@ export default {
         <VListTile
           v-else
           :key="index+100"
+          to="/member/label/edit"
         >
           <VListTileContent>
             <VListTileTitle>{{ item.title }}</VListTileTitle>
@@ -153,6 +156,7 @@ export default {
         :color="$style['color-brand-light']"
         dark
         block
+        large
         to="/member/label/add"
       >
         新增标签

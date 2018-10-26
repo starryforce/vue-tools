@@ -55,7 +55,15 @@ export default [
     path: '/member/label/add',
     name: 'member-label-add',
     meta: {},
-    component: () => lazyLoadView(import('@views/MemberLabelAdd')),
+    props: { mode: 'add' },
+    component: () => lazyLoadView(import('@views/MemberLabelModify')),
+  },
+  {
+    path: '/member/label/edit',
+    name: 'member-label-edit',
+    meta: {},
+    props: { mode: 'edit' },
+    component: () => lazyLoadView(import('@views/MemberLabelModify')),
   },
   {
     path: '/login',
