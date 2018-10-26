@@ -94,6 +94,7 @@ export default {
           v-else
           :key="item.title"
           avatar
+          to="/member/information"
         >
           <VListTileAvatar>
             <img :src="item.avatar">
