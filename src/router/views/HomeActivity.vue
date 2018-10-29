@@ -4,7 +4,7 @@ import Layout from '@layouts/main'
 export default {
   page: {
     title: '活动',
-    meta: [{ name: 'activity', content: 'HomeActivity' }],
+    meta: [{ name: 'description', content: 'Loading page...' }],
   },
   components: { Layout },
 }

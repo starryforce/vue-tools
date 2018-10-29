@@ -4,7 +4,7 @@ import Layout from '@layouts/WithToolBar'
 export default {
   page: {
     title: '标签会员',
-    meta: [{ name: 'MemberLabel', content: 'MemberLabel' }],
+    meta: [{ name: 'description', content: 'MemberLabel' }],
   },
   components: { Layout },
   data() {
@@ -168,6 +168,7 @@ export default {
 <style lang="scss" module>
 @import '@design';
 :export {
+  // stylelint-disable-next-line property-no-unknown
   color-brand-light: $color-brand-light;
 }
 .button {

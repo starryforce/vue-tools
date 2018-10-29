@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: 'Main',
+}
+</script>
+
 <template>
   <div :class="$style.container">
     <slot />

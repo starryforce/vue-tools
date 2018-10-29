@@ -4,7 +4,7 @@ import Layout from '@layouts/WithToolBar'
 export default {
   page: {
     title: '会员信息',
-    meta: [{ name: 'MemberInformation', content: 'MemberInformation' }],
+    meta: [{ name: 'description', content: 'MemberInformation' }],
   },
   components: { Layout },
   data() {
@@ -107,7 +107,9 @@ export default {
 <style lang="scss" module>
 @import '@design';
 :export {
+  // stylelint-disable-next-line property-no-unknown
   width-avatar: 20vw;
+  // stylelint-disable-next-line property-no-unknown
   color-brand-light: $color-brand-light;
 }
 .nameBoard.nameBoard {
@@ -115,6 +117,7 @@ export default {
 }
 
 .tabs {
+  // stylelint-disable-next-line selector-class-pattern
   :global(.v-tabs__item) {
     padding-right: 0;
     padding-left: 0;

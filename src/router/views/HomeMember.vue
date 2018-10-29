@@ -5,7 +5,7 @@ import SelectorMember from '@components/SelectorMember'
 export default {
   page: {
     title: '会员',
-    meta: [{ name: 'member', content: 'HomeMember' }],
+    meta: [{ name: 'description', content: 'HomeMember' }],
   },
   components: { Layout, SelectorMember },
   data() {

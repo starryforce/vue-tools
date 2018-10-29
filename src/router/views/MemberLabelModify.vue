@@ -4,7 +4,7 @@ import Layout from '@layouts/WithToolBar'
 export default {
   page: {
     title: '会员标签',
-    meta: [{ name: 'MemberLabelModify', content: 'MemberLabelModify' }],
+    meta: [{ name: 'description', content: 'MemberLabelModify' }],
   },
   components: { Layout },
   props: {
@@ -106,6 +106,7 @@ export default {
 <style lang="scss" module>
 @import '@design';
 :export {
+  // stylelint-disable property-no-unknown
   width-avatar: 20vw;
   color-brand-light: $color-brand-light;
   color-button-danger: $color-button-danger;

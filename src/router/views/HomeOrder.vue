@@ -4,7 +4,7 @@ import Layout from '@layouts/main'
 export default {
   page: {
     title: '订单',
-    meta: [{ name: 'order', content: 'HomeOrder' }],
+    meta: [{ name: 'description', content: 'HomeOrder' }],
   },
   components: { Layout },
 }
