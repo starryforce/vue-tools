@@ -5,10 +5,7 @@ module.exports = {
     'git add',
     'yarn unit --bail --findRelatedTests',
   ],
-  '{*.json,*.code-snippets,.*rc}': [
-    'prettier --write --parser json',
-    'git add',
-  ],
+  '{*.json,*.code-snippets}': ['prettier --write --parser json', 'git add'],
   '*.vue': [
     'eslint --fix',
     'stylelint --fix',
