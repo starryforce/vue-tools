@@ -10,26 +10,16 @@ export default {
   components: { Layout, SelectorMember },
   data() {
     return {
-      items: [
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: '年糕妈妈1',
-          subtitle: '18888888888',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: '年糕妈妈2',
-          subtitle: '18888888888',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: '年糕妈妈3',
-          subtitle: '18888888888',
-        },
-      ],
+      memberList: [],
     }
+  },
+  created() {
+    this.getMemberList()
+  },
+  methods: {
+    async getMemberList() {
+      this.memberList = (await this.$api.member.getMemberList()).data
+    },
   },
 }
 </script>
@@ -83,15 +73,14 @@ export default {
       </VFlex>
     </VLayout>
     <VList two-line>
-      <template v-for="(item, index) in items">
+      <template v-for="(item, index) in memberList">
         <VDivider
-          v-if="item.divider"
+          v-if="index"
           :key="index"
-          :inset="item.inset"
+          :inset="true"
         />
 
         <VListTile
-          v-else
           :key="item.title"
           avatar
           to="/member/information"
