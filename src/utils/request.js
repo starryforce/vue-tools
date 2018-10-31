@@ -1,15 +1,14 @@
 import axios from 'axios'
 // import qs from 'qs'
 import store from '@state/store'
-
 const config = {
   method: 'post',
-  baseURL: '/api',
+  baseURL: process.env.VUE_APP_API_BASE_URL + '/api',
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
   timeout: 8000,
-  withCredentials: true,
+  // withCredentials: true,
   responseType: 'json',
 }
 // 加载不显示加载提示最小时间值

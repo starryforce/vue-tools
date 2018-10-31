@@ -16,7 +16,8 @@
     "test": "yarn unit && yarn e2e",
     "test:ci": "yarn lint && yarn unit --coverage --ci && yarn e2e",
     "new": "hygen new",
-    "docs": "vuepress dev"
+    "docs": "vuepress dev",
+    "mock": "nodemon ./tests/mock-api/service"
   },
   "gitHooks": {
     "pre-commit": "cross-env PRE_COMMIT=true lint-staged"
@@ -31,6 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "5.4.2",
     "@fortawesome/vue-fontawesome": "0.1.1",
     "axios": "0.18.0",
+    "cors": "^2.8.4",
     "lodash": "4.17.11",
     "normalize.css": "8.0.0",
     "nprogress": "0.2.0",
@@ -54,14 +56,15 @@
     "cross-env": "5.2.x",
     "cssnano": "^4.1.7",
     "cssnano-preset-advanced": "^4.0.5",
-    "eslint-plugin-vue": "5.0.0-beta.3",
     "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-vue": "5.0.0-beta.3",
     "express": "4.16.x",
     "hygen": "1.6.x",
     "imagemin-lint-staged": "0.3.x",
     "lint-staged": "7.3.0",
     "markdownlint-cli": "0.13.x",
     "node-sass": "4.9.x",
+    "nodemon": "^1.18.5",
     "postcss-cssnext": "^3.1.0",
     "postcss-px-to-viewport": "^0.0.3",
     "postcss-viewport-units": "^0.1.6",
