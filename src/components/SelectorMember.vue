@@ -140,7 +140,9 @@ export default {
 @import '@design';
 
 :export {
+  // stylelint-disable-next-line property-no-unknown
   button-bg-color: $color-button-bg;
+  // stylelint-disable-next-line property-no-unknown
   color-brand-light: $color-brand-light;
 }
 
@@ -161,6 +163,7 @@ export default {
 .expansionPanel {
   position: absolute;
   z-index: $layer-modal-z-index;
+  // stylelint-disable-next-line  selector-class-pattern
   :global(.v-expansion-panel__body .container) {
     height: 73vh;
     max-height: 73vh;
