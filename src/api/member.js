@@ -5,6 +5,16 @@ export const getMemberList = () => {
     url: '/member/GetMemberList',
   })
 }
+
+export const getMemberInformation = id => {
+  return request({
+    url: '/member/GetMemberInformation',
+    data: {
+      id,
+    },
+  })
+}
+
 export const getLabelList = () => {
   return request({
     url: '/member/GetLabelList',
@@ -13,5 +23,6 @@ export const getLabelList = () => {
 
 export default {
   getMemberList,
+  getMemberInformation,
   getLabelList,
 }

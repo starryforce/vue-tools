@@ -77,21 +77,21 @@ export default {
         <VDivider
           v-if="index"
           :key="index"
-          :inset="true"
+          inset
         />
 
         <VListTile
-          :key="item.title"
+          :key="item.id"
           avatar
-          to="/member/information"
+          :to="{name:'member-information',params:{id:item.id}}"
         >
           <VListTileAvatar>
             <img :src="item.avatar">
           </VListTileAvatar>
 
           <VListTileContent>
-            <VListTileTitle>{{ item.title }}</VListTileTitle>
-            <VListTileSubTitle>{{ item.subtitle }}</VListTileSubTitle>
+            <VListTileTitle>{{ item.name }}</VListTileTitle>
+            <VListTileSubTitle>{{ item.mobile }}</VListTileSubTitle>
           </VListTileContent>
           <VListTileAction>
             <VLayout>

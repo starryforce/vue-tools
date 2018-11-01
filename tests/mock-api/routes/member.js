@@ -6,8 +6,15 @@ module.exports = app => {
     response.json({
       code: 200,
       msg: 'ok',
+      data: Members.all,
+    })
+  })
+  app.post('/api/member/GetMemberInformation', (request, response) => {
+    response.json({
+      code: 200,
+      msg: 'ok',
       data: {
-        data: Members.all,
+        data: Members.findBy('id', request.body.id),
       },
     })
   })

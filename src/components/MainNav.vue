@@ -14,7 +14,6 @@ export default {
     :active.sync="bottomNav"
     :value="true"
     fixed
-    color="transparent"
   >
     <VBtn
       color="teal"
@@ -76,6 +75,7 @@ export default {
 <style lang="scss" module>
 @import '@design';
 .container {
+  // stylelint-disable  selector-class-pattern
   &:global(.v-item-group.v-bottom-nav .v-btn) {
     min-width: 50px;
   }

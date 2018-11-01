@@ -66,8 +66,9 @@ export default [
     component: () => lazyLoadView(import('@views/MemberLabelModify')),
   },
   {
-    path: '/member/information',
+    path: '/member/information/:id',
     name: 'member-information',
+    props: true,
     meta: {},
     component: () => lazyLoadView(import('@views/MemberInformation')),
   },
