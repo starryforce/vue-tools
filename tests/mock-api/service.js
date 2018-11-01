@@ -1,8 +1,10 @@
 const app = require('express')()
-var cors = require('cors')
 
-app.use(cors())
+app.use((request, response, next) => {
+  response.header('Access-Control-Allow-Origin', '*')
+  next()
+})
 
 require('../mock-api')(app)
 
-app.listen(3000, function() {})
+app.listen(3000)

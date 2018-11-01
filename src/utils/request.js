@@ -3,7 +3,7 @@ import axios from 'axios'
 import store from '@state/store'
 const config = {
   method: 'post',
-  baseURL: process.env.VUE_APP_API_BASE_URL + '/api',
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
