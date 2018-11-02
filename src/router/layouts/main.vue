@@ -15,6 +15,7 @@ export default {
 
 .container {
   height: 100vh;
+  margin-bottom: 56px;
   overflow: auto;
 }
 </style>
