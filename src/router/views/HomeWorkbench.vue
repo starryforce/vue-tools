@@ -6,16 +6,241 @@ export default {
     title: '工作台',
     meta: [{ name: 'description', content: 'HomeWorkbench' }],
   },
+  name: 'HomeWorkbench',
   components: { Layout },
+  data() {
+    return {
+      showPanel: null,
+      items: [
+        {
+          action: '15 min',
+          headline: 'Brunch this weekend?',
+          title: 'Ali Connors',
+          subtitle:
+            "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+        },
+        {
+          action: '2 hr',
+          headline: 'Summer BBQ',
+          title: 'me, Scrott, Jennifer',
+          subtitle: "Wish I could come, but I'm out of town this weekend.",
+        },
+        {
+          action: '6 hr',
+          headline: 'Oui oui',
+          title: 'Sandra Adams',
+          subtitle: 'Do you have Paris recommendations? Have you ever been?',
+        },
+        {
+          action: '12 hr',
+          headline: 'Birthday gift',
+          title: 'Trevor Hansen',
+          subtitle:
+            'Have any ideas about what we should get Heidi for her birthday?',
+        },
+        {
+          action: '18hr',
+          headline: 'Recipe to try',
+          title: 'Britta Holt',
+          subtitle:
+            'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+        },
+      ],
+    }
+  },
+  methods: {},
 }
 </script>
 
 <template>
-  <Layout>
-    Homeworkbench
+  <Layout :class="$style.container">
+    <VContainer :class="$style.workPanel">
+      <VCard>
+        <VLayout :class="$style.buttonGroup">
+          <VFlex xs3>
+            <VBtn flat>
+              <VIcon dark>
+                cloud_queue
+              </VIcon>
+              <span>查看商品</span>
+            </VBtn>
+          </VFlex>
+          <VFlex xs3>
+            <VBtn flat>
+              <VIcon dark>
+                cloud_queue
+              </VIcon>
+              <span>邀请会员</span>
+            </VBtn>
+          </VFlex>
+          <VFlex xs3>
+            <VBtn flat>
+              <VIcon dark>
+                cloud_queue
+              </VIcon>
+              <span>会员充值</span>
+            </VBtn>
+          </VFlex>
+          <VFlex xs3>
+            <VBtn flat>
+              <VIcon dark>
+                cloud_queue
+              </VIcon>
+              <span>扫码开单</span>
+            </VBtn>
+          </VFlex>
+        </VLayout>
+        <VExpansionPanel
+          v-model="showPanel"
+          expand
+        >
+          <VExpansionPanelContent>
+            <VLayout :class="$style.buttonGroup">
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>购物车</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>发起退货</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>核销</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>付费会员</span>
+                </VBtn>
+              </VFlex>
+            </VLayout>
+            <VLayout :class="$style.buttonGroup">
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>提货列表</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>打印设置</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>无</span>
+                </VBtn>
+              </VFlex>
+              <VFlex xs3>
+                <VBtn flat>
+                  <VIcon dark>
+                    cloud_queue
+                  </VIcon>
+                  <span>无</span>
+                </VBtn>
+              </VFlex>
+            </VLayout>
+          </VExpansionPanelContent>
+        </VExpansionPanel>
+        <VCardActions>
+          <VBtn
+            flat
+            block
+            @click="showPanel = showPanel === 0 ? null : 0"
+          >
+            <VIcon v-show="showPanel !== 0">
+              arrow_downward
+            </VIcon>
+            <VIcon v-show="showPanel === 0">
+              arrow_upward
+            </VIcon>
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VContainer>
+    <VList two-line>
+      <template v-for="(item, index) in items">
+        <VDivider
+          v-if="index"
+          :key="index"
+        />
+        <VListTile
+          :key="item.title"
+          avatar
+          ripple
+        >
+          <VListTileAvatar>
+            <img :src="item.avatar">
+          </VListTileAvatar>
+          <VListTileContent>
+            <VListTileTitle>{{ item.title }}</VListTileTitle>
+            <VListTileSubTitle class="text--primary">
+              {{ item.headline }}
+            </VListTileSubTitle>
+          </VListTileContent>
+
+          <VListTileAction>
+            <VListTileActionText>{{ item.action }}</VListTileActionText>
+          </VListTileAction>
+        </VListTile>
+      </template>
+    </VList>
   </Layout>
 </template>
 
 <style lang="scss" module>
 @import '@design';
+
+.container {
+  background: linear-gradient(
+    $color-brand-light 0%,
+    $color-brand-light 10%,
+    #fff 10%
+  );
+}
+.workPanel {
+  // stylelint-disable-next-line selector-class-pattern
+  :global(.v-expansion-panel) {
+    box-shadow: unset;
+  }
+}
+
+.buttonGroup {
+  // stylelint-disable-next-line selector-class-pattern
+  :global(.v-btn) {
+    width: 100%;
+    min-width: 60px;
+    height: auto;
+    padding: 10px 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  // stylelint-disable-next-line selector-class-pattern
+  :global(.v-btn__content) {
+    flex-direction: column;
+  }
+}
 </style>
