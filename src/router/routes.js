@@ -36,6 +36,32 @@ export default [
       showMainNav: true,
     },
     component: () => lazyLoadView(import('@views/HomeOrder')),
+    children: [
+      {
+        path: 'statistics',
+        name: 'home-order-statistics',
+        meta: {
+          showMainNav: true,
+        },
+        component: () => lazyLoadView(import('@views/OrderStatistics')),
+      },
+      {
+        path: 'return',
+        name: 'home-order-return',
+        meta: {
+          showMainNav: true,
+        },
+        component: () => lazyLoadView(import('@views/OrderReturn')),
+      },
+      {
+        path: 'pickup',
+        name: 'home-order-pickup',
+        meta: {
+          showMainNav: true,
+        },
+        component: () => lazyLoadView(import('@views/OrderPickUp')),
+      },
+    ],
   },
   {
     path: '/home/my',
