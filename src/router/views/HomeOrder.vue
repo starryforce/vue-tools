@@ -16,9 +16,10 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <Layout :class="$style.container">
     <VTabs
       v-model="tab"
+      :class="$style.tabs"
       :color="$style['color-brand-light']"
       grow
       dark
@@ -35,7 +36,10 @@ export default {
         提货订单
       </VTab>
     </VTabs>
-    <router-view :key="$route.fullPath" />
+    <router-view
+      :key="$route.fullPath"
+      :class="$style.view"
+    />
   </Layout>
 </template>
 
@@ -44,5 +48,16 @@ export default {
 :export {
   // stylelint-disable-next-line property-no-unknown
   color-brand-light: $color-brand-light;
+}
+.container {
+  padding-bottom: 0;
+}
+.tabs {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.view {
+  padding-top: 48px;
 }
 </style>

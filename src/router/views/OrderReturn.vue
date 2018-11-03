@@ -19,8 +19,4 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-
-.container {
-  height: 87.2vh;
-}
 </style>
