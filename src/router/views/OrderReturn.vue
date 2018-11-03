@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <Layout :class="$style.container">
+  <Layout>
     Orderreturn
   </Layout>
 </template>

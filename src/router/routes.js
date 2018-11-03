@@ -31,12 +31,15 @@ export default [
   },
   {
     path: '/home/order',
-    name: 'home-order',
     meta: {
       showMainNav: true,
     },
     component: () => lazyLoadView(import('@views/HomeOrder')),
     children: [
+      {
+        path: '',
+        redirect: { name: 'home-order-statistics' },
+      },
       {
         path: 'statistics',
         name: 'home-order-statistics',
