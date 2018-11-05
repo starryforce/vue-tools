@@ -63,6 +63,7 @@ export default {
             v-for="(item) in items"
             :key="item.title"
             :class="$style.orderContainer"
+            @click="$router.push('/order/return/detail')"
           >
             <VLayout>
               <VFlex>
@@ -104,6 +105,7 @@ export default {
             v-for="(item) in items"
             :key="item.title"
             :class="$style.orderContainer"
+            @click="$router.push('/order/return/detail')"
           >
             <VLayout>
               <VFlex>

@@ -49,6 +49,7 @@ export default {
         v-for="(item) in items"
         :key="item.title"
         :class="$style.orderContainer"
+        @click="$router.push('/order/pickup/detail')"
       >
         <VLayout>
           <VFlex>
