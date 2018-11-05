@@ -93,6 +93,12 @@ export default [
     component: () => lazyLoadView(import('@views/HomeMy')),
   },
   {
+    path: '/my/statistics',
+    name: 'my-statistics',
+    meta: {},
+    component: () => lazyLoadView(import('@views/MyStatistics')),
+  },
+  {
     path: '/member/label',
     name: 'member-label',
     meta: {},
