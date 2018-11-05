@@ -15,11 +15,32 @@ export default [
   },
   {
     path: '/home/activity',
-    name: 'home-activity',
     meta: {
       showMainNav: true,
     },
     component: () => lazyLoadView(import('@views/HomeActivity')),
+    children: [
+      {
+        path: '',
+        redirect: { name: 'home-activity-online' },
+      },
+      {
+        path: 'online',
+        name: 'home-activity-online',
+        meta: {
+          showMainNav: true,
+        },
+        component: () => lazyLoadView(import('@views/ActivityOnline')),
+      },
+      {
+        path: 'offline',
+        name: 'home-activity-offline',
+        meta: {
+          showMainNav: true,
+        },
+        component: () => lazyLoadView(import('@views/ActivityOffline')),
+      },
+    ],
   },
   {
     path: '/home/workbench',
