@@ -43,6 +43,22 @@ export default [
     ],
   },
   {
+    path: '/activity/online/detail',
+    name: 'activity-online-detail',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/ActivityOnlineDetail')),
+  },
+  {
+    path: '/activity/offline/detail',
+    name: 'activity-offline-detail',
+    meta: {
+      showMainNav: true,
+    },
+    component: () => lazyLoadView(import('@views/ActivityOfflineDetail')),
+  },
+  {
     path: '/home/workbench',
     name: 'home-workbench',
     meta: {
