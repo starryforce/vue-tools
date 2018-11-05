@@ -67,6 +67,24 @@ export default [
     ],
   },
   {
+    path: '/order/return/detail',
+    name: 'order-return-detail',
+    meta: {},
+    component: () => lazyLoadView(import('@views/OrderReturnDetail')),
+  },
+  {
+    path: '/order/return/confirm',
+    name: 'order-return-confirm',
+    meta: {},
+    component: () => lazyLoadView(import('@views/OrderReturnDetail')),
+  },
+  {
+    path: '/order/pickup/detail',
+    name: 'order-pickup-detail',
+    meta: {},
+    component: () => lazyLoadView(import('@views/OrderPickUpDetail')),
+  },
+  {
     path: '/home/my',
     name: 'home-my',
     meta: {
