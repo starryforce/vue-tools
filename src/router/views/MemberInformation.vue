@@ -235,6 +235,7 @@ export default {
         <VList
           v-if="memberInformation.orders"
           :class="$style.order"
+          subheader
         >
           <template v-for="(order, index) in memberInformation.orders">
             <VDivider
@@ -306,7 +307,7 @@ export default {
         </VList>
       </VTabItem>
       <VTabItem>
-        <VList>
+        <VList subheader>
           <VSubheader>
             购物积分
           </VSubheader>

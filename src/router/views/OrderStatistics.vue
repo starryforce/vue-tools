@@ -86,7 +86,10 @@ export default {
         </VCardText>
       </VCard>
     </VContainer>
-    <VList two-line>
+    <VList
+      two-line
+      subheader
+    >
       <VSubheader>08.09</VSubheader>
       <template v-for="(item, index) in items">
         <VDivider
