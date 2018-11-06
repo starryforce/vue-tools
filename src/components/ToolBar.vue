@@ -5,6 +5,7 @@ export default {}
 <template>
   <VToolbar
     dark
+    dense
     color="primary"
   >
     <VToolbarSideIcon @click="$router.back()">

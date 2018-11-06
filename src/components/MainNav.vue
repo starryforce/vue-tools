@@ -16,7 +16,7 @@ export default {
     fixed
   >
     <VBtn
-      color="teal"
+      color="secondary"
       flat
       value="member"
       to="/home/member"
@@ -27,7 +27,7 @@ export default {
     </VBtn>
 
     <VBtn
-      color="teal"
+      color="secondary"
       flat
       value="activity"
       to="/home/activity"
@@ -38,7 +38,7 @@ export default {
     </VBtn>
 
     <VBtn
-      color="teal"
+      color="secondary"
       flat
       value="workbench"
       to="/home/workbench"
@@ -49,7 +49,7 @@ export default {
     </VBtn>
 
     <VBtn
-      color="teal"
+      color="secondary"
       flat
       value="order"
       to="/home/order"
@@ -60,7 +60,7 @@ export default {
     </VBtn>
 
     <VBtn
-      color="teal"
+      color="secondary"
       flat
       value="my"
       to="/home/my"

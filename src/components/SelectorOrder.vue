@@ -3,7 +3,7 @@ export default {
   name: 'SelectorOrder',
   data() {
     return {
-      dialog: true,
+      dialog: false,
       panel: [true, true, true, true],
       selected: ['a', 'b', 'c', 'd'],
       radioGroup: 1,
