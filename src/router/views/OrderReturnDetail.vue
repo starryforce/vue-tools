@@ -118,7 +118,7 @@ export default {
       <VFlex>
         <VBtn
           block
-          :color="$style['color-brand-light']"
+          color="primary"
           dark
         >
           审核通过
@@ -130,10 +130,6 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-:export {
-  // stylelint-disable-next-line property-no-unknown
-  color-brand-light: $color-brand-light;
-}
 .form {
   padding-bottom: 50px;
   // stylelint-disable-next-line selector-class-pattern

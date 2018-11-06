@@ -79,7 +79,7 @@ export default {
 
     <VLayout :class="$style.button">
       <VBtn
-        :color="$style['color-brand-light']"
+        color="primary"
         dark
         large
         block
@@ -98,10 +98,6 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-:export {
-  // stylelint-disable-next-line property-no-unknown
-  color-brand-light: $color-brand-light;
-}
 .form {
   // stylelint-disable-next-line selector-class-pattern
   :global(.v-list__tile) {

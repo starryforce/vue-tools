@@ -40,7 +40,7 @@ export default {
   <div :class="$style.container">
     <VToolbar
       dark
-      :color="$style['color-brand-light']"
+      color="primary"
     >
       <VTextField
         prepend-inner-icon="search"
@@ -123,7 +123,7 @@ export default {
           <VFlex>
             <VBtn
               block
-              :color="$style['color-brand-light']"
+              color="primary"
               dark
               @click="confirm"
             >
@@ -142,8 +142,6 @@ export default {
 :export {
   // stylelint-disable-next-line property-no-unknown
   button-bg-color: $color-button-bg;
-  // stylelint-disable-next-line property-no-unknown
-  color-brand-light: $color-brand-light;
 }
 
 .container {

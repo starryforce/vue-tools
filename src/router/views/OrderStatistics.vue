@@ -55,7 +55,7 @@ export default {
     <VContainer>
       <VCard
         dark
-        :color="$style['color-brand-light']"
+        color="primary"
       >
         <VCardText>
           <VLayout>总计金额（元）</VLayout>
@@ -143,10 +143,6 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-:export {
-  // stylelint-disable-next-line property-no-unknown
-  color-brand-light: $color-brand-light;
-}
 // stylelint-disable-next-line selector-class-pattern
 :global(.v-list__tile) {
   padding: 0 5px;

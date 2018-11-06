@@ -89,7 +89,4 @@ export default {
 .orderContainer {
   padding-top: 0;
 }
-.activeTab {
-  color: $color-brand;
-}
 </style>

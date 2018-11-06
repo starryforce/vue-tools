@@ -45,13 +45,10 @@ export default {
       >
         <VFlex xs3>
           <VAvatar
-
+            color="primary"
             :size="$style['width-avatar']"
           >
-            <VIcon
-              :class="$style.addIcon"
-              dark
-            >
+            <VIcon dark>
               person_add
             </VIcon>
           </VAvatar>
@@ -91,7 +88,7 @@ export default {
       </VFlex>
       <VFlex>
         <VBtn
-          :color="$style['color-brand-light']"
+          color="primary"
           dark
           block
           large
@@ -108,11 +105,7 @@ export default {
 :export {
   // stylelint-disable property-no-unknown
   width-avatar: 20vw;
-  color-brand-light: $color-brand-light;
   color-button-danger: $color-button-danger;
-}
-.addIcon {
-  background-color: $color-brand-light;
 }
 .memberName {
   font-size: 14px;

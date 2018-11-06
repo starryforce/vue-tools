@@ -75,7 +75,7 @@ export default {
     <VTabs
       v-model="active"
       :class="$style.tabs"
-      :color="$style['color-brand-light']"
+      color="primary"
       dark
       grow
       centered
@@ -412,8 +412,6 @@ export default {
 :export {
   // stylelint-disable-next-line property-no-unknown
   width-avatar: 20vw;
-  // stylelint-disable-next-line property-no-unknown
-  color-brand-light: $color-brand-light;
 }
 .nameBoard.nameBoard {
   background-color: $color-brand-light;

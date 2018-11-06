@@ -11,7 +11,7 @@ Vue.use(Vuetify, {
     current: 'zhHans',
   },
   theme: {
-    primary: '#1EB1AD', // 贝卡品牌色加深版
-    secondary: '#57C5C2', // 贝卡品牌色
+    primary: '#57C5C2', // 贝卡品牌色淡化版
+    secondary: '#1EB1AD', // 贝卡品牌色
   },
 })
