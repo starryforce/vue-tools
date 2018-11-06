@@ -1,5 +1,6 @@
 <script>
 import Layout from '@layouts/main'
+import SelectorOrder from '@components/SelectorOrder'
 
 export default {
   metaInfo: {
@@ -7,7 +8,7 @@ export default {
     meta: [{ name: 'description', content: 'OrderStatistics' }],
   },
   name: 'OrderStatistics',
-  components: { Layout },
+  components: { Layout, SelectorOrder },
   data() {
     return {
       items: [
@@ -64,19 +65,7 @@ export default {
             align-center
           >
             <span>1200.09</span>
-            <VBtn
-              flat
-              left
-              large
-            >
-              <VIcon
-                dark
-                left
-              >
-                filter_list
-              </VIcon>
-              筛选订单
-            </VBtn>
+            <SelectorOrder />
           </VLayout>
           <VLayout column>
             <VFlex>现金：198.09元</VFlex>
