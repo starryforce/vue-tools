@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: '工作台',
     meta: [{ name: 'description', content: 'HomeWorkbench' }],
   },

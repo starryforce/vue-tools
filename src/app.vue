@@ -3,7 +3,7 @@ import appConfig from '@src/app.config'
 import MainNav from '@components/MainNav'
 
 export default {
-  page: {
+  metaInfo: {
     // All subcomponent titles will be injected into this template.
     titleTemplate(title) {
       title = typeof title === 'function' ? title(this.$store) : title

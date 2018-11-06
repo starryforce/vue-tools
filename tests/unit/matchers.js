@@ -52,11 +52,11 @@ customMatchers.toBeAViewComponent = function(options, mockInstance) {
   }
 
   function definesAPageTitleAndDescription() {
-    if (!options.page) return false
+    if (!options.metaInfo) return false
     const pageObject =
-      typeof options.page === 'function'
-        ? options.page.apply(mockInstance || {})
-        : options.page
+      typeof options.metaInfo === 'function'
+        ? options.metaInfo.apply(mockInstance || {})
+        : options.metaInfo
     if (!pageObject.hasOwnProperty('title')) return false
     if (!pageObject.meta) return false
     const hasMetaDescription = pageObject.meta.some(

@@ -3,7 +3,7 @@ import Layout from '@layouts/main'
 import SelectorMember from '@components/SelectorMember'
 
 export default {
-  page: {
+  metaInfo: {
     title: '会员',
     meta: [{ name: 'description', content: 'HomeMember' }],
   },

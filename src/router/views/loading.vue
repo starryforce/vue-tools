@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'Loading page...',
     meta: [{ name: 'description', content: 'Loading page...' }],
   },

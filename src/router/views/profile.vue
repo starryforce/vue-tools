@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page() {
+  metaInfo() {
     return {
       title: this.user.name,
       meta: [

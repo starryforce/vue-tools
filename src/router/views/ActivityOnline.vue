@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'ActivityOnline',
     meta: [{ name: 'description', content: 'ActivityOnline' }],
   },

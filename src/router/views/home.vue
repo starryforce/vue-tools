@@ -3,7 +3,7 @@ import appConfig from '@src/app.config'
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'Home',
     meta: [{ name: 'description', content: appConfig.description }],
   },

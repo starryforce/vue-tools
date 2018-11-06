@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: '自提单详情',
     meta: [{ name: 'description', content: 'OrderPickUpDetail' }],
   },

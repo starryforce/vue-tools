@@ -2,7 +2,7 @@
 import Layout from '@layouts/WithToolBar'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'MyStatistics',
     meta: [{ name: 'description', content: 'MyStatistics' }],
   },

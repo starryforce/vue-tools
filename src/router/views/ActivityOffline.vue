@@ -2,7 +2,7 @@
 import Layout from '@layouts/main'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'ActivityOffline',
     meta: [{ name: 'description', content: 'ActivityOffline' }],
   },

@@ -4,7 +4,7 @@ import { authMethods } from '@state/helpers'
 import appConfig from '@src/app.config'
 
 export default {
-  page: {
+  metaInfo: {
     title: 'Log in',
     meta: [{ name: 'description', content: `Log in to ${appConfig.title}` }],
   },
