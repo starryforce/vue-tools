@@ -26,17 +26,17 @@ export default {
 <template>
   <Layout :class="$style.container">
     <VList>
-      <template v-for="(item, index) in labelList">
+      <template v-for="(label, index) in labelList">
         <VDivider
           v-if="index"
-          :key="index"
+          :key="'divider'+label.id"
         />
         <VListTile
-          :key="index+100"
+          :key="label.id"
           to="/member/label/edit"
         >
           <VListTileContent>
-            <VListTileTitle>{{ item.title }}</VListTileTitle>
+            <VListTileTitle>{{ label.labelName }}</VListTileTitle>
           </VListTileContent>
           <VListTileAction>
             <VBtn

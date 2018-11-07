@@ -25,7 +25,7 @@ export default {
     <router-view :key="$route.fullPath" />
     <MainNav
       v-show="$route.meta.showMainNav"
-      style="z-index:auto"
+      style="z-index:1"
     />
   </VApp>
 </template>

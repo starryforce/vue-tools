@@ -6,29 +6,16 @@ export default {
       showPanel: null,
       belong: '',
       face: '',
-      tags: [
-        '土豪',
-        '精明型',
-        '特别长的标签',
-        '精明型',
-        '精明型',
-        '土豪',
-        '土豪',
-        '土豪',
-        '精明型',
-        '特别长的标签',
-        '土豪',
-        '精明型',
-        '特别长的标签',
-        '精明型',
-        '精明型',
-        '土豪',
-        '土豪',
-        '土豪',
-      ],
+      labelList: [],
     }
   },
+  created() {
+    this.getLabelList()
+  },
   methods: {
+    async getLabelList() {
+      this.labelList = (await this.$api.member.getLabelList()).data
+    },
     confirm() {
       this.showPanel = null
     },
@@ -45,6 +32,7 @@ export default {
       <VTextField
         prepend-inner-icon="search"
         single-line
+        light
         placeholder="搜索会员名、手机号、微信昵称、卡号"
       />
       <VBtn
@@ -66,6 +54,7 @@ export default {
           </VSubheader>
           <VRadioGroup
             v-model="belong"
+            color="primary"
             row
           >
             <VRadio
@@ -80,6 +69,7 @@ export default {
           <VSubheader>人像识别</VSubheader>
           <VRadioGroup
             v-model="face"
+            color="primary"
             row
           >
             <VRadio
@@ -98,7 +88,7 @@ export default {
           <VItemGroup multiple>
             <VSubheader>标签筛选</VSubheader>
             <VItem
-              v-for="(tag,index) of tags"
+              v-for="(label,index) of labelList"
               :key="index"
             >
               <VChip
@@ -106,7 +96,7 @@ export default {
                 :selected="active"
                 @click="toggle"
               >
-                {{ tag }}
+                {{ label.labelName }}
               </VChip>
             </VItem>
           </VItemGroup>
@@ -145,26 +135,33 @@ export default {
 }
 
 .container {
-  // 减小框架按钮大小及边距
-  // :global(.v-input--selection-controls) {
-  //   margin-top: 0;
-  // }
-  // :global(.v-input--selection-controls .v-input__slot) {
-  //   margin-bottom: 0;
-  // }
+  // stylelint-disable selector-class-pattern
+  :global(.v-input__slot) {
+    background-color: #fff;
+  }
 
-  // :global(.theme--light.v-messages) {
-  //   min-height: 0;
-  // }
+  :global(.v-text-field__slot) {
+    font-size: 13px;
+  }
+
+  // 减小框架按钮大小及边距
+  :global(.v-input--selection-controls) {
+    margin-top: 0;
+  }
+  :global(.v-input--selection-controls .v-input__slot) {
+    margin-bottom: 0;
+  }
+  :global(.theme--light.v-messages) {
+    min-height: 0;
+  }
 }
 
 .expansionPanel {
   position: absolute;
   z-index: $layer-modal-z-index;
-  // stylelint-disable-next-line  selector-class-pattern
   :global(.v-expansion-panel__body .container) {
-    height: 73vh;
-    max-height: 73vh;
+    height: 75vh;
+    max-height: 75vh;
     overflow: auto;
   }
 }

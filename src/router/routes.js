@@ -6,6 +6,11 @@ export default [
     redirect: '/home/workbench',
   },
   {
+    path: 'home',
+    name: 'home',
+    redirect: '/home/workbench',
+  },
+  {
     path: '/home/member',
     name: 'home-member',
     meta: {

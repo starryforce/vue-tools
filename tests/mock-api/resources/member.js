@@ -57,6 +57,6 @@ module.exports = {
     const matchedMember = this.all.data.find(
       member => member[propertyName] === value
     )
-    return matchedMember
+    return { data: matchedMember }
   },
 }

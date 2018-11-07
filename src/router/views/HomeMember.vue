@@ -7,6 +7,7 @@ export default {
     title: '会员',
     meta: [{ name: 'description', content: 'HomeMember' }],
   },
+  name: 'HomeMember',
   components: { Layout, SelectorMember },
   data() {
     return {
@@ -27,7 +28,7 @@ export default {
 <template>
   <Layout>
     <SelectorMember />
-    <VLayout :class="$style.operations">
+    <VLayout :class="$style.brandable">
       <VFlex>
         <VBtn
           flat
@@ -42,6 +43,10 @@ export default {
           会员邀请
         </VBtn>
       </VFlex>
+      <VDivider
+        vertical
+        dark
+      />
       <VFlex>
         <VBtn
           flat
@@ -56,6 +61,10 @@ export default {
           扫会员码
         </VBtn>
       </VFlex>
+      <VDivider
+        vertical
+        dark
+      />
       <VFlex>
         <VBtn
           flat
@@ -133,7 +142,7 @@ export default {
 <style lang="scss" module>
 @import '@design';
 
-.operations {
+.brandable {
   background-color: $color-brand-light;
 }
 </style>
