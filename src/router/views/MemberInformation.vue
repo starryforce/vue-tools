@@ -160,7 +160,7 @@ export default {
               <VListTileTitle>会员标签</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.tags &&memberInformation.tags.join('、') }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.labels &&memberInformation.labels.join('、') }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />

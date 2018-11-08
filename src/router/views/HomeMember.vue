@@ -137,33 +137,26 @@ export default {
           </VListTileContent>
           <VListTileAction>
             <VLayout>
-              <VFlex>
-                <VBtn
-                  icon
-                  ripple
+              <VIcon
+                :color="item.face?'primary':''"
+                large
+              >
+                account_circle
+              </VIcon>
+              <VBadge
+                right
+                overlap
+              >
+                <span slot="badge">
+                  {{ item.labels ? item.labels.length : 0 }}
+                </span>
+                <VIcon
+                  :color="item.face?'primary':''"
+                  large
                 >
-                  <VIcon
-                    large
-                    color="grey lighten-1"
-                  >
-                    account_circle
-                  </VIcon>
-                </VBtn>
-              </VFlex>
-
-              <VFlex>
-                <VBtn
-                  icon
-                  ripple
-                >
-                  <VIcon
-                    large
-                    color="grey lighten-1"
-                  >
-                    account_circle
-                  </VIcon>
-                </VBtn>
-              </VFlex>
+                  label_important
+                </VIcon>
+              </VBadge>
             </VLayout>
           </VListTileAction>
         </VListTile>
