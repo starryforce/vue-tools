@@ -14,12 +14,10 @@ export default {
       memberList: [],
     }
   },
-  created() {
-    this.getMemberList()
-  },
+  created() {},
   methods: {
-    async getMemberList() {
-      this.memberList = (await this.$api.member.getMemberList()).data
+    fetchMemberList(newValue) {
+      this.memberList = newValue
     },
   },
 }
@@ -27,7 +25,7 @@ export default {
 
 <template>
   <Layout>
-    <SelectorMember />
+    <SelectorMember @fetch:member-list="fetchMemberList" />
     <VLayout :class="$style.brandable">
       <VFlex>
         <VBtn

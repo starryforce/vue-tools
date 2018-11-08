@@ -1,8 +1,9 @@
 import request from '@utils/request'
 
-export const getMemberList = () => {
+export const getMemberList = ({ keyword, belong, face, labels }) => {
   return request({
     url: '/member/GetMemberList',
+    data: { keyword, belong, face, labels },
   })
 }
 

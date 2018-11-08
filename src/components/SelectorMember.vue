@@ -3,14 +3,19 @@ export default {
   name: 'SelectorMember',
   data() {
     return {
-      showPanel: null,
-      belong: '',
-      face: '',
+      showPanel: 0,
       labelList: [],
+      keyword: '',
+      settings: {
+        belong: 'all',
+        face: 'all',
+        labels: [],
+      },
     }
   },
   created() {
     this.getLabelList()
+    this.getMemberList()
   },
   methods: {
     async getLabelList() {
@@ -18,6 +23,16 @@ export default {
     },
     confirm() {
       this.showPanel = null
+      this.getMemberList()
+    },
+    async getMemberList() {
+      const memberList = (await this.$api.member.getMemberList({
+        keyword: this.keyword,
+        belong: this.settings.belong,
+        face: this.settings.face,
+        labels: this.settings.labels,
+      })).data
+      this.$emit('fetch:member-list', memberList)
     },
   },
 }
@@ -30,10 +45,12 @@ export default {
       color="primary"
     >
       <VTextField
+        v-model="keyword"
         prepend-inner-icon="search"
         single-line
         light
         placeholder="搜索会员名、手机号、微信昵称、卡号"
+        @change="getMemberList"
       />
       <VBtn
         flat
@@ -49,51 +66,60 @@ export default {
     >
       <VExpansionPanelContent>
         <VContainer>
-          <VSubheader>
-            会员池
-          </VSubheader>
+          <VSubheader><VIcon>more_vert</VIcon>会员池</VSubheader>
           <VRadioGroup
-            v-model="belong"
+            v-model="settings.belong"
             color="primary"
             row
           >
             <VRadio
-              label="仅看我的"
-              value="belong-1"
+              value="all"
+              label="全部会员"
+              color="primary"
             />
             <VRadio
-              label="全部会员"
-              value="belong-2"
+              value="my"
+              label="仅看我的"
+              color="primary"
             />
           </VRadioGroup>
-          <VSubheader>人像识别</VSubheader>
+          <VSubheader><VIcon>more_vert</VIcon>人像识别</VSubheader>
           <VRadioGroup
-            v-model="face"
+            v-model="settings.face"
             color="primary"
             row
           >
             <VRadio
+              color="primary"
               label="全部"
-              value="face-0"
+              value="all"
             />
             <VRadio
               label="已绑定"
-              value="face-1"
+              value="binding"
+              color="primary"
             />
             <VRadio
               label="未绑定"
-              value="face-2"
+              value="noBinding"
+              color="primary"
             />
           </VRadioGroup>
-          <VItemGroup multiple>
-            <VSubheader>标签筛选</VSubheader>
+          <VItemGroup
+            v-model="settings.labels"
+            multiple
+            :active-class="$style.brandable"
+          >
+            <VSubheader><VIcon>more_vert</VIcon>标签筛选</VSubheader>
             <VItem
-              v-for="(label,index) of labelList"
-              :key="index"
+              v-for="(label) of labelList"
+              :key="label.labelName"
+              :value="label.labelName"
             >
               <VChip
                 slot-scope="{ active, toggle }"
                 :selected="active"
+                small
                 @click="toggle"
               >
                 {{ label.labelName }}
@@ -137,23 +163,23 @@ export default {
 .container {
   // stylelint-disable selector-class-pattern
   :global(.v-input__slot) {
+    margin-bottom: 0;
     background-color: #fff;
   }
-
   :global(.v-text-field__slot) {
     font-size: 13px;
   }
-
-  // 减小框架按钮大小及边距
-  :global(.v-input--selection-controls) {
+  :global(.v-subheader) {
+    padding-left: 0;
+  }
+  :global(.v-input--radio-group) {
     margin-top: 0;
   }
-  :global(.v-input--selection-controls .v-input__slot) {
-    margin-bottom: 0;
-  }
-  :global(.theme--light.v-messages) {
-    min-height: 0;
-  }
+}
+
+.brandable.brandable {
+  color: #fff;
+  background-color: $color-brand-light;
 }
 
 .expansionPanel {
@@ -166,3 +192,12 @@ export default {
   }
 }
 </style>
+
+<!--
+target:
+  根据选项查询取得对应的用户列表，并传给父组件
+module:
+  内部持久保存用户选择的预置选项，存入 vuex 并作持久化
+export:
+  一个用户信息列表
+-->
