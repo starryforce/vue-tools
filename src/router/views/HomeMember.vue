@@ -1,6 +1,7 @@
 <script>
 import Layout from '@layouts/main'
 import SelectorMember from '@components/SelectorMember'
+import QRCode from '@components/QRCode'
 
 export default {
   metaInfo: {
@@ -8,10 +9,12 @@ export default {
     meta: [{ name: 'description', content: 'HomeMember' }],
   },
   name: 'HomeMember',
-  components: { Layout, SelectorMember },
+  components: { Layout, SelectorMember, QRCode },
   data() {
     return {
+      dialog: false,
       memberList: [],
+      inviteURL: 'http://192.168.1.126:8080',
     }
   },
   created() {},
@@ -28,18 +31,50 @@ export default {
     <SelectorMember @fetch:member-list="fetchMemberList" />
     <VLayout :class="$style.brandable">
       <VFlex>
-        <VBtn
-          flat
-          dark
+        <VDialog
+          v-model="dialog"
+          lazy
+          width="300"
         >
-          <VIcon
-            light
-            small
+          <VBtn
+            slot="activator"
+            flat
+            dark
           >
-            person_add
-          </VIcon>
-          会员邀请
-        </VBtn>
+            <VIcon
+              light
+              small
+            >
+              person_add
+            </VIcon>
+            会员邀请
+          </VBtn>
+
+          <VCard>
+            <VCardActions>
+              <VSpacer />
+              <VBtn
+                icon
+                @click="dialog = false"
+              >
+                <VIcon>close</VIcon>
+              </VBtn>
+            </VCardActions>
+            <VResponsive>
+              <QRCode
+                :value="inviteURL"
+                :size="300"
+                :padding="25"
+              />
+            </VResponsive>
+
+            <VCardText :class="$style.scanTip">
+              扫一扫注册贝卡会员
+            </VCardText>
+
+            <VDivider />
+          </VCard>
+        </VDialog>
       </VFlex>
       <VDivider
         vertical
@@ -142,5 +177,10 @@ export default {
 
 .brandable {
   background-color: $color-brand-light;
+}
+.scanTip {
+  font-size: 18px;
+  color: $color-brand-light;
+  text-align: center;
 }
 </style>

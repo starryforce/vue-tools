@@ -3,7 +3,7 @@ export default {
   name: 'SelectorMember',
   data() {
     return {
-      showPanel: 0,
+      showPanel: null,
       labelList: [],
       keyword: '',
       settings: {
