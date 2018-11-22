@@ -27,7 +27,6 @@ export default {
   },
 
   methods: {
-    toggle(index) {},
     async getMemberInformation() {
       this.memberInformation = (await this.$api.member.getMemberInformation(
         this.id
@@ -51,7 +50,6 @@ export default {
       <VListTile
         :key="memberInformation.id"
         avatar
-        @click="toggle(index)"
       >
         <VListTileAvatar>
           <img :src="memberInformation.avatar">
@@ -59,14 +57,25 @@ export default {
         <VListTileContent>
           <VListTileTitle>{{ memberInformation.name }}</VListTileTitle>
           <VListTileSubTitle>
-            {{ memberInformation.nickname }}
+            <template v-if="!memberInformation.vipLevel">
+              <VIcon>
+                child_friendly
+              </VIcon>
+              非会员
+            </template>
+            <template v-else>
+              <span :class="$style.nameplate">
+                <VIcon color="#6c4103">
+                  child_friendly
+                </VIcon>
+                超级会员 VIP{{ memberInformation.vipLevel }}
+              </span>
+            </template>
           </VListTileSubTitle>
         </VListTileContent>
 
         <VListTileAction>
-          <VIcon
-            color="grey lighten-1"
-          >
+          <VIcon>
             edit
           </VIcon>
         </VListTileAction>
@@ -89,7 +98,10 @@ export default {
         {{ tabName }}
       </VTab>
     </VTabs>
-    <VTabsItems v-model="active">
+    <VTabsItems
+      v-model="active"
+      :class="$style.tabsItems"
+    >
       <VTabItem>
         <VList>
           <VListTile>
@@ -160,7 +172,7 @@ export default {
               <VListTileTitle>会员标签</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.tags &&memberInformation.tags.join('、') }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.labels &&memberInformation.labels.join('、') }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -214,10 +226,10 @@ export default {
           <VDivider />
           <VListTile>
             <VListTileContent>
-              <VListTileTitle>最近交易时间</VListTileTitle>
+              <VListTileTitle>最近活动参与时间</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.recentTradeDate }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.recentActivityDate }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -242,10 +254,10 @@ export default {
               v-if="index"
               :key="'divider'+order.id"
             />
-            <VSubheader :key="'header'+order.id">
-              {{ order.orderTime }} 总金额：￥{{ order.payment }}
+            <VSubheader :key="'id'+order.id">
+              <VIcon>assignment</VIcon>
+              订单号：{{ order.id }}
             </VSubheader>
-
             <VListTile
               :key="'order'+order.id"
             >
@@ -303,6 +315,13 @@ export default {
                 </VContainer>
               </VListTileContent>
             </VListTile>
+            <VSubheader :key="'header'+order.id">
+              <VIcon>today</VIcon>
+              日期：{{ order.orderTime }}
+              <VSpacer />
+              <VIcon>payment</VIcon>
+              总金额：￥{{ order.payment }}
+            </VSubheader>
           </template>
         </VList>
       </VTabItem>
@@ -424,6 +443,16 @@ export default {
     padding-left: 0;
   }
 }
+.tabsItems {
+  // stylelint-disable-next-line selector-class-pattern
+  :global(.v-list__tile__action-text) {
+    font-size: 15px;
+  }
+  // stylelint-disable-next-line selector-class-pattern
+  :global(.v-list__tile__title) {
+    font-size: 15px;
+  }
+}
 .order {
   // stylelint-disable selector-class-pattern
   :global(.v-list__tile) {
@@ -442,5 +471,19 @@ export default {
 }
 .itemQuantity {
   background-color: $color-button-bg;
+}
+.nameplate {
+  display: inline-block;
+  padding: 2px 6px;
+  color: #6c4103;
+  background: linear-gradient(
+    to right,
+    #f4de8f,
+    #d3a809,
+    #f4de8f,
+    #d3a809,
+    #f4de8f
+  );
+  border-radius: 5px;
 }
 </style>

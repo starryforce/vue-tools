@@ -1,16 +1,20 @@
 import DateTimeFormat from 'format-date-time'
 import md5 from 'md5'
 
+const privateInfo = {
+  app: '贝卡导购',
+  appKey: 'ad0b9b9829a76f4e',
+  appSecret: '50b4172964cf9aac2ae00e243cb205af',
+}
 class Authorization {
-  constructor(ssid = 1, storeId = 1, token = null) {
-    this.params = {
-      app: '贝卡导购',
-      appKey: 'ad0b9b9829a76f4e',
-      appSecret: '50b4172964cf9aac2ae00e243cb205af',
-      ssid: ssid,
-      storeId: storeId,
-      token: token || '58f00bee9d6a47889ee8d92467dd35e3',
-    }
+  constructor(
+    ssid = 1,
+    storeId = 1,
+    token = '58f00bee9d6a47889ee8d92467dd35e3'
+  ) {
+    this.ssid = ssid
+    this.storeId = storeId
+    this.token = token
   }
 
   $getNonceStr(length = 32) {
@@ -25,22 +29,28 @@ class Authorization {
     return nonce
   }
 
-  $getSign(res) {
+  $getSign({ timeStamp, nonceStr }) {
     return md5(
-      `appKey=${res.appKey}&nonceStr=${res.nonceStr}&timeStamp=${res.timeStamp}`
+      `${privateInfo.appSecret}appKey=${
+        privateInfo.appKey
+      }nonceStr=${nonceStr}timeStamp=${timeStamp}${privateInfo.appSecret}`
     )
   }
 
   getHeaders() {
     var defaultFormatter = new DateTimeFormat()
-    var res = {
-      nonceStr: this.$getNonceStr(),
-      appKey: this.params.appKey,
-      timeStamp: defaultFormatter.now('yyyy-MM-dd HH:mm:ss'),
-      sign: '',
+    const nonceStr = this.$getNonceStr()
+    const timeStamp = defaultFormatter.now('YYYY-MM-DD HH:mm:ss')
+    const sign = this.$getSign({ timeStamp, nonceStr })
+    return {
+      nonceStr: nonceStr,
+      appKey: privateInfo.appKey,
+      timeStamp: timeStamp,
+      sign: sign,
+      ssid: this.ssid,
+      storeId: this.storeId,
+      token: this.token,
     }
-    res.sign = this.$getSign(res)
-    return res
   }
 }
 

@@ -14,7 +14,8 @@ module.exports = {
         registerTime: '@date',
         shop: '@county(true) 店',
         salesperson: '@cname',
-        'tags|1-3': ['@ctitle(2,3)'],
+        face: '@boolean',
+        'labels|0-3': ['@ctitle(2,3)'],
         relationShip: '@cname',
         consumption: '@float(0,50000,0,2)',
         timesOfConsume: '@integer(0,20)',
@@ -23,6 +24,7 @@ module.exports = {
         recentConsumeDate: '@date',
         points: '@integer(0,5000)',
         pointsRecord: '',
+        vipLevel: '@integer(0,5)',
         coupons: {
           active: '@integer(0,20)',
           used: '@integer(0,20)',

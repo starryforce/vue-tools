@@ -1,6 +1,6 @@
 import axios from 'axios'
-// import qs from 'qs'
-import store from '@state/store'
+import Authorization from './authorization'
+
 const config = {
   method: 'post',
   baseURL: '/api',
@@ -8,7 +8,7 @@ const config = {
     'Content-Type': 'application/json;charset=UTF-8',
   },
   timeout: 8000,
-  // withCredentials: true,
+  withCredentials: true,
   responseType: 'json',
 }
 // 加载不显示加载提示最小时间值
@@ -18,16 +18,18 @@ let _requests = []
 
 const requestUtil = axios.create(config)
 
+const authorization = new Authorization()
+const authHeaders = authorization.getHeaders()
+
 // request 拦截器
 requestUtil.interceptors.request.use(
   config => {
-    let token = window.localStorage.getItem('markToken')
     // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
     // console.log(store.state.loading)
     // console.log('准备发送请求...')
     // 2. 带上token
-    if (token) {
-      config.headers.accessToken = token
+    if (authHeaders) {
+      config.headers = Object.assign({}, config.headers, authHeaders)
     } else {
       // 重定向到登录页面
     }
@@ -187,7 +189,7 @@ export default function $axios({
   method = 'POST',
 } = {}) {
   let _opts = { method, url }
-  let _data = Object.assign({}, data, { token: store.getters.token })
+  let _data = Object.assign({}, data)
   const _query = {}
   for (let _key in _data) {
     if (_data.hasOwnProperty(_key) && _data[_key] !== '') {
