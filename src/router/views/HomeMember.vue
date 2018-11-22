@@ -141,7 +141,7 @@ export default {
                 :color="item.face?'primary':''"
                 large
               >
-                account_circle
+                account_box
               </VIcon>
               <VBadge
                 right

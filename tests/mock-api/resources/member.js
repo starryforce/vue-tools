@@ -24,6 +24,7 @@ module.exports = {
         recentConsumeDate: '@date',
         points: '@integer(0,5000)',
         pointsRecord: '',
+        vipLevel: '@integer(0,5)',
         coupons: {
           active: '@integer(0,20)',
           used: '@integer(0,20)',
