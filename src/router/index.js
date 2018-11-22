@@ -23,10 +23,22 @@ const router = new VueRouter({
   // Simulate native-like scroll behavior when navigating to a new
   // route and using back/forward buttons.
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
+    if (savedPosition && savedPosition.y !== 0) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      const position = {}
+      if (to.hash) {
+        position.selector = to.hash
+      }
+      if (to.matched.some(m => m.meta.scrollToTop)) {
+        position.x = 0
+        position.y = 0
+      }
+      if (to.matched.some(m => m.meta.scrollToBottom)) {
+        position.x = 0
+        position.y = 10000
+      }
+      return position
     }
   },
 })
@@ -62,7 +74,12 @@ router.beforeEach((routeTo, routeFrom, next) => {
 
   function redirectToLogin() {
     // Pass the original route to the login component
-    next({ name: 'login', query: { redirectFrom: routeTo.fullPath } })
+    next({
+      name: 'login',
+      query: {
+        redirectFrom: routeTo.fullPath,
+      },
+    })
   }
 })
 
