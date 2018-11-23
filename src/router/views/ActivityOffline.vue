@@ -31,6 +31,9 @@ export default {
       ],
     }
   },
+  created() {
+    this.$api.activity.getStoreActivitys()
+  },
 }
 </script>
 
