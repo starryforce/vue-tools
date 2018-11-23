@@ -13,8 +13,8 @@ import request from '@utils/request'
  *   }
  **/
 export const getStoreActivitys = ({
-  size = 1,
-  page = 10,
+  page = 1,
+  size = 10,
   isWorking = true,
 } = {}) => {
   return request({
@@ -23,6 +23,25 @@ export const getStoreActivitys = ({
       size, // 分页大小
       page, // 页码
       isWorking, //  是否当前生效,null不区分,true 仅查询生效中的活动,false查询过期活动
+    },
+  })
+}
+
+export const getActivitySku = ({
+  keyWords,
+  classId,
+  activityId = 'dfaebda1-437d-48fd-a3d3-2e87a1e3eb34',
+  page = 1,
+  size = 10,
+} = {}) => {
+  return request({
+    url: '/CActivity/GetActivitySku',
+    data: {
+      KeyWords: keyWords,
+      ClassId: classId,
+      ActivityId: activityId,
+      Page: page,
+      Size: size,
     },
   })
 }
@@ -36,4 +55,8 @@ export const getMemberInformation = id => {
   })
 }
 
-export default { getStoreActivitys, getMemberInformation }
+export default {
+  getStoreActivitys,
+  getMemberInformation,
+  getActivitySku,
+}
