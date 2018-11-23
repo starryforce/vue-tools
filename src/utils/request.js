@@ -19,7 +19,6 @@ let _requests = []
 const requestUtil = axios.create(config)
 
 const authorization = new Authorization()
-const authHeaders = authorization.getHeaders()
 
 // request 拦截器
 requestUtil.interceptors.request.use(
@@ -28,6 +27,8 @@ requestUtil.interceptors.request.use(
     // console.log(store.state.loading)
     // console.log('准备发送请求...')
     // 2. 带上token
+
+    const authHeaders = authorization.getHeaders()
     if (authHeaders) {
       config.headers = Object.assign({}, config.headers, authHeaders)
     } else {
@@ -188,7 +189,10 @@ export default function $axios({
   isSilence = false,
   method = 'POST',
 } = {}) {
-  let _opts = { method, url }
+  let _opts = {
+    method,
+    url,
+  }
   let _data = Object.assign({}, data)
   const _query = {}
   for (let _key in _data) {
@@ -203,7 +207,10 @@ export default function $axios({
     _opts.params = _query
   }
   return new Promise((resolve, reject) => {
-    let _random = { stamp: Date.now(), url: `${config.api + url}` }
+    let _random = {
+      stamp: Date.now(),
+      url: `${config.api + url}`,
+    }
     if (!isSilence) {
       _timer = setTimeout(() => {
         pushRequest(_random)

@@ -18,6 +18,8 @@ export default {
   data() {
     return {
       memberInformation: () => {},
+      orders: () => {},
+      assets: () => {},
       active: 0,
       tabs: ['基础信息', '消费统计', '订单列表', '会员资产', '活动参与'],
     }
@@ -30,11 +32,21 @@ export default {
     async getMemberInformation() {
       this.memberInformation = (await this.$api.member.getMemberInformation(
         this.id
-      )).data
+      )).data.customerInfo
     },
     next() {
       const active = parseInt(this.active)
       this.active = active < 2 ? active + 1 : 0
+    },
+    async tabChange(name) {
+      switch (name) {
+        case '订单列表':
+          this.orders = (await this.$api.member.getConsume(this.id)).data
+          break
+        case '会员资产':
+          this.assets = (await this.$api.member.getAssets(this.id)).data
+          break
+      }
     },
   },
 }
@@ -52,12 +64,12 @@ export default {
         avatar
       >
         <VListTileAvatar>
-          <img :src="memberInformation.avatar">
+          <img :src="memberInformation.picUrl">
         </VListTileAvatar>
         <VListTileContent>
-          <VListTileTitle>{{ memberInformation.name }}</VListTileTitle>
+          <VListTileTitle>{{ memberInformation.customerName }}</VListTileTitle>
           <VListTileSubTitle>
-            <template v-if="!memberInformation.vipLevel">
+            <template v-if="memberInformation.customerName =='V0'">
               <VIcon>
                 child_friendly
               </VIcon>
@@ -68,7 +80,7 @@ export default {
                 <VIcon color="#6c4103">
                   child_friendly
                 </VIcon>
-                超级会员 VIP{{ memberInformation.vipLevel }}
+                超级会员 VIP {{ memberInformation.gradeName }}
               </span>
             </template>
           </VListTileSubTitle>
@@ -94,6 +106,7 @@ export default {
         v-for="tabName in tabs"
         :key="tabName"
         ripple
+        @click="tabChange(tabName)"
       >
         {{ tabName }}
       </VTab>
@@ -118,7 +131,7 @@ export default {
               <VListTileTitle>昵称</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.nickname }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -145,7 +158,7 @@ export default {
               <VListTileTitle>注册时间</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.registerTime }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.createTime }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -163,7 +176,7 @@ export default {
               <VListTileTitle>所属导购</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.salesperson }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -172,7 +185,7 @@ export default {
               <VListTileTitle>会员标签</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.labels &&memberInformation.labels.join('、') }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.labelInfo &&memberInformation.labelInfo.join('、') }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -181,7 +194,7 @@ export default {
               <VListTileTitle>关系人</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.relationShip }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.attributeValu &&memberInformation.attributeValu.join('、') }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -190,7 +203,7 @@ export default {
               <VListTileTitle>人像识别</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.name }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.isFaceId }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>
@@ -202,7 +215,7 @@ export default {
               <VListTileTitle>消费总金额</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.consumption }}</VListTileActionText>
+              <VListTileActionText>￥{{ memberInformation.consumAmount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -211,7 +224,7 @@ export default {
               <VListTileTitle>消费次数</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.timesOfConsume }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.consumCount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -220,7 +233,7 @@ export default {
               <VListTileTitle>客单价</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.average }}</VListTileActionText>
+              <VListTileActionText>￥{{ memberInformation.consumCount?parseInt(memberInformation.consumAmount/memberInformation.consumCount):0 }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -229,7 +242,7 @@ export default {
               <VListTileTitle>最近活动参与时间</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.recentActivityDate }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.lastActivityTime }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -238,28 +251,28 @@ export default {
               <VListTileTitle>最近消费时间</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.recentConsumeDate }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.lastTradeTime }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>
       </VTabItem>
       <VTabItem>
         <VList
-          v-if="memberInformation.orders"
+          v-if="orders"
           :class="$style.order"
           subheader
         >
-          <template v-for="(order, index) in memberInformation.orders">
+          <template v-for="(order, index) in orders.orderInfo">
             <VDivider
               v-if="index"
-              :key="'divider'+order.id"
+              :key="'divider'+order.orderNo"
             />
-            <VSubheader :key="'id'+order.id">
+            <VSubheader :key="'id'+order.orderNo">
               <VIcon>assignment</VIcon>
-              订单号：{{ order.id }}
+              订单号：{{ order.orderNo }}
             </VSubheader>
             <VListTile
-              :key="'order'+order.id"
+              :key="'order'+order.orderNo"
             >
               <VListTileContent>
                 <VContainer
@@ -268,13 +281,13 @@ export default {
                 >
                   <VLayout v-if="order">
                     <VFlex
-                      v-for="item in order.items.length>5?order.items.slice(0,4):order.items"
+                      v-for="item in order.orderDetail.length>5?order.orderDetail.slice(0,4):order.orderDetail"
                       :key="item.id"
                       d-flex
                     >
                       <VImg
-                        :src="item.cover"
-                        :lazy-src="item.cover"
+                        :src="item.picUrl"
+                        :lazy-src="item.picUrl"
                         aspect-ratio="1"
                         class="grey lighten-2"
                       >
@@ -293,7 +306,7 @@ export default {
                       </VImg>
                     </VFlex>
                     <VFlex
-                      v-if="order.items.length>5"
+                      v-if="order.orderDetail.length>5"
                       d-flex
                       align-center
                       colunm
@@ -304,7 +317,7 @@ export default {
                         align-center
                       >
                         <VFlex>
-                          共{{ order.items.length }}件
+                          共{{ order.orderDetail.length }}件
                         </VFlex>
                         <VFlex>
                           商品
@@ -315,12 +328,12 @@ export default {
                 </VContainer>
               </VListTileContent>
             </VListTile>
-            <VSubheader :key="'header'+order.id">
+            <VSubheader :key="'header'+order.orderNo">
               <VIcon>today</VIcon>
-              日期：{{ order.orderTime }}
+              日期：{{ order.createTime }}
               <VSpacer />
               <VIcon>payment</VIcon>
-              总金额：￥{{ order.payment }}
+              总金额：￥{{ order.totalAmount }}
             </VSubheader>
           </template>
         </VList>
@@ -328,23 +341,23 @@ export default {
       <VTabItem>
         <VList subheader>
           <VSubheader>
-            购物积分
+            抵用资产
           </VSubheader>
           <VListTile>
             <VListTileContent>
               <VListTileTitle>购物积分</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.points }}</VListTileActionText>
+              <VListTileActionText>{{ assets.integralCount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
           <VListTile>
             <VListTileContent>
-              <VListTileTitle>积分纪录</VListTileTitle>
+              <VListTileTitle>余额</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.pointsRecord }}</VListTileActionText>
+              <VListTileActionText>￥{{ assets.memberAmount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -356,7 +369,7 @@ export default {
               <VListTileTitle>可使用</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.coupons && memberInformation.coupons.active }}</VListTileActionText>
+              <VListTileActionText>{{ assets.couponUsableCount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -365,7 +378,7 @@ export default {
               <VListTileTitle>已使用</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.coupons && memberInformation.coupons.used }}</VListTileActionText>
+              <VListTileActionText>{{ assets.couponUsedCount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -374,7 +387,7 @@ export default {
               <VListTileTitle>已过期</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.coupons && memberInformation.coupons.expired }}</VListTileActionText>
+              <VListTileActionText>{{ assets.couponEexpiredCount }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>

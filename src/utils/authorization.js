@@ -8,11 +8,11 @@ const privateInfo = {
 }
 class Authorization {
   constructor(
-    ssid = 1,
-    storeId = 1,
+    siid = 'f9eab77eb5d2fdc4392404b98726ebc037454767',
+    storeId = '000508010103', // "a693a3d3-3353-4446-9c11-ddabd841c14e",
     token = '58f00bee9d6a47889ee8d92467dd35e3'
   ) {
-    this.ssid = ssid
+    this.siid = siid
     this.storeId = storeId
     this.token = token
   }
@@ -41,13 +41,16 @@ class Authorization {
     var defaultFormatter = new DateTimeFormat()
     const nonceStr = this.$getNonceStr()
     const timeStamp = defaultFormatter.now('YYYY-MM-DD HH:mm:ss')
-    const sign = this.$getSign({ timeStamp, nonceStr })
+    const sign = this.$getSign({
+      timeStamp,
+      nonceStr,
+    })
     return {
       nonceStr: nonceStr,
       appKey: privateInfo.appKey,
       timeStamp: timeStamp,
       sign: sign,
-      ssid: this.ssid,
+      siid: this.siid,
       storeId: this.storeId,
       token: this.token,
     }
