@@ -41,7 +41,7 @@ export default {
   },
   async created() {
     await this.search()
-    this.shopCart = [...this.cart]
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
     // for (let index = 0; index < 5; index++) {
     //   this.shopCart.push({
     //     goodsId: this.products[index].skuId,
@@ -81,6 +81,7 @@ export default {
           goodsId: product.skuId,
           num: num,
           isChecked: true,
+          product: product,
         })
     },
     menuChanged(i) {

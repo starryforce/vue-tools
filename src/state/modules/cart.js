@@ -1,15 +1,16 @@
 // initial state
 export const state = {
-  goods: [
-    {
-      num: 1,
-      goodsId: 1,
-      isChecked: true,
-      product: {
-        name: 'aitm',
-      },
+  goods: [],
+  /*
+  {
+    num: 1,
+    goodsId: 1,
+    isChecked: true,
+    product: {
+      name: 'aitm',
     },
-  ],
+  },
+  */
   stack: [
     //     {
     //     user: {},
@@ -20,34 +21,34 @@ export const state = {
 
 // getters
 export const getters = {
-  checkedGoods(state) {
-    return state.goods.filter(item => item.isChecked)
-  },
-  checkedNum(state) {
-    var sum = 0
-    state.goods.forEach(item => (sum += item.isChecked ? item.num : 0))
-    return sum
-  },
-  totalNum(state) {
-    var sum = 0
-    state.goods.forEach(item => (sum += item.num))
-    return sum
-  },
-  checkedMoney(state) {
-    var sum = 0
-    state.goods.forEach(
-      item => (sum += item.isChecked ? item.num * item.product.price : 0)
-    )
-    return sum
-  },
-  totalMoney(state) {
-    var sum = 0
-    state.goods.forEach(item => (sum += item.num * item.product.price))
-    return sum
-  },
-  hasCommercial(state) {
-    return state.goods.some(item => item.isChecked && item.product.isCommercial)
-  },
+  // checkedGoods(state) {
+  //   return state.goods.filter(item => item.isChecked)
+  // },
+  // checkedNum(state) {
+  //   var sum = 0
+  //   state.goods.forEach(item => (sum += item.isChecked ? item.num : 0))
+  //   return sum
+  // },
+  // totalNum(state) {
+  //   var sum = 0
+  //   state.goods.forEach(item => (sum += item.num))
+  //   return sum
+  // },
+  // checkedMoney(state) {
+  //   var sum = 0
+  //   state.goods.forEach(
+  //     item => (sum += item.isChecked ? item.num * item.product.price : 0)
+  //   )
+  //   return sum
+  // },
+  // totalMoney(state) {
+  //   var sum = 0
+  //   state.goods.forEach(item => (sum += item.num * item.product.price))
+  //   return sum
+  // },
+  // hasCommercial(state) {
+  //   return state.goods.some(item => item.isChecked && item.product.isCommercial)
+  // },
 }
 
 // actions
