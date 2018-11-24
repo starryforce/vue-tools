@@ -2,6 +2,7 @@
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
 import NumericUpDown from '@components/NumericUpDown'
+import { mapState } from 'vuex'
 
 export default {
   name: 'GoodsList',
@@ -29,6 +30,7 @@ export default {
     }
   },
   computed: {
+    ...mapState({ cart: state => state.cart.goods }),
     shopCartNum() {
       var num = 0
       this.shopCart.forEach(element => {
@@ -39,31 +41,33 @@ export default {
   },
   async created() {
     await this.search()
-    for (let index = 0; index < 5; index++) {
-      this.shopCart.push({
-        productId: this.products[index].skuId,
-        num: index,
-        isChecked: true,
-      })
-    }
+    this.shopCart = [...this.cart]
+    // for (let index = 0; index < 5; index++) {
+    //   this.shopCart.push({
+    //     goodsId: this.products[index].skuId,
+    //     num: index,
+    //     isChecked: true,
+    //   })
+    // }
+  },
+  beforeDestroy() {
+    this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
     async search({ keyWords, classId, activityId, page = 1, size = 10 } = {}) {
-      if (this.activityId) {
-        activityId = this.activityId
-        keyWords = this.keyWords
-        let res = await this.$api.activity.getActivitySku({
-          keyWords,
-          classId,
-          activityId,
-          page,
-          size,
-        })
-        this.products = res.data
-      }
+      activityId = this.activityId
+      keyWords = this.keyWords
+      let res = await this.$api.item.searchSku({
+        keyWords,
+        classId,
+        activityId,
+        page,
+        size,
+      })
+      this.products = res.data
     },
     getShopCart(id) {
-      var list = this.shopCart.filter(it => it.productId === id)
+      var list = this.shopCart.filter(it => it.goodsId === id)
       if (list && list[0]) return list[0]
       else return null
     },
@@ -74,7 +78,7 @@ export default {
         item.isChecked = true
       } else
         this.shopCart.push({
-          productId: product.skuId,
+          goodsId: product.skuId,
           num: num,
           isChecked: true,
         })

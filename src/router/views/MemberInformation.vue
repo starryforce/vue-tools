@@ -185,7 +185,14 @@ export default {
               <VListTileTitle>会员标签</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.labelInfo &&memberInformation.labelInfo.join('、') }}</VListTileActionText>
+              <VListTileActionText>
+                <span
+                  v-for="item in memberInformation.labelInfo"
+                  :key="item.labelId"
+                >
+                  {{ item.labelName }}
+                </span>
+              </VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />

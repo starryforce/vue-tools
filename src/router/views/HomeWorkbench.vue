@@ -58,7 +58,10 @@ export default {
       <VCard>
         <VLayout :class="$style.buttonGroup">
           <VFlex xs3>
-            <VBtn flat>
+            <VBtn
+              flat
+              to="/work/goods"
+            >
               <VIcon dark>
                 cloud_queue
               </VIcon>
@@ -82,7 +85,10 @@ export default {
             </VBtn>
           </VFlex>
           <VFlex xs3>
-            <VBtn flat>
+            <VBtn
+              flat
+              to="/work/shopcart"
+            >
               <VIcon dark>
                 cloud_queue
               </VIcon>
