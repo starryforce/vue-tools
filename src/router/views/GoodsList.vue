@@ -2,6 +2,7 @@
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
 import NumericUpDown from '@components/NumericUpDown'
+import { mapState } from 'vuex'
 
 export default {
   name: 'GoodsList',
@@ -15,15 +16,21 @@ export default {
       type: String,
       default: '',
     },
+    activityId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
-      selectedIndex: 1,
+      selectedIndex: 0,
       shopCart: [],
       products: [],
+      keyWords: null,
     }
   },
   computed: {
+    ...mapState({ cart: state => state.cart.goods }),
     shopCartNum() {
       var num = 0
       this.shopCart.forEach(element => {
@@ -32,32 +39,49 @@ export default {
       return num
     },
   },
-  created() {
-    for (let index = 0; index < 10; index++) {
-      this.products.push({
-        id: index,
-        title: '美国Jason天然薰衣草健康薰衣草健康呵护洗手液473ml 6个月',
-        price: index * 10,
-        cover: '/*/*',
-      })
-    }
-    for (let index = 0; index < 5; index++) {
-      this.shopCart.push({ productId: index * 2, num: index, isChecked: true })
-    }
+  async created() {
+    await this.search()
+    this.shopCart = [...this.cart]
+    // for (let index = 0; index < 5; index++) {
+    //   this.shopCart.push({
+    //     goodsId: this.products[index].skuId,
+    //     num: index,
+    //     isChecked: true,
+    //   })
+    // }
+  },
+  beforeDestroy() {
+    this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
+    async search({ keyWords, classId, activityId, page = 1, size = 10 } = {}) {
+      activityId = this.activityId
+      keyWords = this.keyWords
+      let res = await this.$api.item.searchSku({
+        keyWords,
+        classId,
+        activityId,
+        page,
+        size,
+      })
+      this.products = res.data
+    },
     getShopCart(id) {
-      var list = this.shopCart.filter(it => it.productId === id)
+      var list = this.shopCart.filter(it => it.goodsId === id)
       if (list && list[0]) return list[0]
       else return null
     },
     add2ShopCart(product, num = 1) {
-      var item = this.getShopCart(product.id)
+      var item = this.getShopCart(product.skuId)
       if (item) {
         item.num += num
         item.isChecked = true
       } else
-        this.shopCart.push({ productId: product.id, num: num, isChecked: true })
+        this.shopCart.push({
+          goodsId: product.skuId,
+          num: num,
+          isChecked: true,
+        })
     },
     menuChanged(i) {
       this.selectedIndex = i
@@ -73,14 +97,16 @@ export default {
       :color="$style['color-brand-light']"
     >
       <VTextField
+        v-model="keyWords"
         prepend-inner-icon="search"
         single-line
         placeholder="搜索商品名称，条码"
+        @keydown.enter="search()"
       />
       <VBtn
         flat
         icon
-        @click="showPanel = showPanel === 0 ? null : 0"
+        @click="search()"
       >
         <VIcon>camera</VIcon>
       </VBtn>
@@ -116,14 +142,14 @@ export default {
       >
         <ProductItem
           v-for="item in products"
-          :key="item.id"
-          :title="item.title"
-          :price="item.price"
-          :cover="item.cover"
+          :key="item.skuId"
+          :title="item.itemName"
+          :price="item.itemPrice"
+          :cover="item.itemCover"
         >
           <NumericUpDown
-            v-if="getShopCart(item.id) && getShopCart(item.id).isChecked && getShopCart(item.id).num"
-            v-model="getShopCart(item.id).num"
+            v-if="getShopCart(item.skuId) && getShopCart(item.skuId).isChecked && getShopCart(item.skuId).num"
+            v-model="getShopCart(item.skuId).num"
             :min="0"
           />
           <VBtn

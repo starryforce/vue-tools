@@ -145,11 +145,20 @@ export default [
     component: () => lazyLoadView(import('@views/MyStatistics')),
   },
   {
-    path: '/work/goods',
+    path: '/work/goods/',
     name: 'GoodsList',
     meta: {
       showMainNav: false,
     },
+    component: () => lazyLoadView(import('@views/GoodsList')),
+  },
+  {
+    path: '/work/goods/:activityId',
+    name: 'GoodsList',
+    meta: {
+      showMainNav: false,
+    },
+    props: true,
     component: () => lazyLoadView(import('@views/GoodsList')),
   },
   {

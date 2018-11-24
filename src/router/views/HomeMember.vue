@@ -20,7 +20,7 @@ export default {
   created() {},
   methods: {
     fetchMemberList(newValue) {
-      this.memberList = newValue
+      this.memberList = newValue.customerList
     },
   },
 }
@@ -128,17 +128,17 @@ export default {
           :to="{name:'member-information',params:{id:item.id}}"
         >
           <VListTileAvatar>
-            <img :src="item.avatar">
+            <img :src="item.picUrl">
           </VListTileAvatar>
 
           <VListTileContent>
-            <VListTileTitle>{{ item.name }}</VListTileTitle>
+            <VListTileTitle>{{ item.customerName }}</VListTileTitle>
             <VListTileSubTitle>{{ item.mobile }}</VListTileSubTitle>
           </VListTileContent>
           <VListTileAction>
             <VLayout>
               <VIcon
-                :color="item.face?'primary':''"
+                :color="item.isFaceId?'primary':''"
                 large
               >
                 account_box
@@ -148,10 +148,10 @@ export default {
                 overlap
               >
                 <span slot="badge">
-                  {{ item.labels ? item.labels.length : 0 }}
+                  {{ item.labelInfo ? item.labelInfo.length : 0 }}
                 </span>
                 <VIcon
-                  :color="item.face?'primary':''"
+                  :color="item.isFaceId?'primary':''"
                   large
                 >
                   label_important

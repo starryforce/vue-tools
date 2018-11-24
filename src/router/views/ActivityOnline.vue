@@ -10,44 +10,13 @@ export default {
   data() {
     return {
       selected: [2],
-      items: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          title: 'Ali Connors',
-          subtitle:
-            "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          title: 'me, Scrott, Jennifer',
-          subtitle: "Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          title: 'Sandra Adams',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          title: 'Trevor Hansen',
-          subtitle:
-            'Have any ideas about what we should get Heidi for her birthday?',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          title: 'Britta Holt',
-          subtitle:
-            'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
+      items: [],
     }
   },
-
+  async created() {
+    let res = (await this.$api.activity.getStoreActivitys()).data
+    this.items = res
+  },
   methods: {},
 }
 </script>
@@ -63,19 +32,19 @@ export default {
           :key="item.title"
           avatar
           ripple
-          @click="$router.push('/activity/online/detail')"
+          @click="$router.push('/work/goods/'+item.id)"
         >
           <VListTileAvatar>
-            <img :src="item.avatar">
+            {{ item.activityType }}
           </VListTileAvatar>
           <VListTileContent>
-            <VListTileTitle>新年特价活动</VListTileTitle>
-            <VListTileSubTitle>200件商品</VListTileSubTitle>
+            <VListTileTitle>{{ item.activityName }}</VListTileTitle>
+            <VListTileSubTitle>{{ item.productCount }}件商品</VListTileSubTitle>
           </VListTileContent>
 
           <VListTileAction>
-            <VListTileActionText>已有12人参与</VListTileActionText>
-            <VListTileActionText>18.01.01-18.01.08</VListTileActionText>
+            <VListTileActionText>{{ item.beginTime }}</VListTileActionText>
+            <VListTileActionText>{{ item.endTime }}</VListTileActionText>
           </VListTileAction>
           <VListTileAction :class="$style.icon">
             <VIcon>
@@ -93,7 +62,7 @@ export default {
       two-line
     >
       <VSubheader>已结束</VSubheader>
-      <template v-for="(item, index) in items">
+      <template v-for="(item, index) in 0">
         <VListTile
           :key="item.title"
           avatar

@@ -7,6 +7,34 @@ export default {
     meta: [{ name: 'description', content: 'HomeMy' }],
   },
   components: { Layout },
+  data() {
+    return {
+      detail: {
+        employeeId: '00050037',
+        employeeName: '陶阳春',
+        storeId: '000508010103',
+        storeName: '江苏南京雨花区紫荆广场店',
+        role: ['店主', '店长'],
+        lastAssignAmount: 8866,
+        totalAssignAmount: 8866,
+        kpiDetail: {
+          month: 11,
+          currentSalesAmount: 0,
+          salesAmount: 36001,
+          currentCustomerCount: 0,
+          customerCount: 120,
+          currentRepurchaseCount: 0,
+          repurchaseCount: 0,
+          currentActivationCount: 0,
+          activationCount: 0,
+        },
+      },
+    }
+  },
+  async created() {
+    let res = await this.$api.employee.getGuideEmployeeDetail()
+    this.detail = Object.assign({}, res.data)
+  },
 }
 </script>
 
@@ -24,8 +52,8 @@ export default {
         </VListTileAvatar>
 
         <VListTileContent>
-          <VListTileTitle>王笑笑</VListTileTitle>
-          <VListTileSubTitle>无锡万达店 店长</VListTileSubTitle>
+          <VListTileTitle>{{ detail.employeeName }}</VListTileTitle>
+          <VListTileSubTitle>{{ detail.storeName }} {{ detail.role.join(' ') }}</VListTileSubTitle>
         </VListTileContent>
       </VListTile>
     </VList>
@@ -33,16 +61,16 @@ export default {
       :class="$style.datas"
       @click="$router.push('/my/statistics')"
     >
-      <VSubheader>本月销售数据：</VSubheader>
+      <VSubheader>{{ detail.kpiDetail.month }}月业绩：</VSubheader>
       <VLayout>
         <VFlex xs4>
-          13000
+          {{ parseInt(detail.kpiDetail.currentSalesAmount / detail.kpiDetail.salesAmount *1000)/10 }}%
         </VFlex>
         <VFlex xs4>
-          188
+          {{ parseInt(detail.kpiDetail.currentCustomerCount / detail.kpiDetail.customerCount *1000)/10 }}%
         </VFlex>
         <VFlex xs4>
-          18%
+          {{ parseInt(detail.kpiDetail.currentRepurchaseCount / detail.kpiDetail.repurchaseCount *1000)/10 }}%
         </VFlex>
       </VLayout>
       <VLayout>
@@ -53,7 +81,7 @@ export default {
           会员发展
         </VFlex>
         <VFlex xs4>
-          业绩考核
+          会员复购
         </VFlex>
       </VLayout>
     </VContainer>
