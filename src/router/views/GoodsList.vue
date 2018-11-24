@@ -1,6 +1,7 @@
 <script>
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
+import InfiniteLoading from 'vue-infinite-loading'
 import NumericUpDown from '@components/NumericUpDown'
 import { mapState } from 'vuex'
 
@@ -10,7 +11,7 @@ export default {
     title: '商品列表',
     meta: [{ name: 'description', content: '商品列表' }],
   },
-  components: { Layout, ProductItem, NumericUpDown },
+  components: { Layout, ProductItem, NumericUpDown, InfiniteLoading },
   props: {
     resource: {
       type: String,
@@ -27,6 +28,10 @@ export default {
       shopCart: [],
       products: [],
       keyWords: null,
+      classId: '',
+      page: 1,
+      pageSize: 20,
+      hasNext: true,
     }
   },
   computed: {
@@ -54,17 +59,24 @@ export default {
     this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
-    async search({ keyWords, classId, activityId, page = 1, size = 10 } = {}) {
-      activityId = this.activityId
-      keyWords = this.keyWords
-      let res = await this.$api.item.searchSku({
-        keyWords,
-        classId,
-        activityId,
-        page,
-        size,
+    async infiniteHandler($state) {
+      const newData = await this.$api.item.searchSku({
+        keyWords: this.keyWords,
+        classId: this.classId,
+        activityId: this.activityId,
+        page: this.page,
+        size: this.pageSize,
       })
-      this.products = res.data
+      this.hasNext = newData.data.length === this.pageSize
+      if (newData.data.length) {
+        this.products.push(...newData.data)
+      }
+      if (this.hasNext) {
+        this.page += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
     },
     getShopCart(id) {
       var list = this.shopCart.filter(it => it.goodsId === id)
@@ -169,6 +181,10 @@ export default {
           </VBtn>
           <!-- {{ shopCartNumber(item.id) }} -->
         </ProductItem>
+        <InfiniteLoading
+          :identifier="selectedIndex"
+          @infinite="infiniteHandler"
+        />
       </VFlex>
     </VLayout>
 
