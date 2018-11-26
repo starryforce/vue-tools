@@ -222,11 +222,11 @@ export default [
     component: () => lazyLoadView(import('@views/MemberLabelModify')),
   },
   {
-    path: '/member/label/edit',
+    path: '/member/label/edit/:id',
     name: 'member-label-edit',
     meta: {},
-    props: {
-      mode: 'edit',
+    props: route => {
+      return { id: route.params.id, mode: 'edit' }
     },
     component: () => lazyLoadView(import('@views/MemberLabelModify')),
   },

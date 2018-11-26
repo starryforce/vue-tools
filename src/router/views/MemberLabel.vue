@@ -33,7 +33,7 @@ export default {
         />
         <VListTile
           :key="label.id"
-          to="/member/label/edit"
+          :to="{name:'member-label-edit',params:{id:label.id}}"
         >
           <VListTileContent>
             <VListTileTitle>{{ label.labelName }}</VListTileTitle>

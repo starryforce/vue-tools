@@ -12,6 +12,23 @@ export default {
       type: String,
       required: true,
     },
+    id: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      labelDetail: {},
+    }
+  },
+  created() {
+    this.getLabelDetail()
+  },
+  methods: {
+    async getLabelDetail() {
+      this.labelDetail = (await this.$api.member.getLabelDetail(this.id)).data
+    },
   },
 }
 </script>
@@ -21,7 +38,7 @@ export default {
     <VContainer>
       <VFlex>
         <VTextField
-          label="标签名称"
+          :label="labelDetail.labelName"
           outline
           :disabled="mode === 'edit'"
         />
@@ -57,21 +74,21 @@ export default {
           </p>
         </VFlex>
         <VFlex
-          v-for="i in 6"
-          :key="i"
+          v-for="member in labelDetail.members"
+          :key="member.id"
           xs3
         >
           <VAvatar :size="$style['width-avatar']">
             <img
-              :src="`https://randomuser.me/api/portraits/men/${i + 20}.jpg`"
-              alt="lorem"
+              :src="member.picUrl"
+              alt="Avatar"
               class="image"
               height="100%"
               width="100%"
             >
           </VAvatar>
           <p :class="$style.memberName">
-            {{ i }}
+            {{ member.buyerNick }}
           </p>
         </VFlex>
       </VLayout>
