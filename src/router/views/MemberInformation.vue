@@ -22,6 +22,7 @@ export default {
       assets: () => {},
       active: 0,
       tabs: ['基础信息', '消费统计', '订单列表', '会员资产', '活动参与'],
+      isEditing: false,
     }
   },
   created() {
@@ -40,12 +41,12 @@ export default {
     },
     async tabChange(name) {
       switch (name) {
-        case '订单列表':
-          this.orders = (await this.$api.member.getConsume(this.id)).data
-          break
-        case '会员资产':
-          this.assets = (await this.$api.member.getAssets(this.id)).data
-          break
+      case '订单列表':
+        this.orders = (await this.$api.member.getConsume(this.id)).data
+        break
+      case '会员资产':
+        this.assets = (await this.$api.member.getAssets(this.id)).data
+        break
       }
     },
   },
@@ -86,9 +87,12 @@ export default {
           </VListTileSubTitle>
         </VListTileContent>
 
-        <VListTileAction>
-          <VIcon>
+        <VListTileAction @click="isEditing=!isEditing">
+          <VIcon v-show="!isEditing">
             edit
+          </VIcon>
+          <VIcon v-show="isEditing">
+            done
           </VIcon>
         </VListTileAction>
       </VListTile>
@@ -185,13 +189,30 @@ export default {
               <VListTileTitle>会员标签</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>
+              <VListTileActionText v-if="!isEditing">
                 <span
                   v-for="item in memberInformation.labelInfo"
                   :key="item.labelId"
                 >
                   {{ item.labelName }}
                 </span>
+              </VListTileActionText>
+              <VListTileActionText
+                v-else
+                :class="$style.isEditing"
+              >
+                <VBtn
+                  flat
+                  small
+                  color="primary"
+                >
+                  添加标签
+                  <VIcon
+                    dark
+                  >
+                    chevron_right
+                  </VIcon>
+                </VBtn>
               </VListTileActionText>
             </VListTileAction>
           </VListTile>
@@ -201,7 +222,26 @@ export default {
               <VListTileTitle>关系人</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.attributeValu &&memberInformation.attributeValu.join('、') }}</VListTileActionText>
+              <VListTileActionText v-if="!isEditing">
+                {{ memberInformation.attributeValu &&memberInformation.attributeValu.join('、') }}
+              </VListTileActionText>
+              <VListTileActionText
+                v-else
+                :class="$style.isEditing"
+              >
+                <VBtn
+                  flat
+                  small
+                  color="primary"
+                >
+                  添加关系人
+                  <VIcon
+                    dark
+                  >
+                    chevron_right
+                  </VIcon>
+                </VBtn>
+              </VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -210,7 +250,27 @@ export default {
               <VListTileTitle>人像识别</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.isFaceId }}</VListTileActionText>
+              <VListTileActionText v-if="!isEditing">
+                {{ memberInformation.isFaceId }}
+              </VListTileActionText>
+              <VListTileActionText
+                v-else
+                :class="$style.isEditing"
+              >
+                <VBtn
+                  flat
+                  small
+                  color="primary"
+                  :to="{ name: 'member-face', params: {id}}"
+                >
+                  添加识别照片
+                  <VIcon
+                    dark
+                  >
+                    chevron_right
+                  </VIcon>
+                </VBtn>
+              </VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>
@@ -505,5 +565,8 @@ export default {
     #f4de8f
   );
   border-radius: 5px;
+}
+.isEditing {
+  color: $color-brand-light;
 }
 </style>

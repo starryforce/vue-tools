@@ -20,7 +20,7 @@ export default {
 
 .container {
   height: 100vh;
-  padding-top: 56px;
+  padding-top: 48px;
   overflow: auto;
 }
 .toolbar {

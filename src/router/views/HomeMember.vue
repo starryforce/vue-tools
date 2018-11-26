@@ -10,6 +10,12 @@ export default {
   },
   name: 'HomeMember',
   components: { Layout, SelectorMember, QRCode },
+  props: {
+    scene: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       dialog: false,
@@ -21,6 +27,20 @@ export default {
   methods: {
     fetchMemberList(newValue) {
       this.memberList = newValue.customerList
+    },
+    // 选择会员时根据场景值进行跳转
+    selectMember(member) {
+      if (this.scene === 'list') {
+        this.$router.push({
+          name: 'member-information',
+          params: { id: member.id },
+        })
+      } else if (this.scene === 'credit') {
+        this.$router.push({
+          name: 'add-credit',
+          params: { id: member.id },
+        })
+      }
     },
   },
 }
@@ -125,7 +145,7 @@ export default {
         <VListTile
           :key="item.id"
           avatar
-          :to="{name:'member-information',params:{id:item.id}}"
+          @click="selectMember(item)"
         >
           <VListTileAvatar>
             <img :src="item.picUrl">

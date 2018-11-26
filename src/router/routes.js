@@ -11,8 +11,9 @@ export default [
     redirect: '/home/workbench',
   },
   {
-    path: '/home/member',
+    path: '/home/member/:scene',
     name: 'home-member',
+    props: true,
     meta: {
       showMainNav: true,
     },
@@ -179,10 +180,30 @@ export default [
     component: () => lazyLoadView(import('@views/ShopCartPrePay')),
   },
   {
+    path: '/member/face/:id',
+    name: 'member-face',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/MemberFace')),
+  },
+  {
+    path: '/face/list/:id',
+    name: 'face-list',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/FaceList')),
+  },
+  {
     path: '/member/label',
     name: 'member-label',
     meta: {},
     component: () => lazyLoadView(import('@views/MemberLabel')),
+  },
+  {
+    path: '/add/credit',
+    name: 'add-credit',
+    meta: {},
+    component: () => lazyLoadView(import('@views/AddCredit')),
   },
   {
     path: '/member/label/add',

@@ -19,7 +19,7 @@ export default {
       color="secondary"
       flat
       value="member"
-      to="/home/member"
+      to="/home/member/list"
       replace
     >
       <span>会员</span>
