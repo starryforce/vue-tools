@@ -120,6 +120,13 @@ export default [
     component: () => lazyLoadView(import('@views/OrderReturnDetail')),
   },
   {
+    path: '/order/detail/:id',
+    name: 'order-detail',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/OrderDetail')),
+  },
+  {
     path: '/order/return/confirm',
     name: 'order-return-confirm',
     meta: {},
