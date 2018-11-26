@@ -2,6 +2,7 @@
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
 import NumericUpDown from '@components/NumericUpDown'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ShopCart',
@@ -16,12 +17,36 @@ export default {
       default: '',
     },
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      setTimeout(() => {
-        document.getElementById('add').scrollIntoView(true)
-      }, 200)
-    })
+  data() {
+    return {
+      dialog: false,
+      shopCart: [],
+    }
+  },
+  computed: {
+    ...mapState({
+      cart: state => state.cart.goods,
+      stack: state => state.cart.stack,
+    }),
+  },
+  mounted() {
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
+    setTimeout(() => {
+      document.getElementById('add').scrollIntoView(true)
+    }, 200)
+  },
+  beforeDestroy() {
+    this.$store.commit('cart/setCart', this.shopCart)
+  },
+  methods: {
+    remove(item) {
+      this.shopCart.splice(this.shopCart.indexOf(item), 1)
+      this.dialog = false
+    },
+    push() {
+      // this.stack.push(this.shopCart)
+      this.shopCart = Object.assign({}, {})
+    },
   },
 }
 </script>
@@ -33,17 +58,55 @@ export default {
     </div>
     <div :class="$style.main">
       <ProductItem
-        v-for="i in 8"
-        :key="i"
+        v-for="item in shopCart"
+        :key="item.goodsId"
+        :title="item.product.itemName"
+        :price="item.product.itemPrice"
+        :cover="item.product.itemCover"
       >
         <div :class="$style.slot">
-          <div
-            :class="$style.xssmall"
-            @click="remove"
+          <VDialog
+            v-model="dialog"
+            max-width="290"
           >
-            删除
-          </div>
-          <NumericUpDown :class="$style.xsbig" />
+            <div
+              slot="activator"
+              :class="$style.xssmall"
+            >
+              删除
+            </div>
+
+            <VCard>
+              <VCardTitle class="headline">
+                确认删除
+              </VCardTitle>
+
+              <VCardActions>
+                <VSpacer />
+
+                <VBtn
+                  color="green darken-1"
+                  flat="flat"
+                  @click="dialog = false"
+                >
+                  我是误触
+                </VBtn>
+
+                <VBtn
+                  color="green darken-1"
+                  flat="flat"
+                  @click="remove(item)"
+                >
+                  确认
+                </VBtn>
+              </VCardActions>
+            </VCard>
+          </VDialog>
+
+          <NumericUpDown
+            v-model="item.num"
+            :class="$style.xsbig"
+          />
         </div>
       </ProductItem>
 
@@ -78,7 +141,10 @@ export default {
         合计：262625
       </VFlex>
       <VFlex xs3>
-        <VBtn large>
+        <VBtn
+          large
+          @click="push"
+        >
           挂单
         </VBtn>
       </VFlex>
