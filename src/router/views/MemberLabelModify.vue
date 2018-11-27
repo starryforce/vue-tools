@@ -33,6 +33,9 @@ export default {
   created() {
     this.getLabelDetail()
   },
+  activated() {
+    this.getLabelDetail()
+  },
   methods: {
     async getLabelDetail() {
       this.labelDetail = (await this.$api.label.getLabelDetail(this.id)).data
@@ -40,7 +43,14 @@ export default {
     clearNewMemberList() {
       this.$store.dispatch('label/clearMemberList')
     },
-    confirm() {
+    async confirm() {
+      if (this.newMemberList.length) {
+        const IDList = this.newMemberList.map(item => item.id)
+        await this.$api.label.batchAddCustomer({
+          labelID: this.id,
+          customerIDList: IDList,
+        })
+      }
       this.clearNewMemberList()
       this.$router.back()
     },

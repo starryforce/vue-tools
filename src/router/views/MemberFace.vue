@@ -22,11 +22,11 @@ export default {
     }
   },
   created() {
-    this.getMemberInformation()
+    this.getBaseInformation()
   },
   methods: {
-    async getMemberInformation() {
-      this.memberInformation = (await this.$api.member.getMemberInformation(
+    async getBaseInformation() {
+      this.memberInformation = (await this.$api.member.getBaseInformation(
         this.id
       )).data.customerInfo
     },

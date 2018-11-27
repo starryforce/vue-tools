@@ -26,12 +26,12 @@ export default {
     }
   },
   created() {
-    this.getMemberInformation()
+    this.getBaseInformation()
   },
 
   methods: {
-    async getMemberInformation() {
-      this.memberInformation = (await this.$api.member.getMemberInformation(
+    async getBaseInformation() {
+      this.memberInformation = (await this.$api.member.getBaseInformation(
         this.id
       )).data.customerInfo
     },
@@ -41,12 +41,12 @@ export default {
     },
     async tabChange(name) {
       switch (name) {
-      case '订单列表':
-        this.orders = (await this.$api.member.getConsume(this.id)).data
-        break
-      case '会员资产':
-        this.assets = (await this.$api.member.getAssets(this.id)).data
-        break
+        case '订单列表':
+          this.orders = (await this.$api.member.getConsume(this.id)).data
+          break
+        case '会员资产':
+          this.assets = (await this.$api.member.getAssets(this.id)).data
+          break
       }
     },
   },
@@ -126,7 +126,7 @@ export default {
               <VListTileTitle>姓名</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.name }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -171,7 +171,7 @@ export default {
               <VListTileTitle>所属门店</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.shop }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.storeName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -180,7 +180,7 @@ export default {
               <VListTileTitle>所属导购</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.employeeName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />
@@ -300,7 +300,7 @@ export default {
               <VListTileTitle>客单价</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.consumCount?parseInt(memberInformation.consumAmount/memberInformation.consumCount):0 }}</VListTileActionText>
+              <VListTileActionText>￥{{ memberInformation.unitPrice }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <VDivider />

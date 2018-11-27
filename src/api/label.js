@@ -19,7 +19,7 @@ export const getLabelDetail = id => {
   })
 }
 
-export const batchAddCustomer = (labelID, customerIDList = []) => {
+export const batchAddCustomer = ({ labelID, customerIDList = [] }) => {
   return request({
     url: '/tocustomer/labelbatchaddcustomer',
     data: {
@@ -29,7 +29,7 @@ export const batchAddCustomer = (labelID, customerIDList = []) => {
   })
 }
 
-export const batchRemoveCustomer = (labelID, customerIDList = []) => {
+export const batchRemoveCustomer = ({ labelID, customerIDList = [] }) => {
   return request({
     url: '/tocustomer/labelbatchremovecustomer',
     data: {

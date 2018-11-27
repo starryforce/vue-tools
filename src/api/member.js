@@ -25,7 +25,8 @@ export const getMemberList = ({
   })
 }
 
-export const getMemberInformation = id => {
+// http://114.55.4.22:9009/ApiFile/object/fa4ef56e-5ad0-4fd5-9958-6d8d41b343f5.html
+export const getBaseInformation = id => {
   return request({
     url: '/tocustomer/customerget',
     data: {
@@ -33,6 +34,12 @@ export const getMemberInformation = id => {
     },
   })
 }
+// consumeAmount	decimal		消费金额
+// unitPrice	decimal		客单价
+// lastActivityTime	string		最近参与活动的时间
+// lastTradeTime	string		最后交易时间
+// consumeCount	int		消费次数
+// orderInfo	CusConsumeTradeObject[]		订单对象
 export const getConsume = id => {
   return request({
     url: '/tocustomer/consumeget',
@@ -41,6 +48,11 @@ export const getConsume = id => {
     },
   })
 }
+// couponUsedCount	int		已使用优惠券数量
+// memberAmount	decimal		储值金额
+// couponUsableCount	int		可使用优惠券数量
+// couponEexpiredCount	int		已过期优惠券数量
+// integralCount	int		总积分
 export const getAssets = id => {
   return request({
     url: '/tocustomer/assetsget',
@@ -104,7 +116,7 @@ export const getRechargeList = ({
 
 export default {
   getMemberList,
-  getMemberInformation,
+  getBaseInformation,
   getConsume,
   getAssets,
   getCouponList,
