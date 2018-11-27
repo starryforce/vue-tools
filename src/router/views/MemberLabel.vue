@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     async getLabelList() {
-      this.labelList = (await this.$api.member.getLabelList()).data
+      this.labelList = (await this.$api.label.getLabelList()).data
     },
   },
 }
@@ -43,6 +43,7 @@ export default {
               icon
               ripple
             >
+              {{ label.boundNum }}
               <VIcon color="grey lighten-1">
                 chevron_right
               </VIcon>

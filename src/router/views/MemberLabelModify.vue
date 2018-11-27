@@ -6,6 +6,7 @@ export default {
     title: '会员标签',
     meta: [{ name: 'description', content: 'MemberLabelModify' }],
   },
+  name: 'MemberLabelModify',
   components: { Layout },
   props: {
     mode: {
@@ -19,30 +20,50 @@ export default {
   },
   data() {
     return {
-      labelDetail: {},
+      labelDetail: {
+        members: [],
+      },
     }
+  },
+  computed: {
+    newMemberList() {
+      return this.$store.state.label.memberListBinding
+    },
   },
   created() {
     this.getLabelDetail()
   },
   methods: {
     async getLabelDetail() {
-      this.labelDetail = (await this.$api.member.getLabelDetail(this.id)).data
+      this.labelDetail = (await this.$api.label.getLabelDetail(this.id)).data
+    },
+    clearNewMemberList() {
+      this.$store.dispatch('label/clearMemberList')
+    },
+    confirm() {
+      this.clearNewMemberList()
+      this.$router.back()
+    },
+    cancel() {
+      this.clearNewMemberList()
+      this.$router.back()
     },
   },
 }
 </script>
 
 <template>
-  <Layout>
+  <Layout
+    :class="$style.container"
+    :back-event="clearNewMemberList"
+  >
     <VContainer>
-      <VFlex>
-        <VTextField
-          :label="labelDetail.labelName"
-          outline
-          :disabled="mode === 'edit'"
-        />
-      </VFlex>
+      <VTextField
+        label="标签名称："
+        :value="labelDetail.labelName"
+        outline
+        :disabled="mode === 'edit'"
+      />
       <VBtn
         v-if="mode === 'edit'"
         flat
@@ -51,7 +72,7 @@ export default {
         删除标签
       </VBtn>
     </VContainer>
-    <VSubheader>会员列表（0）</VSubheader>
+    <VSubheader>会员列表（{{ labelDetail.members.length }}）</VSubheader>
     <VContainer
       fluid
       grid-list-lg
@@ -60,7 +81,10 @@ export default {
         row
         wrap
       >
-        <VFlex xs3>
+        <VFlex
+          xs3
+          @click="$router.push({name:'home-member',params:{scene:'label'}})"
+        >
           <VAvatar
             color="primary"
             :size="$style['width-avatar']"
@@ -71,6 +95,25 @@ export default {
           </VAvatar>
           <p :class="$style.memberName">
             添加会员
+          </p>
+        </VFlex>
+        <VFlex
+          v-for="member in newMemberList"
+          :key="member.id"
+          :class="$style.newMemberList"
+          xs3
+        >
+          <VAvatar :size="$style['width-avatar']">
+            <img
+              :src="member.picUrl"
+              alt="Avatar"
+              class="image"
+              height="100%"
+              width="100%"
+            >
+          </VAvatar>
+          <p :class="$style.memberName">
+            {{ member.buyerNick }}
           </p>
         </VFlex>
         <VFlex
@@ -98,7 +141,7 @@ export default {
         <VBtn
           block
           large
-          @click="$router.back()"
+          @click="cancel"
         >
           返回
         </VBtn>
@@ -109,6 +152,7 @@ export default {
           dark
           block
           large
+          @click="confirm"
         >
           确定
         </VBtn>
@@ -124,6 +168,9 @@ export default {
   width-avatar: 20vw;
   color-button-danger: $color-button-danger;
 }
+.container {
+  padding-bottom: 56px;
+}
 .memberName {
   font-size: 14px;
   color: $color-brand-light;
@@ -133,5 +180,9 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+.newMemberList {
+  filter: opacity(0.6);
+  border: dashed 1px $color-brand;
 }
 </style>

@@ -1,5 +1,19 @@
 <script>
-export default {}
+export default {
+  name: 'ToolBar',
+  props: {
+    backEvent: {
+      type: Function,
+      default: () => {},
+    },
+  },
+  methods: {
+    back() {
+      this.backEvent()
+      this.$router.back()
+    },
+  },
+}
 </script>
 
 <template>
@@ -8,7 +22,7 @@ export default {}
     dense
     color="primary"
   >
-    <VToolbarSideIcon @click="$router.back()">
+    <VToolbarSideIcon @click="back">
       <VIcon>chevron_left</VIcon>
     </VToolbarSideIcon>
 

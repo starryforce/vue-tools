@@ -40,6 +40,9 @@ export default {
           name: 'add-credit',
           params: { id: member.id },
         })
+      } else if (this.scene === 'label') {
+        this.$store.dispatch('label/addMember', member)
+        this.$router.back()
       }
     },
   },

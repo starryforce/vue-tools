@@ -6,11 +6,20 @@ export default {
   components: {
     ToolBar,
   },
+  props: {
+    backEvent: {
+      type: Function,
+      default: () => {},
+    },
+  },
 }
 </script>
 <template>
   <div :class="$style.container">
-    <ToolBar :class="$style.toolbar" />
+    <ToolBar
+      :class="$style.toolbar"
+      :back-event="backEvent"
+    />
     <slot />
   </div>
 </template>

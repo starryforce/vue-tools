@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     async getLabelList() {
-      this.labelList = (await this.$api.member.getLabelList()).data
+      this.labelList = (await this.$api.label.getLabelList()).data
     },
     confirm() {
       this.showPanel = null

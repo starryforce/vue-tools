@@ -102,33 +102,12 @@ export const getRechargeList = ({
   })
 }
 
-export const getLabelList = ({ pageNo = 1, pageSize = 100 } = {}) => {
-  return request({
-    url: '/GuideLabels/GetMemberLabelList',
-    data: {
-      CurrentPage: pageNo,
-      PageSize: pageSize,
-    },
-  })
-}
-
-export const getLabelDetail = id => {
-  return request({
-    url: '/GuideLabels/GetLabelDetail',
-    data: {
-      Id: id,
-    },
-  })
-}
-
 export default {
   getMemberList,
   getMemberInformation,
-  getLabelList,
   getConsume,
   getAssets,
   getCouponList,
   getIntegralList,
   getRechargeList,
-  getLabelDetail,
 }
