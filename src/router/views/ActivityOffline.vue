@@ -1,5 +1,7 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/main'
+import { debug } from 'util'
 
 export default {
   metaInfo: {
@@ -9,30 +11,12 @@ export default {
   components: { Layout },
   data() {
     return {
-      items: [
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: 'Brunch this weekend?',
-          subtitle:
-            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-        },
-      ],
+      items: [],
     }
   },
-  created() {
-    this.$api.activity.getStoreActivitys()
+  async created() {
+    var res = await this.$api.activity.getOfflineActivitys()
+    this.items = res.data
   },
 }
 </script>
@@ -40,60 +24,34 @@ export default {
 <template>
   <Layout>
     <VList three-line>
-      <VSubheader>
-        报名中
-      </VSubheader>
+      <VSubheader>报名中</VSubheader>
       <template v-for="(item, index) in items">
-        <VDivider
-          v-if="index"
-          :key="index"
-        />
+        <VDivider v-if="index" :key="index"/>
 
         <VListTile
           :key="item.title"
           avatar
-          @click="$router.push('/activity/offline/detail')"
+          @click="$router.push('/activity/offline/detail/'+item.integralActiveId)"
         >
-          <VListTileAvatar
-            tile
-            :class="$style.cover"
-          >
-            <img
-              :class="$style.cover"
-              :src="item.avatar"
-            >
+          <VListTileAvatar tile :class="$style.cover">
+            <img :class="$style.cover" :src="item.activePicPath">
           </VListTileAvatar>
-
           <VListTileContent>
-            <VListTileTitle>欢庆儿童节宝宝绘画比赛</VListTileTitle>
-            <VListTileSubTitle>5000积分</VListTileSubTitle>
-            <VListTileSubTitle>2018.12.01截止 18人已报名</VListTileSubTitle>
+            <VListTileTitle>{{item.integralActiveName}}</VListTileTitle>
+            <VListTileSubTitle>{{item.consumptionIntegral}}积分</VListTileSubTitle>
+            <VListTileSubTitle>{{item.endTime}}截止 {{item.participateCount}}人已报名</VListTileSubTitle>
           </VListTileContent>
         </VListTile>
       </template>
     </VList>
     <VList three-line>
-      <VSubheader>
-        已结束
-      </VSubheader>
-      <template v-for="(item, index) in items">
-        <VDivider
-          v-if="index"
-          :key="index"
-        />
+      <VSubheader>已结束</VSubheader>
+      <template v-for="(item, index) in 0">
+        <VDivider v-if="index" :key="index"/>
 
-        <VListTile
-          :key="item.title"
-          avatar
-        >
-          <VListTileAvatar
-            tile
-            :class="$style.cover"
-          >
-            <img
-              :class="$style.cover"
-              :src="item.avatar"
-            >
+        <VListTile :key="item.title" avatar>
+          <VListTileAvatar tile :class="$style.cover">
+            <img :class="$style.cover" :src="item.avatar">
           </VListTileAvatar>
 
           <VListTileContent>

@@ -46,6 +46,24 @@ export const getActivitySku = ({
   })
 }
 
+export const getOfflineActivitys = ({ pageNo = 1, pageSize = 10 } = {}) => {
+  return request({
+    url: '/ShoppingMall/getXianXIaActiveList',
+    data: {
+      pageSize: pageSize,
+      currentPage: pageNo,
+    },
+  })
+}
+
+export const getOfflineActivityDetail = id => {
+  return request({
+    url: '/ShoppingMall/getXianXIaActiveDetial',
+    data: {
+      IntegralactiveMangerId: id,
+    },
+  })
+}
 export const getMemberInformation = id => {
   return request({
     url: '/member/GetMemberInformation',
@@ -59,4 +77,6 @@ export default {
   getStoreActivitys,
   getMemberInformation,
   getActivitySku,
+  getOfflineActivitys,
+  getOfflineActivityDetail,
 }

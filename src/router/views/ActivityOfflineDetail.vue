@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/WithToolBar'
 
 export default {
@@ -7,6 +8,21 @@ export default {
     meta: [{ name: 'description', content: 'ActivityOfflineDetail' }],
   },
   components: { Layout },
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      detail: {},
+    }
+  },
+  async created() {
+    var res = await this.$api.activity.getOfflineActivityDetail(this.id)
+    this.detail = Object.assign({}, res.data)
+  },
 }
 </script>
 
@@ -14,20 +30,14 @@ export default {
   <Layout>
     <VList three-line>
       <VListTile :class="$style.info">
-        <VListTileAvatar
-          tile
-          :class="$style.cover"
-        >
-          <img
-            :class="$style.cover"
-            :src="avatar"
-          >
+        <VListTileAvatar tile :class="$style.cover">
+          <img :class="$style.cover" :src="detail.activePicPath">
         </VListTileAvatar>
 
         <VListTileContent>
-          <VListTileTitle>欢庆儿童节宝宝绘画比赛</VListTileTitle>
-          <VListTileSubTitle>¥ 200</VListTileSubTitle>
-          <VListTileSubTitle>2018.12.01截止 18人已报名</VListTileSubTitle>
+          <VListTileTitle>{{detail.integralActiveName}}</VListTileTitle>
+          <VListTileSubTitle>{{detail.consumptionIntegral}}积分</VListTileSubTitle>
+          <VListTileSubTitle>{{detail.endTime}}截止 {{detail.participateCount}}人已报名</VListTileSubTitle>
         </VListTileContent>
       </VListTile>
     </VList>
@@ -36,60 +46,31 @@ export default {
         <VListTileContent>
           <VListTileTitle>活动时间</VListTileTitle>
         </VListTileContent>
-        <VListTileAction>
-          18.01.01-18.01.08
-        </VListTileAction>
+        <VListTileAction>{{detail.startTime}}-{{detail.endTime}}</VListTileAction>
       </VListTile>
-      <VDivider />
+      <VDivider/>
       <VListTile>
         <VListTileContent>
           <VListTileTitle>名额限制</VListTileTitle>
         </VListTileContent>
-        <VListTileAction>
-          20人
-        </VListTileAction>
+        <VListTileAction>{{detail.participateCount}}人</VListTileAction>
       </VListTile>
-      <VDivider />
+      <VDivider/>
     </VList>
     <VSubheader>会员列表（0）</VSubheader>
-    <VContainer
-      fluid
-      grid-list-lg
-    >
-      <VLayout
-        row
-        wrap
-      >
+    <VContainer fluid grid-list-lg>
+      <VLayout row wrap>
         <VFlex xs3>
-          <VAvatar
-            color="primary"
-            :size="$style['width-avatar']"
-          >
-            <VIcon dark>
-              person_add
-            </VIcon>
+          <VAvatar color="primary" :size="$style['width-avatar']">
+            <VIcon dark>person_add</VIcon>
           </VAvatar>
-          <p :class="$style.memberName">
-            代客报名
-          </p>
+          <p :class="$style.memberName">代客报名</p>
         </VFlex>
-        <VFlex
-          v-for="i in 6"
-          :key="i"
-          xs3
-        >
+        <VFlex v-for="i in detail.listcustomers" :key="i.integralActiveId" xs3>
           <VAvatar :size="$style['width-avatar']">
-            <img
-              :src="`https://randomuser.me/api/portraits/men/${i + 20}.jpg`"
-              alt="lorem"
-              class="image"
-              height="100%"
-              width="100%"
-            >
+            <img :src="i.picUrl" alt="lorem" class="image" height="100%" width="100%">
           </VAvatar>
-          <p :class="$style.memberName">
-            {{ i }}
-          </p>
+          <p :class="$style.memberName">{{ i.buyerNick }}</p>
         </VFlex>
       </VLayout>
     </VContainer>

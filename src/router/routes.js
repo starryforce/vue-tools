@@ -59,11 +59,12 @@ export default [
     component: () => lazyLoadView(import('@views/ActivityOnlineDetail')),
   },
   {
-    path: '/activity/offline/detail',
+    path: '/activity/offline/detail/:id',
     name: 'activity-offline-detail',
     meta: {
       showMainNav: true,
     },
+    props: true,
     component: () => lazyLoadView(import('@views/ActivityOfflineDetail')),
   },
   {
@@ -218,7 +219,10 @@ export default [
     name: 'member-label-edit',
     meta: {},
     props: route => {
-      return { id: route.params.id, mode: 'edit' }
+      return {
+        id: route.params.id,
+        mode: 'edit',
+      }
     },
     component: () => lazyLoadView(import('@views/MemberLabelModify')),
   },
