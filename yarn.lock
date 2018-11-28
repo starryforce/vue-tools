@@ -14584,7 +14584,7 @@ vue-infinite-loading@^2.4.3:
   resolved "http://registry.npm.taobao.org/vue-infinite-loading/download/vue-infinite-loading-2.4.3.tgz#fa34131a5c70c933b420d302e2a6dccf65095e17"
   integrity sha1-+jQTGlxwyTO0INMC4qbcz2UJXhc=
 
-vue-jest@^3.0.0:
+vue-jest@^3.0.0, vue-jest@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/vue-jest/download/vue-jest-3.0.1.tgz#127cded1a57cdfcf01fa8a10ce29579e2cb3a04d"
   integrity sha1-Enze0aV8388B+ooQzilXniyzoE0=
