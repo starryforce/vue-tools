@@ -30,6 +30,13 @@ export const searchSku = ({
     })
 }
 
+export const getItemClassList = () => {
+  return request({
+    url: '/GuideItem/GetItemClassList',
+  })
+}
+
 export default {
   searchSku,
+  getItemClassList,
 }

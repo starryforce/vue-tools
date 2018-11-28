@@ -15,6 +15,34 @@ export const getRecharge = () => {
   })
 }
 
+export const getOrders = ({
+  OrderNo,
+  SellerId,
+  BuyerId,
+  OrderStatus,
+  BeginTime,
+  EndTime,
+  PostType,
+  pageNo = 1,
+  pageSize = 10,
+} = {}) => {
+  return request({
+    url: '/BOrders/GetOrdersForB',
+    data: {
+      OrderNo,
+      SellerId,
+      BuyerId,
+      OrderStatus,
+      BeginTime,
+      EndTime,
+      PostType,
+      Page: pageNo,
+      Size: pageSize,
+    },
+  })
+}
+
 export default {
   getRecharge,
+  getOrders,
 }
