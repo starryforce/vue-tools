@@ -7,8 +7,8 @@ export default {
       labelList: [],
       keyword: '',
       settings: {
-        belong: 'all',
-        face: 'all',
+        belong: '',
+        face: -1,
         labels: [],
       },
     }
@@ -27,10 +27,10 @@ export default {
     },
     async getMemberList() {
       const memberList = (await this.$api.member.getMemberList({
-        keyword: this.keyword,
-        belong: this.settings.belong,
-        face: this.settings.face,
-        labels: this.settings.labels,
+        mobile: this.keyword,
+        employeeId: this.settings.belong,
+        isFaceId: this.settings.face,
+        labelIds: this.settings.labels.join(','),
       })).data
       this.$emit('fetch:member-list', memberList)
     },
@@ -73,14 +73,14 @@ export default {
             row
           >
             <VRadio
-              value="all"
-              label="全部会员"
               color="primary"
+              label="全部会员"
+              value=""
             />
             <VRadio
-              value="my"
-              label="仅看我的"
               color="primary"
+              label="仅看我的"
+              value="f9eab77eb5d2fdc4392404b98726ebc037454767"
             />
           </VRadioGroup>
           <VSubheader><VIcon>more_vert</VIcon>人像识别</VSubheader>
@@ -92,17 +92,17 @@ export default {
             <VRadio
               color="primary"
               label="全部"
-              value="all"
+              :value="-1"
             />
             <VRadio
+              color="primary"
               label="已绑定"
-              value="binding"
-              color="primary"
+              :value="1"
             />
             <VRadio
-              label="未绑定"
-              value="noBinding"
               color="primary"
+              label="未绑定"
+              :value="0"
             />
           </VRadioGroup>
           <VItemGroup
