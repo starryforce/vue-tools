@@ -1,17 +1,28 @@
 import request from '@utils/request'
-/**  response =  {
- *   id
- *   activityPrice
- *   beginTime
- *   endTime
- *   giveCoupons
- *   activityName
- *   giveMoney
- *   }
- **/
+/**
+ * @returns {number} activityPrice - 价格
+ * @returns {string} endTime - 结束时间
+ * @returns {string} id - 活动ID
+ * @returns {datetime} beginTime - 开始时间
+ * @returns {string} giveCoupons - 赠送优惠券
+ * @returns {string} activityName - 活动名称
+ * @returns {number} giveMoney - 赠送金额
+ */
 export const getRecharge = () => {
   return request({
     url: '/cactivity/GetRecharge',
+  })
+}
+
+/**
+ * @param {string} request.memberID - 用户 ID
+ * @param {string} request.rechargeID - 充值活动 ID
+ * @returns {string} id - 充值订单号
+ */
+export const createRecharge = ({ memberID, rechargeID }) => {
+  return request({
+    url: '/BOrders/BCreateRecharge',
+    data: { CustomerId: memberID, RechargeId: rechargeID },
   })
 }
 
@@ -65,6 +76,7 @@ export const preCreate = ({
 
 export default {
   getRecharge,
+  createRecharge,
   getOrders,
   preCreate,
 }

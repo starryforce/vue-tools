@@ -203,6 +203,7 @@ export default [
     path: '/add/credit',
     name: 'add-credit',
     meta: {},
+    props: true,
     component: () => lazyLoadView(import('@views/AddCredit')),
   },
   {

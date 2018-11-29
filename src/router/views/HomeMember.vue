@@ -38,7 +38,7 @@ export default {
       } else if (this.scene === 'credit') {
         this.$router.push({
           name: 'add-credit',
-          params: { id: member.id },
+          params: { memberID: member.id },
         })
       } else if (this.scene === 'label') {
         this.$store.dispatch('label/addMember', member)
