@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Authorization from './authorization'
+import store from '@state/store'
 
 const config = {
   method: 'post',
@@ -23,9 +24,6 @@ const authorization = new Authorization()
 // request 拦截器
 requestUtil.interceptors.request.use(
   config => {
-    // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
-    // console.log(store.state.loading)
-    // console.log('准备发送请求...')
     // 2. 带上token
 
     const authHeaders = authorization.getHeaders()
@@ -159,10 +157,7 @@ requestUtil.interceptors.response.use(
 function pushRequest(config) {
   // console.log(`${config.url}--begin`)
   _requests.push(config)
-  // Vue.$vux.loading.show({
-  //   text: 'Loading',
-  // })
-  // store.dispatch('loading')
+  store.dispatch('notice/show_spinner')
 }
 
 /**
@@ -178,8 +173,7 @@ function popRequest(config) {
     _requests.splice(_index, 1)
   }
   if (!_requests.length) {
-    // Vue.$vux.loading.hide(0)
-    // store.dispatch('loading', false)
+    store.dispatch('notice/hide_spinner')
   }
 }
 

@@ -13,6 +13,11 @@ export default {
   components: {
     MainNav,
   },
+  computed: {
+    spinnerVisible() {
+      return this.$store.state.notice.spinner
+    },
+  },
 }
 </script>
 
@@ -32,6 +37,17 @@ export default {
       v-show="$route.meta.showMainNav"
       style="z-index:1"
     />
+    <div
+      v-show="spinnerVisible"
+      :class="$style.spinnerContainer"
+    >
+      <VProgressCircular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      />
+    </div>
   </VApp>
 </template>
 
@@ -62,5 +78,17 @@ img {
 
 #nprogress .bar {
   background: $color-link-text;
+}
+</style>
+
+<style lang="scss" module>
+// stylelint-disable no-duplicate-at-import-rules
+@import '@design';
+
+.spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

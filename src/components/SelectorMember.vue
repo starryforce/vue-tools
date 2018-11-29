@@ -114,7 +114,7 @@ export default {
             <VItem
               v-for="(label) of labelList"
               :key="label.labelName"
-              :value="label.labelName"
+              :value="label.id"
             >
               <VChip
                 slot-scope="{ active, toggle }"
