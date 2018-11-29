@@ -43,6 +43,9 @@ export default {
       } else if (this.scene === 'label') {
         this.$store.dispatch('label/addMember', member)
         this.$router.back()
+      } else if (this.scene === 'offline') {
+        this.$store.dispatch('activity/selectMember', member)
+        this.$router.back()
       }
     },
   },

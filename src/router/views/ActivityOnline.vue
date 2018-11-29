@@ -3,21 +3,19 @@ import Layout from '@layouts/main'
 
 export default {
   metaInfo: {
-    title: 'ActivityOnline',
-    meta: [{ name: 'description', content: 'ActivityOnline' }],
+    title: '线上活动',
+    meta: [{ name: 'description', content: '线上活动' }],
   },
+  name: 'ActivityOnline',
   components: { Layout },
   data() {
     return {
-      selected: [2],
-      items: [],
+      activityList: [],
     }
   },
   async created() {
-    let res = (await this.$api.activity.getStoreActivitys()).data
-    this.items = res
+    this.activityList = (await this.$api.activity.getStoreActivitys()).data
   },
-  methods: {},
 }
 </script>
 
@@ -27,9 +25,13 @@ export default {
       two-line
     >
       <VSubheader>活动中</VSubheader>
-      <template v-for="(item, index) in items">
+      <template v-for="(item, index) in activityList">
+        <VDivider
+          v-if="index"
+          :key="index"
+        />
         <VListTile
-          :key="item.title"
+          :key="item.id"
           avatar
           ripple
           @click="$router.push('/work/goods/'+item.id)"
@@ -52,45 +54,6 @@ export default {
             </VIcon>
           </VListTileAction>
         </VListTile>
-        <VDivider
-          v-if="index + 1 < items.length"
-          :key="index"
-        />
-      </template>
-    </VList>
-    <VList
-      two-line
-    >
-      <VSubheader>已结束</VSubheader>
-      <template v-for="(item, index) in 0">
-        <VListTile
-          :key="item.title"
-          avatar
-          ripple
-          @click="toggle(index)"
-        >
-          <VListTileAvatar>
-            <img :src="item.avatar">
-          </VListTileAvatar>
-          <VListTileContent>
-            <VListTileTitle>新年特价活动</VListTileTitle>
-            <VListTileSubTitle>200件商品</VListTileSubTitle>
-          </VListTileContent>
-
-          <VListTileAction>
-            <VListTileActionText>已有12人参与</VListTileActionText>
-            <VListTileActionText>18.01.01-18.01.08</VListTileActionText>
-          </VListTileAction>
-          <VListTileAction :class="$style.icon">
-            <VIcon>
-              chevron_right
-            </VIcon>
-          </VListTileAction>
-        </VListTile>
-        <VDivider
-          v-if="index + 1 < items.length"
-          :key="index"
-        />
       </template>
     </VList>
   </Layout>
