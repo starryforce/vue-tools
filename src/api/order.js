@@ -130,10 +130,22 @@ export const createOrder = ({
   })
 }
 
+/**
+ * @param {string} orderID - 会员 ID
+ * @returns {string} ok - 成功
+ */
+export const cancelOrder = orderID => {
+  return request({
+    url: '/BOrders/OrderCloseBySeller',
+    data: { Id: orderID },
+  })
+}
+
 export default {
   getRecharge,
   createRecharge,
   getOrders,
   preCreate,
   createOrder,
+  cancelOrder,
 }
