@@ -21,7 +21,7 @@ module.exports = {
         rule.nodes.findIndex(i => i.prop === 'content') === -1,
     },
     cssnano: {
-      preset: 'advanced',
+      preset: ['advanced', { reduceIdents: false }],
       autoprefixer: false,
       'postcss-zindex': false,
     },
