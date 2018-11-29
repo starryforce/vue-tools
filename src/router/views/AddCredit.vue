@@ -17,7 +17,6 @@ export default {
   data() {
     return {
       selectedItem: '',
-      payment: 'cash',
       list: [],
     }
   },
@@ -69,32 +68,31 @@ export default {
               </VFlex>
             </VLayout>
           </VContainer>
-          <div
-            v-for="item in list"
-            :key="item.id"
-          >
-            {{ item.activityName }}
-          </div>
-          <VRadioGroup
-            v-model="payment"
-            :mandatory="false"
-          >
-            <VRadio
-              label="微信支付"
-              value="weixin"
-            />
-            <VRadio
-              label="支付宝支付"
-              value="alipay"
-            />
-            <VRadio
-              label="现金支付"
-              value="cash"
-            />
-          </VRadioGroup>
         </VItemGroup>
       </VCardTitle>
     </VCard>
+    <VSubheader>
+      优惠活动：
+    </VSubheader>
+    <VList>
+      <template v-for="(item, index) in list">
+        <VDivider
+          v-if="index"
+          :key="'divider'+index"
+        />
+
+        <VListTile
+          :key="item.id"
+          avatar
+        >
+          <VListTileContent>
+            <VListTileTitle>
+              {{ item.activityName }}<VListTileTitle />
+            </vlisttiletitle>
+          </VListTileContent>
+        </VListTile>
+      </template>
+    </VList>
     <VBtn
       :class="$style.button"
       block
