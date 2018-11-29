@@ -48,8 +48,10 @@ export default {
   },
   async created() {
     const cls = this.$api.item.getItemClassList()
-    this.shopCart = JSON.parse(JSON.stringify(this.cart))
     this.menu = (await cls).data.filter(item => parseInt(item.parentCode) < 3)
+  },
+  async mounted() {
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
   },
   beforeDestroy() {
     this.$store.commit('cart/setCart', this.shopCart)

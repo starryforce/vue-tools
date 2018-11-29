@@ -1,6 +1,8 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/main'
 import ProductViewItem from '@components/ProductViewItem'
+import { mapState } from 'vuex'
 
 export default {
   page: {
@@ -22,13 +24,11 @@ export default {
       countdown: 45,
       smsCode: null,
       offsetTop: 0,
+      shopCart: [],
     }
   },
   computed: {
-    height() {
-      return 0
-      // return this.$refs.scroll & this.$refs.scroll.height
-    },
+    ...mapState({ cart: state => state.cart.goods }),
   },
   methods: {
     gotoPay() {
@@ -39,9 +39,6 @@ export default {
       else if (this.offsetTop === 2) this.dialog = true
       this.offsetTop++
     },
-    onScroll(e) {
-      this.offsetTop = e.target.scrollTop
-    },
     smsSend() {
       --this.countdown
       var timer = setInterval(() => {
@@ -51,217 +48,142 @@ export default {
         }
       }, 1000)
     },
+    async post() {
+      try {
+        var sku = []
+        this.shopCart.forEach(element => {
+          sku.push({ SkuId: element.goodsId, BuyCount: element.num })
+        })
+        var order = await this.$api.order.preCreate({
+          CustomerId: 'f9eab77eb5d2fdc4392404b98726ebc037454767',
+          // AddressId: 0,
+          IsPostBySelf: true,
+          UsePoint: 0,
+          CouponIds: [],
+          SkuBuycount: sku,
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+  },
+  async mounted() {
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
+    var res = await this.post()
   },
 }
 </script>
 
 <template>
-  <Layout
-    id="scroll"
-    ref="scroll"
-    @scroll="onScroll"
-  >
+  <Layout id="scroll">
     <div :class="$style.main">
-      <div>年糕妈妈 </div>
-      <VRadioGroup
-        v-model="radios"
-        row
-        style="margin-top:0"
-      >
-        <VRadio
-          label="自提"
-          value="1"
-        />
-        <VRadio
-          label="快递"
-          value="2"
-        />
-        <VRadio
-          label="跨境购"
-          value="3"
-        />
+      <div>年糕妈妈</div>
+      <VRadioGroup v-model="radios" row style="margin-top:0">
+        <VRadio label="自提" value="1"/>
+        <VRadio label="快递" value="2"/>
+        <VRadio label="跨境购" value="3"/>
       </VRadioGroup>
       <div>
-        <VSelect
-          v-if="radios==1"
-          :items="items"
-          box
-          label="提货门店"
-          value="本店柜台仓"
-        />
-        <div
-          v-if="radios!=1"
-        >
+        <VSelect v-if="radios==1" :items="items" box label="提货门店" value="本店柜台仓"/>
+        <div v-if="radios!=1">
           <VListTile>
             <VListTileContent>
-              <VListTileTitle>
-                王思颖  17092559564
-              </VListTileTitle>
-              <VListTileSubTitle>
-                无锡贝瑞卡诺科技有限公司
-              </VListTileSubTitle>
+              <VListTileTitle>王思颖 17092559564</VListTileTitle>
+              <VListTileSubTitle>无锡贝瑞卡诺科技有限公司</VListTileSubTitle>
             </VListTileContent>
           </VListTile>
         </div>
       </div>
-
-      {{ offsetTop }}   {{ height }}
-      <VForm
-        ref="form"
-        lazy-validation
-      >
+      <VForm ref="form" lazy-validation>
         <VList>
           <VListTile>
-            <VListTileContent>
-              改价
-            </VListTileContent>
+            <VListTileContent>改价</VListTileContent>
             <VListTileAvatar>
-              <VTextField
-                required
-              />
+              <VTextField required/>
             </VListTileAvatar>
           </VListTile>
 
           <VListTile>
-            <VListTileContent>
-              余额
-            </VListTileContent>
+            <VListTileContent>余额</VListTileContent>
             <VListTileAvatar>
-              <VSwitch />
+              <VSwitch/>
             </VListTileAvatar>
           </VListTile>
 
           <VListTile>
-            <VListTileContent>
-              积分
-            </VListTileContent>
+            <VListTileContent>积分</VListTileContent>
             <VListTileAvatar>
-              <VSwitch />
+              <VSwitch/>
             </VListTileAvatar>
           </VListTile>
 
           <VListTile>
-            <VListTileContent>
-              优惠券
-            </VListTileContent>
-            <VListTileAvatar>
-              >>
-            </VListTileAvatar>
+            <VListTileContent>优惠券</VListTileContent>
+            <VListTileAvatar>>></VListTileAvatar>
           </VListTile>
         </VList>
       </VForm>
 
-      <div id="products">
-        共12件商品
-      </div>
-      <ProductViewItem
-        v-for="i in 5"
-        :key="i"
-      />
+      <div id="products">共12件商品</div>
+      <ProductViewItem v-for="i in 5" :key="i"/>
       <VList id="price">
         <VListTile>
-          <VListTileContent>
-            商品原价合计：
-          </VListTileContent>
-          <VListTileAvatar>
-            8000
-          </VListTileAvatar>
+          <VListTileContent>商品原价合计：</VListTileContent>
+          <VListTileAvatar>8000</VListTileAvatar>
         </VListTile>
         <VListTile>
-          <VListTileContent>
-            优惠活动：
-          </VListTileContent>
-          <VListTileAvatar>
-            -80
-          </VListTileAvatar>
+          <VListTileContent>优惠活动：</VListTileContent>
+          <VListTileAvatar>-80</VListTileAvatar>
         </VListTile>
 
         <VListTile>
-          <VListTileContent>
-            改价优惠：
-          </VListTileContent>
-          <VListTileAvatar>
-            -100
-          </VListTileAvatar>
+          <VListTileContent>改价优惠：</VListTileContent>
+          <VListTileAvatar>-100</VListTileAvatar>
         </VListTile>
         <VListTile>
-          <VListTileContent>
-            优惠券：
-          </VListTileContent>
-          <VListTileAvatar>
-            -100
-          </VListTileAvatar>
+          <VListTileContent>优惠券：</VListTileContent>
+          <VListTileAvatar>-100</VListTileAvatar>
         </VListTile>
 
         <VListTile>
-          <VListTileContent>
-            积分抵扣：
-          </VListTileContent>
-          <VListTileAvatar>
-            -100
-          </VListTileAvatar>
+          <VListTileContent>积分抵扣：</VListTileContent>
+          <VListTileAvatar>-100</VListTileAvatar>
         </VListTile>
         <VListTile>
-          <VListTileContent>
-            余额抵扣：
-          </VListTileContent>
-          <VListTileAvatar>
-            -100
-          </VListTileAvatar>
+          <VListTileContent>余额抵扣：</VListTileContent>
+          <VListTileAvatar>-100</VListTileAvatar>
         </VListTile>
       </VList>
     </div>
 
-    <VLayout
-      row
-      wrap
-      :class="$style.btnnav"
-    >
+    <VLayout row wrap :class="$style.btnnav">
       <VFlex xs5>
         订单合计：￥262625
         还需付款：￥25
       </VFlex>
       <VFlex xs3>
-        <VBtn
-          large
-          flat
-        >
-          取消
-        </VBtn>
+        <VBtn large flat>取消</VBtn>
       </VFlex>
       <VFlex xs4>
-        <VBtn
-          large
-          @click="gotoPay"
-        >
-          去支付
-        </VBtn>
+        <VBtn large @click="gotoPay">去支付</VBtn>
       </VFlex>
     </VLayout>
 
-
-    <VDialog
-      v-model="dialog"
-    >
+    <VDialog v-model="dialog">
       <VCard>
-        <VCardTitle
-          class="headline grey lighten-2"
-          primary-title
-        >
-          客户授权使用资产
-        </VCardTitle>
+        <VCardTitle class="headline grey lighten-2" primary-title>客户授权使用资产</VCardTitle>
 
         <VLayout>
           <VFlex xs5>
-            <VCardText> 输入用户密码</VCardText>
+            <VCardText>输入用户密码</VCardText>
           </VFlex>
           <VFlex xs7>
-            <VTextField label="请用户输入密码" />
+            <VTextField label="请用户输入密码"/>
           </VFlex>
         </VLayout>
         <VLayout>
           <VFlex xs5>
-            <VCardText> 或使用短信验证</VCardText>
+            <VCardText>或使用短信验证</VCardText>
           </VFlex>
           <VFlex xs7>
             <VTextField
@@ -269,40 +191,27 @@ export default {
               v-model="smsCode"
               :label="countdown>30?'请输入验证码':`${countdown}秒后重试`"
             />
-            <VBtn
-              v-else
-              @click="smsSend()"
-            >
-              <span>
-                发送到17092559564
-              </span>
+            <VBtn v-else @click="smsSend()">
+              <span>发送到17092559564</span>
             </VBtn>
           </VFlex>
         </VLayout>
         <VLayout>
           <VFlex xs6>
-            <VCardText> 或扫描会员动态码</VCardText>
+            <VCardText>或扫描会员动态码</VCardText>
           </VFlex>
           <VFlex xs6>
-            <VCardText>  <VIcon>camera</VIcon></VCardText>
+            <VCardText>
+              <VIcon>camera</VIcon>
+            </VCardText>
           </VFlex>
         </VLayout>
-        <VDivider />
+        <VDivider/>
 
         <VCardActions>
-          <VSpacer />
-          <VBtn
-            color="primary"
-            flat
-            @click="dialog = false"
-          >
-            放弃使用资产
-          </VBtn>
-          <VBtn
-            @click="dialog = false"
-          >
-            确认
-          </VBtn>
+          <VSpacer/>
+          <VBtn color="primary" flat @click="dialog = false">放弃使用资产</VBtn>
+          <VBtn @click="dialog = false">确认</VBtn>
         </VCardActions>
       </VCard>
     </VDialog>

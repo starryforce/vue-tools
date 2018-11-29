@@ -54,8 +54,8 @@ export default {
     this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
-    remove(item) {
-      this.shopCart.splice(this.shopCart.indexOf(item), 1)
+    remove(idx) {
+      this.shopCart.splice(idx, 1)
       this.dialog = false
     },
     push() {
@@ -71,7 +71,7 @@ export default {
     <div :class="$style.title">选择会员，默认散客</div>
     <div :class="$style.main">
       <ProductItem
-        v-for="item in shopCart"
+        v-for="(item,idx) in shopCart"
         :key="item.goodsId"
         :title="item.product.itemName"
         :price="item.product.itemPrice"
@@ -89,7 +89,7 @@ export default {
 
                 <VBtn color="green darken-1" flat="flat" @click="dialog = false">我是误触</VBtn>
 
-                <VBtn color="green darken-1" flat="flat" @click="remove(item)">确认</VBtn>
+                <VBtn color="green darken-1" flat="flat" @click="remove(idx)">确认</VBtn>
               </VCardActions>
             </VCard>
           </VDialog>

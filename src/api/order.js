@@ -42,7 +42,29 @@ export const getOrders = ({
   })
 }
 
+export const preCreate = ({
+  CustomerId,
+  AddressId,
+  IsPostBySelf,
+  UsePoint,
+  CouponIds,
+  SkuBuycount,
+} = {}) => {
+  return request({
+    url: '/BOrders/PreCreateOrder',
+    data: {
+      CustomerId,
+      AddressId,
+      IsPostBySelf,
+      UsePoint,
+      CouponIds,
+      SkuBuycount,
+    },
+  })
+}
+
 export default {
   getRecharge,
   getOrders,
+  preCreate,
 }
