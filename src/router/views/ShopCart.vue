@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
 import NumericUpDown from '@components/NumericUpDown'
@@ -28,6 +29,20 @@ export default {
       cart: state => state.cart.goods,
       stack: state => state.cart.stack,
     }),
+    sumPrice() {
+      var amount = 0
+      this.shopCart.forEach(element => {
+        amount += element.num * element.product.itemPrice
+      })
+      return amount
+    },
+    sumCount() {
+      var amount = 0
+      this.shopCart.forEach(element => {
+        amount += element.num
+      })
+      return amount
+    },
   },
   mounted() {
     this.shopCart = JSON.parse(JSON.stringify(this.cart))
@@ -39,8 +54,8 @@ export default {
     this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
-    remove(item) {
-      this.shopCart.splice(this.shopCart.indexOf(item), 1)
+    remove(idx) {
+      this.shopCart.splice(idx, 1)
       this.dialog = false
     },
     push() {
@@ -53,108 +68,58 @@ export default {
 
 <template>
   <Layout>
-    <div :class="$style.title">
-      选择会员，默认散客
-    </div>
+    <div :class="$style.title">选择会员，默认散客</div>
     <div :class="$style.main">
       <ProductItem
-        v-for="item in shopCart"
+        v-for="(item,idx) in shopCart"
         :key="item.goodsId"
         :title="item.product.itemName"
         :price="item.product.itemPrice"
         :cover="item.product.itemCover"
       >
         <div :class="$style.slot">
-          <VDialog
-            v-model="dialog"
-            max-width="290"
-          >
-            <div
-              slot="activator"
-              :class="$style.xssmall"
-            >
-              删除
-            </div>
+          <VDialog v-model="dialog" max-width="290">
+            <div slot="activator" :class="$style.xssmall">删除</div>
 
             <VCard>
-              <VCardTitle class="headline">
-                确认删除
-              </VCardTitle>
+              <VCardTitle class="headline">确认删除</VCardTitle>
 
               <VCardActions>
-                <VSpacer />
+                <VSpacer/>
 
-                <VBtn
-                  color="green darken-1"
-                  flat="flat"
-                  @click="dialog = false"
-                >
-                  我是误触
-                </VBtn>
+                <VBtn color="green darken-1" flat="flat" @click="dialog = false">我是误触</VBtn>
 
-                <VBtn
-                  color="green darken-1"
-                  flat="flat"
-                  @click="remove(item)"
-                >
-                  确认
-                </VBtn>
+                <VBtn color="green darken-1" flat="flat" @click="remove(idx)">确认</VBtn>
               </VCardActions>
             </VCard>
           </VDialog>
 
-          <NumericUpDown
-            v-model="item.num"
-            :class="$style.xsbig"
-          />
+          <NumericUpDown v-model="item.num" :class="$style.xsbig"/>
         </div>
       </ProductItem>
 
-      <VLayout
-        id="add"
-        row
-        wrap
-      >
+      <VLayout id="add" row wrap>
         <VFlex xs6>
-          <VBtn
-            large
-            to="/work/goods"
-          >
-            手动选择
-          </VBtn>
+          <VBtn large to="/work/goods">手动选择</VBtn>
         </VFlex>
         <VFlex xs6>
-          <VBtn large>
-            扫码添加
-          </VBtn>
+          <VBtn large>扫码添加</VBtn>
         </VFlex>
       </VLayout>
       <br>
     </div>
 
-    <VLayout
-      row
-      wrap
-      :class="$style.btnnav"
-    >
+    <VLayout row wrap :class="$style.btnnav">
       <VFlex xs6>
-        合计：262625
+        数量：{{sumCount}}
+        <br>
+        合计：{{sumPrice}}
       </VFlex>
       <VFlex xs3>
-        <VBtn
-          large
-          @click="push"
-        >
-          挂单
-        </VBtn>
+        <VBtn large @click="push">挂单</VBtn>
       </VFlex>
       <VFlex xs3>
-        <VBtn
-          to="/work/prepay"
-          large
-        >
-          结算
-        </VBtn>
+        <VBtn to="/work/prepay" large>结算</VBtn>
       </VFlex>
     </VLayout>
   </Layout>

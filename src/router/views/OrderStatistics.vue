@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/main'
 import SelectorOrder from '@components/SelectorOrder'
 
@@ -48,24 +49,24 @@ export default {
       ],
     }
   },
+  async created() {
+    var res = this.$api.order.getOrders({
+      BeginTime: '2018-10-27',
+      EndTime: '2018-11-28',
+    })
+  },
 }
 </script>
 
 <template>
   <Layout>
     <VContainer>
-      <VCard
-        dark
-        color="primary"
-      >
+      <VCard dark color="primary">
         <VCardText>
           <VLayout>总计金额（元）</VLayout>
-          <VLayout
-            justify-space-between
-            align-center
-          >
+          <VLayout justify-space-between align-center>
             <span>1200.09</span>
-            <SelectorOrder />
+            <SelectorOrder/>
           </VLayout>
           <VLayout column>
             <VFlex>现金：198.09元</VFlex>
@@ -75,53 +76,26 @@ export default {
         </VCardText>
       </VCard>
     </VContainer>
-    <VList
-      two-line
-      subheader
-    >
+    <VList two-line subheader>
       <VSubheader>08.09</VSubheader>
       <template v-for="(item, index) in items">
-        <VDivider
-          v-if="index"
-          :key="'divider'+index"
-        />
-        <VListTile
-          :key="item.title"
-        >
+        <VDivider v-if="index" :key="'divider'+index"/>
+        <VListTile :key="item.title">
           <VLayout>
-            <VLayout
-              column
-              :class="$style.subInfo"
-            >
-              <VChip
-                label
-                small
-                disable
-              >
-                支付宝
-              </VChip>
+            <VLayout column :class="$style.subInfo">
+              <VChip label small disable>支付宝</VChip>
               <VListTileSubTitle>12:00</VListTileSubTitle>
             </VLayout>
-            <VLayout
-              column
-              justify-space-between
-              :class="$style.content"
-            >
+            <VLayout column justify-space-between :class="$style.content">
               <VListTileTitle>{{ item.title }}</VListTileTitle>
               <VListTileSubTitle>{{ item.subtitle }}</VListTileSubTitle>
             </VLayout>
-            <VLayout
-              column
-              justify-space-between
-              :class="$style.information"
-            >
+            <VLayout column justify-space-between :class="$style.information">
               <VListTileTitle>- 1929.00元</VListTileTitle>
               <VListTileSubTitle>年糕妈妈</VListTileSubTitle>
             </VLayout>
             <VLayout :class="$style.listAction">
-              <VIcon small>
-                arrow_forward_ios
-              </VIcon>
+              <VIcon small>arrow_forward_ios</VIcon>
             </VLayout>
           </VLayout>
         </VListTile>

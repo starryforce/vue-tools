@@ -9,7 +9,7 @@ const privateInfo = {
 class Authorization {
   constructor(
     siid = 'f9eab77eb5d2fdc4392404b98726ebc037454767',
-    storeId = '000508010103', // "a693a3d3-3353-4446-9c11-ddabd841c14e",
+    storeId = '000508010101', // "a693a3d3-3353-4446-9c11-ddabd841c14e",
     token = '58f00bee9d6a47889ee8d92467dd35e3'
   ) {
     this.siid = siid

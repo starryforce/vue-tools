@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable */
 import Layout from '@layouts/main'
 import ProductItem from '@components/ProductItem'
 import InfiniteLoading from 'vue-infinite-loading'
@@ -24,9 +25,10 @@ export default {
   },
   data() {
     return {
-      selectedIndex: 0,
+      selectedIndex: 500,
       shopCart: [],
       products: [],
+      menu: [],
       keyWords: null,
       classId: '',
       page: 1,
@@ -45,28 +47,33 @@ export default {
     },
   },
   async created() {
-    await this.search()
+    const cls = this.$api.item.getItemClassList()
+    this.menu = (await cls).data.filter(item => parseInt(item.parentCode) < 3)
+  },
+  async mounted() {
     this.shopCart = JSON.parse(JSON.stringify(this.cart))
-    // for (let index = 0; index < 5; index++) {
-    //   this.shopCart.push({
-    //     goodsId: this.products[index].skuId,
-    //     num: index,
-    //     isChecked: true,
-    //   })
-    // }
   },
   beforeDestroy() {
     this.$store.commit('cart/setCart', this.shopCart)
   },
   methods: {
-    async infiniteHandler($state) {
-      const newData = await this.$api.item.searchSku({
+    async reset() {
+      this.page = 1
+      this.classId = null
+      var res = await this.search()
+      this.products = Object.assign({}, res)
+    },
+    async search() {
+      return (await this.$api.item.searchSku({
         keyWords: this.keyWords,
         classId: this.classId,
         activityId: this.activityId,
         page: this.page,
         size: this.pageSize,
-      })
+      })).data
+    },
+    async infiniteHandler($state) {
+      const newData = await this.search()
       this.hasNext = newData.data.length === this.pageSize
       if (newData.data.length) {
         this.products.push(...newData.data)
@@ -96,8 +103,11 @@ export default {
           product: product,
         })
     },
-    menuChanged(i) {
-      this.selectedIndex = i
+    async menuChanged(i) {
+      this.classId = i
+      this.page = 1
+      var res = await this.search()
+      this.products = Object.assign({}, res)
     },
   },
 }
@@ -105,54 +115,31 @@ export default {
 
 <template>
   <Layout>
-    <VToolbar
-      dark
-      :color="$style['color-brand-light']"
-    >
+    <VToolbar dark :color="$style['color-brand-light']">
       <VTextField
         v-model="keyWords"
         prepend-inner-icon="search"
         single-line
         placeholder="搜索商品名称，条码"
-        @keydown.enter="search()"
+        @keydown.enter="reset()"
       />
-      <VBtn
-        flat
-        icon
-        @click="search()"
-      >
+      <VBtn flat icon @click="reset()">
         <VIcon>camera</VIcon>
       </VBtn>
     </VToolbar>
 
-
-    <VLayout
-      row
-      wrap
-      :class="$style.nobar"
-    >
-      <VFlex
-        xs3
-        :class="$style.fullheight"
-      >
-        <dl
-          ref="menu"
-          :class="$style.menu"
-        >
+    <VLayout row wrap :class="$style.nobar">
+      <VFlex xs3 :class="$style.fullheight">
+        <dl ref="menu" :class="$style.menu">
           <dt
-            v-for="i in 15"
-            :key="i"
-            :class="i==selectedIndex?$style.selected:''"
-            @click="menuChanged(i)"
-          >
-            清洁用品{{ i }}
-          </dt>
+            v-for="item in menu"
+            :key="item.classCode"
+            :class="item.classCode==classId?$style.selected:''"
+            @click="menuChanged(item.classCode)"
+          >{{ item.className }}</dt>
         </dl>
       </VFlex>
-      <VFlex
-        xs9
-        :class="$style.fullheight"
-      >
+      <VFlex xs9 :class="$style.fullheight">
         <ProductItem
           v-for="item in products"
           :key="item.skuId"
@@ -165,81 +152,37 @@ export default {
             v-model="getShopCart(item.skuId).num"
             :min="0"
           />
-          <VBtn
-            v-else
-            flat
-            icon
-            dark
-            color="orange"
-          >
-            <VIcon
-              dark
-              @click="add2ShopCart(item)"
-            >
-              add
-            </VIcon>
+          <VBtn v-else flat icon dark color="orange">
+            <VIcon dark @click="add2ShopCart(item)">add</VIcon>
           </VBtn>
           <!-- {{ shopCartNumber(item.id) }} -->
         </ProductItem>
-        <InfiniteLoading
-          :identifier="selectedIndex"
-          @infinite="infiniteHandler"
-        />
+        <InfiniteLoading :identifier="selectedIndex" @infinite="infiniteHandler"/>
       </VFlex>
     </VLayout>
 
-
-    <VLayout
-      row
-      wrap
-      :class="$style.btnnav"
-    >
+    <VLayout row wrap :class="$style.btnnav">
       <VFlex xs4>
         <VBtn large>
-          <VBadge
-            color="red"
-            right
-          >
-            <span
-              slot="badge"
-            />
-            <span v-if="shopCartNum">
-              挂单
-            </span>
-            <span v-else>
-              取单
-            </span>
+          <VBadge color="red" right>
+            <span slot="badge"/>
+            <span v-if="shopCartNum">挂单</span>
+            <span v-else>取单</span>
           </VBadge>
         </VBtn>
       </VFlex>
       <VFlex xs4>
-        <VBtn
-          to="/work/prepay"
-          large
-        >
-          <VBadge
-            color="red"
-            right
-          >
-            <span
-              slot="badge"
-            />
+        <VBtn to="/work/prepay" large>
+          <VBadge color="red" right>
+            <span slot="badge"/>
             结算
           </VBadge>
         </VBtn>
       </VFlex>
       <VFlex xs4>
-        <VBtn
-          to="/work/shopcart"
-          large
-        >
-          <VBadge
-            color="red"
-            right
-          >
-            <span slot="badge">
-              {{ shopCartNum }}
-            </span>
+        <VBtn to="/work/shopcart" large>
+          <VBadge color="red" right>
+            <span slot="badge">{{ shopCartNum }}</span>
             购物车
           </VBadge>
         </VBtn>
