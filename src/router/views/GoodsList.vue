@@ -54,7 +54,11 @@ export default {
     this.shopCart = JSON.parse(JSON.stringify(this.cart))
   },
   beforeDestroy() {
-    this.$store.commit('cart/setCart', this.shopCart)
+    var tem = []
+    this.shopCart.forEach(element => {
+      if (element.num > 0) tem.push(element)
+    })
+    this.$store.commit('cart/setCart', tem)
   },
   methods: {
     async reset() {
