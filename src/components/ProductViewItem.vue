@@ -1,36 +1,5 @@
-<template>
-  <div :class="$style.item">
-    <img
-      :class="$style.cover"
-      src="/assets/images/logo.png"
-    >
-    <div :class="$style.title2">
-      <div :class="$style.line1">
-        <span :class="$style.code">
-          {{ code }}
-        </span>
-        <span :class="$style.number">
-          {{ num }}件
-        </span>
-      </div>
-      <div :class="$style.line2">
-        {{ title }}
-      </div>
-
-      <div :class="$style.line3">
-        <span :class="$style.spec">
-          {{ spec }}
-        </span>
-        <span :class="$style.price">
-          ¥ {{ price }}
-        </span>
-      </div>
-    </div>
-    <hr :class="$style.after">
-  </div>
-</template>
-
 <script>
+/* eslint-disable */
 export default {
   name: 'ProductViewItem',
   props: {
@@ -54,6 +23,10 @@ export default {
       type: Number,
       default: 0,
     },
+    cover: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -62,6 +35,26 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div :class="$style.item">
+    <img :class="$style.cover" :src="cover">
+    <div :class="$style.title2">
+      <div :class="$style.line1">
+        <span :class="$style.code">{{ code }}</span>
+        <span :class="$style.number">{{ num }}件</span>
+      </div>
+      <div :class="$style.line2">{{ title }}</div>
+
+      <div :class="$style.line3">
+        <span :class="$style.spec">{{ spec }}</span>
+        <span :class="$style.price">¥ {{ price }}</span>
+      </div>
+    </div>
+    <hr :class="$style.after">
+  </div>
+</template>
+
 
 <style lang="scss" module>
 @import '@design';

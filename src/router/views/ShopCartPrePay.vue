@@ -19,16 +19,39 @@ export default {
   data() {
     return {
       dialog: false,
-      radios: 0,
-      items: ['本店柜台仓', 25, 65, 25, 652, 56, 26],
+      items: [{ text: '本店柜台仓', value: 0 }],
       countdown: 45,
       smsCode: null,
       offsetTop: 0,
       shopCart: [],
+      oversea: false,
+      params: {
+        IsPostBySelf: true,
+        isUsePoint: false,
+        change: '',
+        CouponIds: [],
+      },
+      order: {
+        totalAmount: 2000,
+        totalPostAmount: 10,
+        canChangeAmount: 200,
+        canUsePoint: 100,
+        canUsePointMoney: 1,
+      },
     }
   },
   computed: {
-    ...mapState({ cart: state => state.cart.goods }),
+    ...mapState({
+      cart: state => state.cart.goods,
+      stack: state => state.cart.stack,
+    }),
+  },
+  mounted() {
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
+  },
+  async mounted() {
+    this.shopCart = JSON.parse(JSON.stringify(this.cart))
+    var res = await this.post()
   },
   methods: {
     gotoPay() {
@@ -57,19 +80,16 @@ export default {
         var order = await this.$api.order.preCreate({
           CustomerId: 'f9eab77eb5d2fdc4392404b98726ebc037454767',
           // AddressId: 0,
-          IsPostBySelf: true,
-          UsePoint: 0,
-          CouponIds: [],
+          IsPostBySelf: this.params.IsPostBySelf,
+          UsePoint: this.params.isUsePoint ? this.order.canUsePoint : 0,
+          CouponIds: this.params.CouponIds,
           SkuBuycount: sku,
         })
+        this.order = Object.assign({}, order.data)
       } catch (error) {
-        console.log(error)
+        alert(error)
       }
     },
-  },
-  async mounted() {
-    this.shopCart = JSON.parse(JSON.stringify(this.cart))
-    var res = await this.post()
   },
 }
 </script>
@@ -78,14 +98,13 @@ export default {
   <Layout id="scroll">
     <div :class="$style.main">
       <div>年糕妈妈</div>
-      <VRadioGroup v-model="radios" row style="margin-top:0">
-        <VRadio label="自提" value="1"/>
-        <VRadio label="快递" value="2"/>
-        <VRadio label="跨境购" value="3"/>
+      <VRadioGroup v-model="params.IsPostBySelf" row style="margin-top:0" @click="post()">
+        <VRadio label="自提" :disabled="oversea" :value="true"/>
+        <VRadio :label="oversea?'跨境购':'快递'" :value="false"/>
       </VRadioGroup>
       <div>
-        <VSelect v-if="radios==1" :items="items" box label="提货门店" value="本店柜台仓"/>
-        <div v-if="radios!=1">
+        <VSelect v-if="params.IsPostBySelf==1" :items="items" box label="提货门店" :value="0"/>
+        <div v-if="params.IsPostBySelf!=1">
           <VListTile>
             <VListTileContent>
               <VListTileTitle>王思颖 17092559564</VListTileTitle>
@@ -98,68 +117,95 @@ export default {
         <VList>
           <VListTile>
             <VListTileContent>改价</VListTileContent>
-            <VListTileAvatar>
-              <VTextField required/>
-            </VListTileAvatar>
+            <VTextField
+              v-model="params.change"
+              required
+              :placeholder="'最低改到'+order.canChangeAmount"
+              :rule="[()=>params.change<=order.canChangeAmount || '超过限价']"
+            />
           </VListTile>
 
           <VListTile>
-            <VListTileContent>余额</VListTileContent>
+            <VListTileContent>可用积分： {{ order.canUsePoint }}</VListTileContent>
             <VListTileAvatar>
-              <VSwitch/>
-            </VListTileAvatar>
-          </VListTile>
-
-          <VListTile>
-            <VListTileContent>积分</VListTileContent>
-            <VListTileAvatar>
-              <VSwitch/>
+              <VSwitch v-model="params.isUsePoint" @change="post()"/>
             </VListTileAvatar>
           </VListTile>
 
           <VListTile>
             <VListTileContent>优惠券</VListTileContent>
-            <VListTileAvatar>>></VListTileAvatar>
+
+            <VBottomSheet>
+              <span slot="activator" dark>>></span>
+
+              <VList>
+                <VSubheader>可用优惠券</VSubheader>
+                <VListTile v-for="item in order.usableCoupons" :key="item.couponDetailId">
+                  <VListTileTitle>
+                    <VCheckbox
+                      :label="item.title"
+                      :value="item.couponDetailId"
+                      v-model="params.CouponIds"
+                      @change="post()"
+                    ></VCheckbox>
+                  </VListTileTitle>
+                </VListTile>
+              </VList>
+            </VBottomSheet>
           </VListTile>
         </VList>
       </VForm>
 
-      <div id="products">共12件商品</div>
-      <ProductViewItem v-for="i in 5" :key="i"/>
+      <div id="products">共{{ order.skuSum }}件商品</div>
+      <ProductViewItem
+        v-for="item in order.orderSkuPrices"
+        :key="item.skuId"
+        :title="item.itemName"
+        spec=" "
+        code=" "
+        :num="item.buyCount"
+        :price="item.totalAmount"
+        :cover="item.itemCover"
+      />
       <VList id="price">
-        <VListTile>
+        <!-- <VListTile>
           <VListTileContent>商品原价合计：</VListTileContent>
-          <VListTileAvatar>8000</VListTileAvatar>
-        </VListTile>
-        <VListTile>
+          <VListTileAvatar></VListTileAvatar>
+        </VListTile>-->
+        <VListTile v-if="order.freeLimitAmount + order.freeFullAmount">
           <VListTileContent>优惠活动：</VListTileContent>
-          <VListTileAvatar>-80</VListTileAvatar>
+          <VListTileAvatar>- {{ order.freeLimitAmount + order.freeFullAmount }}</VListTileAvatar>
         </VListTile>
 
-        <VListTile>
+        <VListTile v-if="order.freeVipAmount">
+          <VListTileContent>VIP优惠：</VListTileContent>
+          <VListTileAvatar>- {{ order.freeVipAmount }}</VListTileAvatar>
+        </VListTile>
+
+        <VListTile v-if="0">
           <VListTileContent>改价优惠：</VListTileContent>
-          <VListTileAvatar>-100</VListTileAvatar>
+          <VListTileAvatar>- 0</VListTileAvatar>
         </VListTile>
-        <VListTile>
+        <VListTile v-if="order.freeCouponAmount">
           <VListTileContent>优惠券：</VListTileContent>
-          <VListTileAvatar>-100</VListTileAvatar>
+          <VListTileAvatar>- {{ order.freeCouponAmount }}</VListTileAvatar>
         </VListTile>
 
-        <VListTile>
+        <VListTile v-if="order.usePointMoney">
           <VListTileContent>积分抵扣：</VListTileContent>
-          <VListTileAvatar>-100</VListTileAvatar>
+          <VListTileAvatar>- {{ order.usePointMoney }}</VListTileAvatar>
         </VListTile>
         <VListTile>
-          <VListTileContent>余额抵扣：</VListTileContent>
-          <VListTileAvatar>-100</VListTileAvatar>
+          <VListTileContent>运费：</VListTileContent>
+          <VListTileAvatar>+ {{ order.totalPostAmount }}</VListTileAvatar>
         </VListTile>
       </VList>
     </div>
 
     <VLayout row wrap :class="$style.btnnav">
       <VFlex xs5>
-        订单合计：￥262625
-        还需付款：￥25
+        订单合计：￥{{ order.totalAmount }}
+        <!-- 还需付款：￥25 -->
       </VFlex>
       <VFlex xs3>
         <VBtn large flat>取消</VBtn>
