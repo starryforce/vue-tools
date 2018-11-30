@@ -39,6 +39,47 @@ export const createSuperVip = memberID => {
   })
 }
 
+/**
+ *
+ * @param {Object} request - 请求体
+ * @param {string} [request.BuyerName] - 购买人昵称
+ * @param {string} [request.OrderNo] - 订单编号
+ * @param {string} [request.ReceiverName] - 收货人姓名
+ * @param {string} [request.SellerId] - 店员Id
+ * @param {string} [request.EndTime] - 创建结束时间
+ * @param {number} [request.OrderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
+ * @param {datetime} [request.BeginTime] - 创建开始时间
+ * @param {string} request.Size -
+ * @param {number} request.Page -
+ * @param {string} [request.BuyerId] - 购买人Id
+ * @param {string} [request.PayingType] - 支付方式 例子：0支付宝,1微信,2现金,3银行卡,4余额,5无需支付,6积分
+ * @param {string} [request.SkuName] - 商品名称关键字
+ * @param {string} [request.SkuCode] - 商品编码
+ * @param {string} [request.ReceiverPhone] - 收货人电话
+ * @param {number} [request.PostType] - 发货类型 例子：空不筛选,0自提,1快递,3无需物流(虚拟订单等等)
+ *
+ * @returns {string} OrderNo - 订单编号
+ * @returns {string} OrderStatus - 订单状态
+ * @returns {string} Id -
+ * @returns {string} CouponAmount - 优惠券优惠的金额
+ * @returns {string} UsePoint - 使用的积分数量
+ * @returns {string} IsOnline - 是否线上订单
+ * @returns {string} PostAmount - 邮费
+ * @returns {string} TotalAmount - 订单总金额
+ * @returns {string} UseBalance - 使用的余额
+ * @returns {string} CreateTime -
+ * @returns {string} PayType - 支付方式
+ * @returns {string} BuyerMsg - 买家留言
+ * @returns {string} BuyerId - 购买人Id
+ * @returns {string} ProductName - 订单名称
+ * @returns {string} VipAmount - vip优惠金额
+ * @returns {string} DetailList - 商品数组 object
+ * @returns {string} BuyerNick - 购买人昵称
+ * @returns {string} SkuSum - 商品数量
+ * @returns {string} FullAmount - 满减优惠金额
+ * @returns {string} CouponPostAmount - 优惠优惠的邮费金额
+ * @returns {string} LimitAmount - 限时折扣优惠的金额
+ */
 export const getOrders = ({
   OrderNo,
   SellerId,
@@ -131,10 +172,44 @@ export const createOrder = ({
 }
 
 /**
- * @param {string} orderID - 会员 ID
+ * @param {string} orderID - 订单 ID
  * @returns {string} ok - 成功
  */
 export const cancelOrder = orderID => {
+  return request({
+    url: '/BOrders/OrderCloseBySeller',
+    data: { Id: orderID },
+  })
+}
+
+/**
+ * @param {string} orderID - 订单 ID
+ *
+ * @returns {string} SkuList - 所有的商品集合
+ * @returns {string} VipAmount - vip优惠金额
+ * @returns {string} OrderStatus - 订单状态
+ * @returns {string} OrderType - 订单类型
+ * @returns {string} PayType - 支付类型
+ * @returns {string} OldTotalAmount - 优惠前的总金额
+ * @returns {string} ReceiverAddress - 收货地址
+ * @returns {string} BuyerId - 购买人Id
+ * @returns {string} UsePoint - 使用的积分数量
+ * @returns {string} CreateTime -
+ * @returns {string} CutList - 所有的优惠集合
+ * @returns {string} LimitAmount - 限时折扣优惠的金额
+ * @returns {string} ProductName - 订单名称
+ * @returns {string} ReceiverName - 收货人姓名
+ * @returns {string} FullAmount - 满减优惠金额
+ * @returns {string} TotalAmount - 订单总金额
+ * @returns {string} CouponAmount - 优惠券优惠的金额
+ * @returns {string} CouponPostAmount - 优惠优惠的邮费金额
+ * @returns {string} UseBalance - 使用的余额
+ * @returns {string} PostAmount - 邮费
+ * @returns {string} BuyerMsg - 买家留言
+ * @returns {string} OrderNo - 订单编号
+ * @returns {string} ReceiverPhone - 收货人电话
+ */
+export const getOrderDetail = orderID => {
   return request({
     url: '/BOrders/OrderCloseBySeller',
     data: { Id: orderID },
@@ -145,6 +220,7 @@ export default {
   getRecharge,
   createRecharge,
   getOrders,
+  createSuperVip,
   preCreate,
   createOrder,
   cancelOrder,
