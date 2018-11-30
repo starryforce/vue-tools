@@ -26,12 +26,12 @@ export default {
       this.getMemberList()
     },
     async getMemberList() {
-      const memberList = (await this.$api.member.getMemberList({
+      const memberList = await this.$api.member.getMemberList({
         mobile: this.keyword,
         employeeId: this.settings.belong,
         isFaceId: this.settings.face,
         labelIds: this.settings.labels.join(','),
-      })).data
+      })
       this.$emit('fetch:member-list', memberList)
     },
   },

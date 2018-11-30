@@ -33,7 +33,7 @@ export default {
     async getBaseInformation() {
       this.memberInformation = (await this.$api.member.getBaseInformation(
         this.id
-      )).data.customerInfo
+      )).customerInfo
     },
     next() {
       const active = parseInt(this.active)
@@ -42,10 +42,10 @@ export default {
     async tabChange(name) {
       switch (name) {
         case '订单列表':
-          this.orders = (await this.$api.member.getConsume(this.id)).data
+          this.orders = await this.$api.member.getConsume(this.id)
           break
         case '会员资产':
-          this.assets = (await this.$api.member.getAssets(this.id)).data
+          this.assets = await this.$api.member.getAssets(this.id)
           break
       }
     },
@@ -271,6 +271,15 @@ export default {
                   </VIcon>
                 </VBtn>
               </VListTileActionText>
+            </VListTileAction>
+          </VListTile>
+          <VDivider />
+          <VListTile @click="$router.push({name:'address-manage',params:{memberID:id}})">
+            <VListTileContent>
+              <VListTileTitle>收货地址</VListTileTitle>
+            </VListTileContent>
+            <VListTileAction>
+              <VListTileActionText>" "</VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>

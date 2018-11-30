@@ -207,6 +207,31 @@ export default [
     component: () => lazyLoadView(import('@views/AddCredit')),
   },
   {
+    path: '/address/manage/:memberID?',
+    name: 'address-manage',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/AddressManage')),
+  },
+  {
+    path: '/address/edit',
+    name: 'address-edit',
+    meta: {},
+    props: route => {
+      return {
+        addressInfo: route.params.addressInfo,
+      }
+    },
+    component: () => lazyLoadView(import('@views/AddressEdit')),
+  },
+  {
+    path: '/address/add',
+    name: 'address-add',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/AddressEdit')),
+  },
+  {
     path: '/member/label/add',
     name: 'member-label-add',
     meta: {},
