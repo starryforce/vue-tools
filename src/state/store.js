@@ -10,7 +10,7 @@ const store = new Vuex.Store({
   modules,
   plugins: [
     new VuexPersistence({
-      modules: ['setting'],
+      modules: ['setting', 'basketTemp'],
     }).plugin,
   ],
   // Enable strict mode in development to get a warning
