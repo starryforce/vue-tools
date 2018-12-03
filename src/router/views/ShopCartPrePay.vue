@@ -42,8 +42,7 @@ export default {
   },
   computed: {
     ...mapState({
-      cart: state => state.cart.goods,
-      stack: state => state.cart.stack,
+      cart: state => state.basketTemp.cart,
     }),
   },
   mounted() {

@@ -207,6 +207,18 @@ export default [
     component: () => lazyLoadView(import('@views/AddCredit')),
   },
   {
+    path: '/item/center',
+    name: 'item-center',
+    meta: {},
+    component: () => lazyLoadView(import('@views/ItemCenter/ItemCenter')),
+  },
+  {
+    path: '/item/baskets',
+    name: 'item-baskets',
+    meta: {},
+    component: () => lazyLoadView(import('@views/ItemCenter/ItemBaskets')),
+  },
+  {
     path: '/address/manage/:memberID?',
     name: 'address-manage',
     meta: {},

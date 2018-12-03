@@ -48,7 +48,7 @@ export default {
         avatar
       >
         <VListTileAvatar>
-          <img src="">
+          <VImg src="" />
         </VListTileAvatar>
 
         <VListTileContent>
