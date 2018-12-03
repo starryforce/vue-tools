@@ -4,7 +4,7 @@ import store from '@state/store'
 
 const config = {
   method: 'post',
-  baseURL: '/api',
+  baseURL: (process.env.VUE_APP_API_BASE_URL || '') + '/api',
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
