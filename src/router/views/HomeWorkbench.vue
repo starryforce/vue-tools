@@ -60,7 +60,7 @@ export default {
           <VFlex xs3>
             <VBtn
               flat
-              to="/work/goods"
+              to="/item/center"
             >
               <VIcon dark>
                 cloud_queue

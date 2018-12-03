@@ -154,24 +154,6 @@ export default [
     component: () => lazyLoadView(import('@views/MyStatistics')),
   },
   {
-    path: '/work/goods/:activityId?',
-    name: 'GoodsList',
-    meta: {
-      showMainNav: false,
-    },
-    props: true,
-    component: () => lazyLoadView(import('@views/GoodsList')),
-  },
-  {
-    path: '/work/shopcart',
-    name: 'ShopCart',
-    meta: {
-      showMainNav: false,
-      scrollToBottom: true,
-    },
-    component: () => import('@views/ShopCart'),
-  },
-  {
     path: '/work/prepay',
     name: 'ShopCartPrePay',
     meta: {

@@ -19,6 +19,14 @@ export const getters = {
       return accumulator + current.quantity
     }, 0)
   },
+  tempCart(state) {
+    return state.cart.map(item => ({
+      goodsId: item.skuId,
+      num: item.quantity,
+      isChecked: true,
+      product: item,
+    }))
+  },
 }
 
 export const mutations = {

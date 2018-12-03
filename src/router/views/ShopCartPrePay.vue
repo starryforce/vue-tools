@@ -2,7 +2,7 @@
 /* eslint-disable */
 import Layout from '@layouts/main'
 import ProductViewItem from '@components/ProductViewItem'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   page: {
@@ -41,8 +41,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      cart: state => state.basketTemp.cart,
+    ...mapGetters({
+      cart: 'basketTemp/tempCart',
     }),
   },
   mounted() {

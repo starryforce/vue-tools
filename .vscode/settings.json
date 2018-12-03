@@ -49,6 +49,7 @@
   "html.suggest.angular1": false,
   "html.suggest.ionic": false,
   "vetur.validation.template": false,
+  "vetur.format.defaultFormatter.html": "none",
   "emmet.triggerExpansionOnTab": true,
   "emmet.includeLanguages": {
     "vue-html": "html"
