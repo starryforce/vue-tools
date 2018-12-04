@@ -89,9 +89,10 @@ export default {
         couponIDs: this.selectedCouponList,
         totalAmount: this.preOrderInfo.totalAmount,
       })).data
-      console.log(this.orderInfo)
+      this.$router.push({ name: 'item-center' })
     },
     selectPointAmount(value) {
+      this.preCreateOrder()
       this.pointAmount = value
       this.pointSheet = false
     },
