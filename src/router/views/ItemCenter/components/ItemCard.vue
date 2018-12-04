@@ -14,13 +14,13 @@ export default {
   },
   methods: {
     updateCart(newValue) {
-      this.$store.dispatch('basketTemp/updateItem', {
+      this.$store.dispatch('itemStorage/updateItem', {
         itemInfo: this.item,
         quantity: newValue,
       })
     },
     quantity(skuId) {
-      return this.$store.getters['basketTemp/cartItemQuantity'](skuId)
+      return this.$store.getters['itemStorage/cartItemQuantity'](skuId)
     },
   },
 }

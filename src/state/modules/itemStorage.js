@@ -1,5 +1,7 @@
 export const state = {
   cart: [],
+  selectedMember: {},
+  selectedAddress: {},
   baskets: [],
 }
 
@@ -51,7 +53,14 @@ export const mutations = {
   },
   PUSH_BASKET(state) {
     state.baskets.push(
-      Object.assign({}, { items: state.cart, basketID: Date.now() })
+      Object.assign(
+        {},
+        {
+          items: state.cart,
+          basketID: Date.now(),
+          member: state.selectedMember,
+        }
+      )
     )
   },
   REMOVE_BASKET(state, basket) {
@@ -65,7 +74,14 @@ export const mutations = {
       item => item.basketID === basket.basketID
     )
     state.cart = state.baskets[index].items
+    state.selectedMember = state.baskets[index].member
     state.baskets.splice(index, 1)
+  },
+  SELECT_MEMBER(state, member) {
+    state.selectedMember = member
+  },
+  SELECT_ADDRESS(state, address) {
+    state.selectedAddress = address
   },
 }
 
@@ -82,5 +98,11 @@ export const actions = {
   },
   popBasket({ commit }, basket) {
     commit('POP_BASKET', basket)
+  },
+  selectMember({ commit }, member) {
+    commit('SELECT_MEMBER', member)
+  },
+  selectAddress({ commit }, address) {
+    commit('SELECT_ADDRESS', address)
   },
 }

@@ -128,6 +128,12 @@ export default [
     component: () => lazyLoadView(import('@views/OrderDetail')),
   },
   {
+    path: '/order/create',
+    name: 'order-create',
+    meta: {},
+    component: () => lazyLoadView(import('@views/OrderCreate')),
+  },
+  {
     path: '/order/return/confirm',
     name: 'order-return-confirm',
     meta: {},
@@ -152,14 +158,6 @@ export default [
     name: 'my-statistics',
     meta: {},
     component: () => lazyLoadView(import('@views/MyStatistics')),
-  },
-  {
-    path: '/work/prepay',
-    name: 'ShopCartPrePay',
-    meta: {
-      showMainNav: false,
-    },
-    component: () => lazyLoadView(import('@views/ShopCartPrePay')),
   },
   {
     path: '/member/face/:id',

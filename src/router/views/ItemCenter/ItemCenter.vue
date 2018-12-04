@@ -39,6 +39,7 @@ export default {
     },
   },
   created() {
+    this.getItemList()
     this.getItemClassList()
   },
   methods: {
@@ -96,7 +97,10 @@ export default {
         single-line
         @change="getItemList(keyword)"
       />
-      <VBtn icon>
+      <VBtn
+        :to="{name:'home-member',params:{scene:'cart'}}"
+        icon
+      >
         <VIcon>more_vert</VIcon>
       </VBtn>
     </VToolbar>

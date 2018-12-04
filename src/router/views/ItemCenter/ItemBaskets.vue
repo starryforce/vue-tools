@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     basketList() {
-      return this.$store.state.basketTemp.baskets
+      return this.$store.state.itemStorage.baskets
     },
   },
   created() {},
@@ -29,10 +29,10 @@ export default {
       }, 0)
     },
     removeBasket(basket) {
-      this.$store.dispatch('basketTemp/removeBasket', basket)
+      this.$store.dispatch('itemStorage/removeBasket', basket)
     },
     popBasket(basket) {
-      this.$store.dispatch('basketTemp/popBasket', basket)
+      this.$store.dispatch('itemStorage/popBasket', basket)
       this.$router.back()
     },
   },
@@ -52,7 +52,7 @@ export default {
           :key="'divider1'+basket.basketID"
         />
         <VSubheader :key="'header1'+basket.basketID">
-          散客
+          {{ basket.member.customerName?`${basket.member.customerName} ${basket.member.mobile}`:'散客' }}
           <VSpacer />
           2018-09-09 12:00
         </VSubheader>

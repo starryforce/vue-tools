@@ -13,6 +13,10 @@ export default {
       type: String,
       default: '',
     },
+    scene: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -23,7 +27,12 @@ export default {
     this.getAddressList()
   },
   methods: {
-    selectAddress(index) {},
+    selectAddress(address) {
+      if (this.scene === 'order') {
+        this.$store.dispatch('itemStorage/selectAddress', address)
+        this.$router.back()
+      }
+    },
     async getAddressList() {
       this.addressList = (await this.$api.address.getMemberAddressList({
         memberID: this.memberID,
@@ -44,7 +53,7 @@ export default {
         <VListTile
           :key="address.id"
           ripple
-          @click="selectAddress(index)"
+          @click="selectAddress(address)"
         >
           <VListTileContent>
             <VListTileTitle>

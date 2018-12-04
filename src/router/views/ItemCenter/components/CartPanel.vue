@@ -12,24 +12,24 @@ export default {
   }),
   computed: {
     cartItemList() {
-      return this.$store.state.basketTemp.cart
+      return this.$store.state.itemStorage.cart
     },
     totalQuantity() {
-      return this.$store.getters['basketTemp/totalQuantity']
+      return this.$store.getters['itemStorage/totalQuantity']
     },
     cartTotalPrice() {
-      return this.$store.getters['basketTemp/cartTotalPrice']
+      return this.$store.getters['itemStorage/cartTotalPrice']
     },
   },
   methods: {
     updateCart(newValue, item) {
-      this.$store.dispatch('basketTemp/updateItem', {
+      this.$store.dispatch('itemStorage/updateItem', {
         itemInfo: item,
         quantity: newValue,
       })
     },
     clearCart() {
-      this.$store.dispatch('basketTemp/clearCart')
+      this.$store.dispatch('itemStorage/clearCart')
       this.sheet = false
     },
   },
@@ -120,7 +120,7 @@ export default {
           small
           dark
           color="primary"
-          @click="$store.dispatch('basketTemp/pushBasket')"
+          @click="$store.dispatch('itemStorage/pushBasket')"
         >
           挂单
         </VBtn>
@@ -137,7 +137,7 @@ export default {
           small
           dark
           color="secondary"
-          to="/work/prepay"
+          to="/order/create"
         >
           结算
         </VBtn>

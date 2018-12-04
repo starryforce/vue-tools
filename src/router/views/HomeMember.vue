@@ -46,6 +46,9 @@ export default {
       } else if (this.scene === 'offline') {
         this.$store.dispatch('activity/selectMember', member)
         this.$router.back()
+      } else if (this.scene === 'cart') {
+        this.$store.dispatch('itemStorage/selectMember', member)
+        this.$router.back()
       }
     },
   },
