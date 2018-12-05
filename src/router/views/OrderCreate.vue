@@ -376,7 +376,6 @@ export default {
     <VToolbar
       :class="$style.toobar"
       dense
-      fixed
     >
       <div :class="$style.priceContainer">
         总计： <span :class="$style.price">
@@ -484,7 +483,7 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 .toobar {
-  top: auto;
+  position: fixed;
   bottom: 0;
   // stylelint-disable selector-class-pattern
   :global(.v-toolbar__content) {

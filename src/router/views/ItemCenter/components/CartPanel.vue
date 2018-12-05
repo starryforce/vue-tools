@@ -91,7 +91,6 @@ export default {
     <VToolbar
       :class="$style.container"
       dense
-      fixed
     >
       <VBadge
         overlap
@@ -158,7 +157,7 @@ export default {
   color: $color-button-danger;
 }
 .container {
-  top: auto;
+  position: fixed;
   bottom: 0;
   // stylelint-disable selector-class-pattern
   :global(.v-toolbar__content) {

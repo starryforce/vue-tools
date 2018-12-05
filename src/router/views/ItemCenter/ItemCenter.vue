@@ -84,7 +84,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <Layout :class="$style.container">
     <VToolbar
       dense
       dark
@@ -260,6 +260,10 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
+
+.container {
+  padding-bottom: 60px;
+}
 .classTitle {
   font-size: 10px;
   text-align: center;
