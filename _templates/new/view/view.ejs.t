@@ -5,7 +5,7 @@ to: "src/router/views/<%= h.inflection.dasherize(name) %>.vue"
   const fileName = h.inflection.dasherize(name)
   const importName = h.inflection.camelize(fileName.replace(/-/g, '_'))
 %><script>
-import Layout from '@layouts/main'
+import Layout from '@layouts/MainLayout'
 
 export default {
   metaInfo: {

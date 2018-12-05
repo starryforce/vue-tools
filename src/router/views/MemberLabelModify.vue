@@ -1,5 +1,5 @@
 <script>
-import Layout from '@layouts/WithToolBar'
+import Layout from '@layouts/SubLayout'
 
 export default {
   metaInfo: {
@@ -63,10 +63,7 @@ export default {
 </script>
 
 <template>
-  <Layout
-    :class="$style.container"
-    :back-event="clearNewMemberList"
-  >
+  <Layout :class="$style.container">
     <VContainer>
       <VTextField
         label="标签名称："

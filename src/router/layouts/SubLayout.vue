@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'Main',
+  name: 'SubLayout',
 }
 </script>
 
@@ -15,7 +15,6 @@ export default {
 
 .container {
   height: 100vh;
-  padding-bottom: 56px;
   overflow: auto;
 }
 </style>

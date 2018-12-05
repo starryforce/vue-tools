@@ -1,5 +1,5 @@
 <script>
-import Layout from '@layouts/WithToolBar'
+import Layout from '@layouts/SubLayout'
 import region from '@assets/address'
 
 export default {

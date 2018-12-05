@@ -1,6 +1,6 @@
 <script>
 /* eslint-disable */
-import Layout from '@layouts/main'
+import Layout from '@layouts/MainLayout'
 import SelectorOrder from '@components/SelectorOrder'
 
 export default {
