@@ -483,7 +483,7 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 .toobar {
-  position: fixed;
+  position: absolute !important;
   bottom: 0;
   // stylelint-disable selector-class-pattern
   :global(.v-toolbar__content) {
