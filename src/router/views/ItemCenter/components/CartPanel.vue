@@ -20,6 +20,9 @@ export default {
     cartTotalPrice() {
       return this.$store.getters['itemStorage/cartTotalPrice']
     },
+    currentMember() {
+      return this.$store.state.itemStorage.selectedMember
+    },
   },
   methods: {
     updateCart(newValue, item) {
@@ -31,6 +34,25 @@ export default {
     clearCart() {
       this.$store.dispatch('itemStorage/clearCart')
       this.sheet = false
+    },
+    confirmItems() {
+      try {
+        if (this.$store.state.itemStorage.cart.length < 1) {
+          throw new Error('请选择至少一件商品')
+        }
+        if (!this.$store.state.itemStorage.selectedMember.id) {
+          throw new Error('请选择会员')
+        }
+      } catch (error) {
+        this.$q.notify({
+          message: error.message,
+          type: 'warning',
+          position: 'center',
+          textColor: 'black',
+        })
+        return
+      }
+      this.$router.push({ name: 'order-create' })
     },
   },
 }
@@ -46,7 +68,7 @@ export default {
               xs9
               align-self-center
             >
-              购物车
+              {{ currentMember.customerName }} 的购物车
             </VFlex>
             <VFlex xs3>
               <VBtn
@@ -136,7 +158,7 @@ export default {
           small
           dark
           color="secondary"
-          to="/order/create"
+          @click="confirmItems"
         >
           结算
         </VBtn>

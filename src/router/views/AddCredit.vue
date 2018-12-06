@@ -26,10 +26,12 @@ export default {
   },
   methods: {
     async createRechargeOrder() {
-      await this.$api.order.createRecharge({
+      const orderID = (await this.$api.order.createRecharge({
         memberID: this.memberID,
         rechargeID: this.selectedItem,
-      })
+      })).data
+      console.log(orderID)
+      this.$router.push({ name: 'order-checkout', params: { orderID } })
     },
   },
 }

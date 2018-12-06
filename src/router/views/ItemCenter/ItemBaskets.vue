@@ -101,6 +101,13 @@ export default {
           :key="'divider3'+basket.basketID"
         />
         <VSubheader :key="'header2'+basket.basketID">
+          <VChip
+            color="primary"
+            text-color="white"
+            small
+          >
+            {{ basket.items[0].isOversea?'跨境购':'普通商品' }}
+          </VChip>
           <VSpacer />
           共 {{ totalQuantity(basket.items) }} 件
           合计：￥{{ totalPrice(basket.items) }}
@@ -111,6 +118,7 @@ export default {
             outline
             small
             color="grey"
+            @click="removeBasket(basket)"
           >
             作废
           </VBtn>

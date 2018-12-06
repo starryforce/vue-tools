@@ -211,7 +211,7 @@ export const cancelOrder = orderID => {
  */
 export const getOrderDetail = orderID => {
   return request({
-    url: '/BOrders/OrderCloseBySeller',
+    url: '/BOrders/GetOrderDetailForB',
     data: { Id: orderID },
   })
 }
@@ -224,4 +224,5 @@ export default {
   preCreate,
   createOrder,
   cancelOrder,
+  getOrderDetail,
 }

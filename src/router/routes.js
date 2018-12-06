@@ -131,7 +131,14 @@ export default [
     path: '/order/create',
     name: 'order-create',
     meta: {},
-    component: () => lazyLoadView(import('@views/OrderCreate')),
+    component: () => import('@views/OrderCreate'),
+  },
+  {
+    path: '/order/checkout/:orderID',
+    name: 'order-checkout',
+    meta: {},
+    props: true,
+    component: () => import('@views/OrderCheckout'),
   },
   {
     path: '/order/return/confirm',

@@ -32,7 +32,7 @@ export const mutations = {
       const cartIsOversea = state.cart[0].isOversea
       const itemIsOversea = itemInfo.isOversea
       if (cartIsOversea !== itemIsOversea) {
-        return cartIsOversea ? 'oversea' : 'common'
+        throw new Error(cartIsOversea ? 'oversea' : 'common')
       }
     }
     const isExist = state.cart.find(item => itemInfo.skuId === item.skuId)
@@ -82,6 +82,9 @@ export const mutations = {
   SELECT_ADDRESS(state, address) {
     state.selectedAddress = address
   },
+  CLEAR_ADDRESS(state) {
+    state.selectedAddress = {}
+  },
 }
 
 export const actions = {
@@ -98,10 +101,16 @@ export const actions = {
   popBasket({ commit }, basket) {
     commit('POP_BASKET', basket)
   },
+  removeBasket({ commit }, basket) {
+    commit('REMOVE_BASKET', basket)
+  },
   selectMember({ commit }, member) {
     commit('SELECT_MEMBER', member)
   },
   selectAddress({ commit }, address) {
     commit('SELECT_ADDRESS', address)
+  },
+  clearAddress({ commit }) {
+    commit('CLEAR_ADDRESS')
   },
 }

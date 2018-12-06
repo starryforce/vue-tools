@@ -28,7 +28,7 @@ export default {
     as distinct and create the component again.
     -->
     <keep-alive
-      :include="['MemberLabelModify']"
+      :include="['MemberLabelModify','OrderCreate']"
       :max="1"
     >
       <router-view :key="$route.fullPath" />
@@ -70,6 +70,13 @@ export default {
 // vw polyfill 图片显示 bug 修复
 img {
   content: normal !important;
+}
+
+// 修复两个 ui 库 图标冲突
+.v-icon.v-icon.v-icon {
+  justify-content: center;
+  font-size: 24px;
+  vertical-align: text-bottom;
 }
 
 // ===

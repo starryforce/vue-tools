@@ -14,10 +14,23 @@ export default {
   },
   methods: {
     updateCart(newValue) {
-      this.$store.dispatch('itemStorage/updateItem', {
-        itemInfo: this.item,
-        quantity: newValue,
-      })
+      try {
+        this.$store.dispatch('itemStorage/updateItem', {
+          itemInfo: this.item,
+          quantity: newValue,
+        })
+      } catch (error) {
+        this.$q.notify({
+          message: `当前仅可添加${
+            error.message === 'oversea' ? '跨境商品' : '普通商品'
+          }`,
+          detail: `普通商品和跨境购商品不可同时结算`,
+          type: 'warning',
+          color: 'warning',
+          textColor: 'black',
+          position: 'center',
+        })
+      }
     },
     quantity(skuId) {
       return this.$store.getters['itemStorage/cartItemQuantity'](skuId)

@@ -52,7 +52,9 @@ export default {
         classID: classID,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
-      })).data
+      })).data.map((item, index) =>
+        Object.assign(item, { isOversea: index % 2 })
+      )
       this.dialog = false
     },
     subClass(parentCode) {
@@ -101,7 +103,7 @@ export default {
         :to="{name:'home-member',params:{scene:'cart'}}"
         icon
       >
-        <VIcon>more_vert</VIcon>
+        <VIcon>person</VIcon>
       </VBtn>
     </VToolbar>
     <VDialog

@@ -57,39 +57,67 @@ export default {
     selectedCouponList() {
       this.preCreateOrder()
     },
+    currentMember() {
+      this.selectedCouponList = []
+      this.preCreateOrder()
+    },
   },
   created() {
     this.preCreateOrder()
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === 'item-center') {
+        vm.selectedCouponList = []
+        vm.$store.dispatch('itemStorage/clearAddress')
+      }
+    })
+  },
   methods: {
     async preCreateOrder() {
-      this.preOrderInfo = (await this.$api.order.preCreate({
-        CustomerId: this.currentMember.id,
-        AddressId: this.isSelfPick ? '' : this.selectedAddress.id,
-        IsPostBySelf: this.isSelfPick,
-        UsePoint: this.usePoint ? this.pointAmount : 0,
-        CouponIds: this.selectedCouponList,
-        SkuBuycount: this.items.map(item => ({
-          SkuId: item.skuId,
-          BuyCount: item.quantity,
-        })),
-      })).data
+      try {
+        this.preOrderInfo = (await this.$api.order.preCreate({
+          CustomerId: this.currentMember.id,
+          AddressId: this.isSelfPick ? '' : this.selectedAddress.id,
+          IsPostBySelf: this.isSelfPick,
+          UsePoint: this.usePoint ? this.pointAmount : 0,
+          CouponIds: this.selectedCouponList,
+          SkuBuycount: this.items.map(item => ({
+            SkuId: item.skuId,
+            BuyCount: item.quantity,
+          })),
+        })).data
+      } catch (error) {
+        this.$q.notify({
+          message: error.message,
+          type: 'negative',
+          position: 'top',
+        })
+      }
     },
     async createOrder() {
-      this.orderInfo = (await this.$api.order.createOrder({
-        addressID: this.isSelfPick ? '' : this.selectedAddress.id,
-        usePoint: this.usePoint ? this.pointAmount : 0,
-        customerID: this.currentMember.id,
-        isPostBySelf: this.isSelfPick,
-        skuBuycount: this.items.map(item => ({
-          SkuId: item.skuId,
-          BuyCount: item.quantity,
-        })),
-        buyerMsg: this.remark,
-        couponIDs: this.selectedCouponList,
-        totalAmount: this.preOrderInfo.totalAmount,
-      })).data
-      this.$router.push({ name: 'item-center' })
+      try {
+        const orderID = (await this.$api.order.createOrder({
+          addressID: this.isSelfPick ? '' : this.selectedAddress.id,
+          usePoint: this.usePoint ? this.pointAmount : 0,
+          customerID: this.currentMember.id,
+          isPostBySelf: this.isSelfPick,
+          skuBuycount: this.items.map(item => ({
+            SkuId: item.skuId,
+            BuyCount: item.quantity,
+          })),
+          buyerMsg: this.remark,
+          couponIDs: this.selectedCouponList,
+          totalAmount: this.preOrderInfo.totalAmount,
+        })).data
+        this.$router.push({ name: 'order-checkout', params: { orderID } })
+      } catch (error) {
+        this.$q.notify({
+          message: error.message,
+          type: 'negative',
+          position: 'center',
+        })
+      }
     },
     selectPointAmount(value) {
       this.preCreateOrder()
@@ -102,6 +130,11 @@ export default {
 
 <template>
   <Layout :class="$style.container">
+    <VToolbar @click="$router.push({name:'home-member',params:{scene:'cart'}})">
+      <VIcon>person</VIcon>:{{ currentMember.customerName }}
+      <VSpacer />
+      <VIcon>phone_iphone</VIcon>:{{ currentMember.mobile }}
+    </VToolbar>
     <div :class="$style.section">
       <VRadioGroup
         v-model="isSelfPick"
@@ -133,11 +166,8 @@ export default {
       three-line
       :class="$style.address"
     >
-      <VListTile
-        v-if="selectedAddress.id"
-        :to="{name:'address-manage',params:{memberID:currentMember.id,scene:'order'}}"
-      >
-        <VListTileContent>
+      <VListTile :to="{name:'address-manage',params:{memberID:currentMember && currentMember.id,scene:'order'}}">
+        <VListTileContent v-if="selectedAddress.id">
           <VListTileTitle>
             <VLayout>
               <VFlex xs4>
@@ -150,14 +180,7 @@ export default {
           </VListTileTitle>
           <VListTileSubTitle>{{ selectedAddress.provName }}{{ selectedAddress.cityName }}{{ selectedAddress.distName }}{{ selectedAddress.detail }}</VListTileSubTitle>
         </VListTileContent>
-        <VListTileAction>
-          <VIcon>
-            chevron_right
-          </VIcon>
-        </VListTileAction>
-      </VListTile>
-      <VListTile v-else>
-        <VListTileContent>
+        <VListTileContent v-else>
           请选择收货人
         </VListTileContent>
         <VListTileAction>
@@ -267,6 +290,7 @@ export default {
           <VSwitch
             v-model="usePoint"
             color="primary"
+            :disabled="!preOrderInfo.canUsePoint"
           />
         </VFlex>
       </VLayout>

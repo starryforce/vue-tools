@@ -85,6 +85,7 @@ export default {
           memberID: this.memberID,
         })
       )
+      this.$router.back()
     },
   },
 }
