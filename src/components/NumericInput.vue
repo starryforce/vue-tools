@@ -85,7 +85,7 @@ export default {
     },
     size: {
       type: String,
-      default: '90px',
+      default: '80px',
     },
     precision: {
       type: Number,
@@ -296,32 +296,32 @@ button:focus {
 <style>
 .vue-numeric-input {
   position: relative;
-  display: inline-block;
   box-sizing: border-box;
+  display: inline-block;
 }
 .vue-numeric-input .numeric-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
   padding-right: 1.8rem;
   padding-left: 1.8rem;
-  box-sizing: border-box;
   font-size: inherit;
-  border: 1px solid #cccccc;
-  border-radius: 2px;
-  display: block;
   line-height: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
   transition: all 0.1s ease 0s;
-  width: 100%;
 }
 .vue-numeric-input .btn {
   position: absolute;
   width: 1.5rem;
   margin: 0;
-  cursor: default;
   text-align: center;
-  transition: all 0.1s ease 0s;
+  cursor: default;
   background: rgba(0, 0, 0, 0.1);
   border: solid rgba(0, 0, 0, 0.1);
   box-shadow: rgba(0, 0, 0, 0.1) -1px -1px 3px inset,
     rgba(255, 255, 255, 0.7) 1px 1px 3px inset;
+  transition: all 0.1s ease 0s;
 }
 .vue-numeric-input .btn:hover {
   background: rgba(0, 0, 0, 0.2);
@@ -331,131 +331,131 @@ button:focus {
     rgba(255, 255, 255, 0.5) -1px -1px 4px inset;
 }
 .vue-numeric-input .btn:disabled {
-  opacity: 0.5;
-  box-shadow: none;
   cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.5;
 }
 .vue-numeric-input .numeric-input.no-control {
   padding: 2px 5px;
 }
 .vue-numeric-input .btn-increment {
-  right: 2px;
   top: 2px;
+  right: 2px;
   bottom: 2px;
-  border-radius: 2px;
   border-width: 1px;
+  border-radius: 2px;
 }
 .vue-numeric-input .btn-increment .btn-icon {
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
-.vue-numeric-input .btn-increment .btn-icon:before {
+.vue-numeric-input .btn-increment .btn-icon::before {
   position: absolute;
-  visibility: visible;
-  height: 0.0625rem;
-  width: 50%;
-  background-color: #111;
-  content: '';
-  left: 50%;
   top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 0.0625rem;
+  visibility: visible;
+  content: '';
+  background-color: #111;
   transform: translate(-50%, -50%);
 }
-.vue-numeric-input .btn-increment .btn-icon:after {
+.vue-numeric-input .btn-increment .btn-icon::after {
   position: absolute;
-  visibility: visible;
-  height: 50%;
-  width: 0.0625rem;
-  background-color: #111;
-  content: '';
-  left: 50%;
   top: 50%;
+  left: 50%;
+  width: 0.0625rem;
+  height: 50%;
+  visibility: visible;
+  content: '';
+  background-color: #111;
   transform: translate(-50%, -50%);
 }
 .vue-numeric-input .btn-decrement {
-  left: 2px;
   top: 2px;
   bottom: 2px;
-  border-radius: 2px;
+  left: 2px;
   border-width: 1px;
+  border-radius: 2px;
 }
 .vue-numeric-input .btn-decrement .btn-icon {
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
-.vue-numeric-input .btn-decrement .btn-icon:before {
+.vue-numeric-input .btn-decrement .btn-icon::before {
   position: absolute;
-  visibility: visible;
-  height: 0.0625rem;
-  width: 50%;
-  background-color: #111;
-  content: '';
-  left: 50%;
   top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 0.0625rem;
+  visibility: visible;
+  content: '';
+  background-color: #111;
   transform: translate(-50%, -50%);
 }
-.vue-numeric-input .btn-decrement .btn-icon:after {
+.vue-numeric-input .btn-decrement .btn-icon::after {
+  height: 0;
+  clear: both;
   visibility: hidden;
   content: '';
-  clear: both;
-  height: 0;
 }
 .vue-numeric-input.updown .numeric-input {
   padding-right: 1.8rem;
   padding-left: 5px;
 }
 .vue-numeric-input.updown .btn-increment {
-  right: 2px;
   top: 2px;
+  right: 2px;
   bottom: 50%;
-  border-radius: 2px 2px 0 0;
   border-width: 1px 1px 0;
+  border-radius: 2px 2px 0 0;
 }
 .vue-numeric-input.updown .btn-increment .btn-icon {
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  border-width: 0 0.45rem 0.45rem;
+  margin: -0.25rem 0 0 -0.4rem;
   border-color: transparent transparent #111;
   border-style: solid;
-  margin: -0.25rem 0 0 -0.4rem;
+  border-width: 0 0.45rem 0.45rem;
 }
-.vue-numeric-input.updown .btn-increment .btn-icon:before {
-  visibility: hidden;
+.vue-numeric-input.updown .btn-increment .btn-icon::before {
   display: block;
-  content: '';
-  clear: both;
   height: 0;
+  clear: both;
+  visibility: hidden;
+  content: '';
 }
-.vue-numeric-input.updown .btn-increment .btn-icon:after {
-  visibility: hidden;
+.vue-numeric-input.updown .btn-increment .btn-icon::after {
   display: block;
-  content: '';
-  clear: both;
   height: 0;
+  clear: both;
+  visibility: hidden;
+  content: '';
 }
 .vue-numeric-input.updown .btn-decrement {
-  right: 2px;
   top: 50%;
+  right: 2px;
   bottom: 2px;
   left: auto;
-  border-radius: 0 0 2px 2px;
   border-width: 0 1px 1px;
+  border-radius: 0 0 2px 2px;
 }
 .vue-numeric-input.updown .btn-decrement .btn-icon {
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  border-width: 0.45rem 0.45rem 0;
+  margin: -0.25rem 0 0 -0.4rem;
   border-color: #111 transparent transparent;
   border-style: solid;
-  margin: -0.25rem 0 0 -0.4rem;
+  border-width: 0.45rem 0.45rem 0;
 }
 </style>

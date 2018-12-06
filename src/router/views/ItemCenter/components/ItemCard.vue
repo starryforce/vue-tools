@@ -27,10 +27,13 @@ export default {
 </script>
 
 <template>
-  <VListTile avatar>
+  <VListTile
+    avatar
+    :class="$style.container"
+  >
     <VListTileAvatar
       tile
-      size="70"
+      size="80"
     >
       <VImg
         :src="item.itemCover"
@@ -40,20 +43,42 @@ export default {
     <VListTileContent>
       <VListTileTitle>{{ item.itemName }}</VListTileTitle>
       <VListTileSubTitle>¥ {{ item.itemPrice.toFixed(2) }}</VListTileSubTitle>
+      <VListTileSubTitle>
+        <VLayout>
+          <VFlex>1</VFlex>
+          <VSpacer />
+
+          <VFlex :class="$style.numeric">
+            <NumericInput
+              :value="quantity(item.skuId)"
+              :min="0"
+              :max="99"
+              :step="1"
+              @change="updateCart"
+            />
+          </VFlex>
+        </VLayout>
+      </VListTileSubTitle>
     </VListTileContent>
-    <VListTileAction>
-      <NumericInput
-        :value="quantity(item.skuId)"
-        :min="0"
-        :max="99"
-        :step="1"
-        @change="updateCart"
-      />
-    </VListTileAction>
   </VListTile>
 </template>
 
 
 <style lang="scss" module>
 @import '@design';
+.container {
+  // stylelint-disable-next-line
+  :global(.v-list__tile__avatar) {
+    flex-shrink: 0;
+    width: 88px;
+    margin-top: 0;
+  }
+  // stylelint-disable-next-line
+  :global(.v-list__tile__action) {
+    flex-shrink: 0;
+  }
+}
+.numeric {
+  flex: none;
+}
 </style>

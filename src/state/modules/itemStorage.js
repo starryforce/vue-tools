@@ -21,14 +21,6 @@ export const getters = {
       return accumulator + current.quantity
     }, 0)
   },
-  tempCart(state) {
-    return state.cart.map(item => ({
-      goodsId: item.skuId,
-      num: item.quantity,
-      isChecked: true,
-      product: item,
-    }))
-  },
 }
 
 export const mutations = {
@@ -36,6 +28,13 @@ export const mutations = {
   // 如果商品不存在，则新增该商品
   // 如果商品数量为 0，则将其从购物车中移除
   UPDATE_ITEM(state, { itemInfo, quantity }) {
+    if (state.cart[0]) {
+      const cartIsOversea = state.cart[0].isOversea
+      const itemIsOversea = itemInfo.isOversea
+      if (cartIsOversea !== itemIsOversea) {
+        return cartIsOversea ? 'oversea' : 'common'
+      }
+    }
     const isExist = state.cart.find(item => itemInfo.skuId === item.skuId)
     if (!isExist) {
       state.cart.push(Object.assign(itemInfo, { quantity: quantity }))
