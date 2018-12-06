@@ -46,7 +46,11 @@ export default {
             'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
         },
       ],
+      todayFaceInfo: [],
     }
+  },
+  async created() {
+    this.todayFaceInfo = await this.$api.face.todayFaceList()
   },
   methods: {},
 }
