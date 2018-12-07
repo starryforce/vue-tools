@@ -164,7 +164,7 @@ export default {
                   <VIcon dark>
                     cloud_queue
                   </VIcon>
-                  <span>无</span>
+                  <span>构建标志</span>
                 </VBtn>
               </VFlex>
               <VFlex xs3>
