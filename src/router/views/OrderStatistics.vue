@@ -12,48 +12,16 @@ export default {
   components: { Layout, SelectorOrder },
   data() {
     return {
-      items: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          title: 'Ali Connors',
-          subtitle:
-            "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          title: 'me, Scrott, Jennifer',
-          subtitle: "Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          title: 'Sandra Adams',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          title: 'Trevor Hansen',
-          subtitle:
-            'Have any ideas about what we should get Heidi for her birthday?',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          title: 'Britta Holt',
-          subtitle:
-            'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
+      orderList: [],
     }
   },
-  async created() {
-    var res = this.$api.order.getOrders({
-      BeginTime: '2018-10-27',
-      EndTime: '2018-11-28',
-    })
+  created() {
+    this.getOrderList()
+  },
+  methods: {
+    async getOrderList() {
+      this.orderList = (await this.$api.order.getOrders()).data
+    },
   },
 }
 </script>
@@ -78,21 +46,21 @@ export default {
     </VContainer>
     <VList two-line subheader>
       <VSubheader>08.09</VSubheader>
-      <template v-for="(item, index) in items">
+      <template v-for="(order, index) in orderList">
         <VDivider v-if="index" :key="'divider'+index"/>
-        <VListTile :key="item.title">
+        <VListTile :key="order.title" :to="{name:'order-detail',params:{orderID:order.id}}">
           <VLayout>
             <VLayout column :class="$style.subInfo">
-              <VChip label small disable>支付宝</VChip>
-              <VListTileSubTitle>12:00</VListTileSubTitle>
+              <VChip label small disable>{{order.payType}}</VChip>
+              <VListTileSubTitle>{{order.createTime}}</VListTileSubTitle>
             </VLayout>
             <VLayout column justify-space-between :class="$style.content">
-              <VListTileTitle>{{ item.title }}</VListTileTitle>
-              <VListTileSubTitle>{{ item.subtitle }}</VListTileSubTitle>
+              <VListTileTitle>{{ order.productName }}</VListTileTitle>
+              <VListTileSubTitle>{{ order.skuSum }}件商品</VListTileSubTitle>
             </VLayout>
             <VLayout column justify-space-between :class="$style.information">
-              <VListTileTitle>- 1929.00元</VListTileTitle>
-              <VListTileSubTitle>年糕妈妈</VListTileSubTitle>
+              <VListTileTitle>{{order.totalAmount}}元</VListTileTitle>
+              <VListTileSubTitle>{{order.buyerNick}}</VListTileSubTitle>
             </VLayout>
             <VLayout :class="$style.listAction">
               <VIcon small>arrow_forward_ios</VIcon>

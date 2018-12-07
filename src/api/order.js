@@ -49,8 +49,8 @@ export const createSuperVip = memberID => {
  * @param {string} [request.EndTime] - 创建结束时间
  * @param {number} [request.OrderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
  * @param {datetime} [request.BeginTime] - 创建开始时间
- * @param {string} request.Size -
- * @param {number} request.Page -
+ * @param {number} request.pageNo - 分页序号
+ * @param {string} request.pageSize - 分页大小
  * @param {string} [request.BuyerId] - 购买人Id
  * @param {string} [request.PayingType] - 支付方式 例子：0支付宝,1微信,2现金,3银行卡,4余额,5无需支付,6积分
  * @param {string} [request.SkuName] - 商品名称关键字
@@ -89,7 +89,7 @@ export const getOrders = ({
   EndTime,
   PostType,
   pageNo = 1,
-  pageSize = 10,
+  pageSize = 20,
 } = {}) => {
   return request({
     url: '/BOrders/GetOrdersForB',

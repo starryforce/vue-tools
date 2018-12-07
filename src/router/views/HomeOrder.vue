@@ -6,6 +6,7 @@ export default {
     title: '订单',
     meta: [{ name: 'description', content: 'HomeOrder' }],
   },
+  name: 'HomeOrder',
   components: { Layout },
   data() {
     return {

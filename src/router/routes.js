@@ -121,7 +121,7 @@ export default [
     component: () => lazyLoadView(import('@views/OrderReturnDetail')),
   },
   {
-    path: '/order/detail/:id',
+    path: '/order/detail/:orderID',
     name: 'order-detail',
     meta: {},
     props: true,
