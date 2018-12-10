@@ -79,6 +79,9 @@ export default {
         this.orderID
       )).data
     },
+    async cancelOrder() {
+      await this.$api.order.cancelOrder(this.orderID)
+    },
   },
 }
 </script>
@@ -189,6 +192,14 @@ export default {
         </span>
       </li>
     </ul>
+    <VLayout>
+      <VSpacer />
+      <VFlex xs4>
+        <VBtn @click="cancelOrder">
+          取消订单
+        </VBtn>
+      </VFlex>
+    </VLayout>
   </Layout>
 </template>
 

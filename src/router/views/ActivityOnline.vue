@@ -34,7 +34,7 @@ export default {
           :key="item.id"
           avatar
           ripple
-          @click="$router.push('/work/goods/'+item.id)"
+          @click="$router.push({name:'item-center',params:{activityID:item.id}})"
         >
           <VListTileAvatar>
             {{ item.activityType }}

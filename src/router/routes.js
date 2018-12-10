@@ -128,6 +128,13 @@ export default [
     component: () => lazyLoadView(import('@views/OrderDetail')),
   },
   {
+    path: '/join/vip/:memberID',
+    name: 'join-vip',
+    meta: {},
+    props: true,
+    component: () => import('@views/JoinVip'),
+  },
+  {
     path: '/order/create',
     name: 'order-create',
     meta: {},
@@ -174,6 +181,13 @@ export default [
     component: () => lazyLoadView(import('@views/MemberFace')),
   },
   {
+    path: '/member/today',
+    name: 'member-today',
+    meta: {},
+    props: true,
+    component: () => lazyLoadView(import('@views/MemberToday')),
+  },
+  {
     path: '/face/list/:id',
     name: 'face-list',
     meta: {},
@@ -196,6 +210,7 @@ export default [
   {
     path: '/item/center',
     name: 'item-center',
+    props: true,
     meta: {},
     component: () => lazyLoadView(import('@views/ItemCenter/ItemCenter')),
   },

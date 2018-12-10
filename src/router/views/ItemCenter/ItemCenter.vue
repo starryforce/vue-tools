@@ -10,6 +10,12 @@ export default {
   },
   name: 'ItemCenter',
   components: { Layout, ItemCard, CartPanel },
+  props: {
+    activityID: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       itemClassData: [],
@@ -39,12 +45,32 @@ export default {
     },
   },
   created() {
-    this.getItemList()
+    if (this.activityID) {
+      this.getActivityItemList()
+    } else {
+      this.getItemList()
+    }
     this.getItemClassList()
   },
   methods: {
     async getItemClassList() {
       this.itemClassData = (await this.$api.item.getItemClassList()).data
+    },
+    async getActivityItemList({
+      activityID,
+      pageNo,
+      pageSize,
+      classID,
+      keywords,
+    } = {}) {
+      this.itemList = (await this.$api.activity.getActivitySku({
+        activityID: this.activityID,
+        pageNo: 1,
+        pageSize: 20,
+      })).data.map((item, index) =>
+        Object.assign(item, { isOversea: index % 2 })
+      )
+      this.dialog = false
     },
     async getItemList({ keyword = null, classID = null } = {}) {
       this.itemList = (await this.$api.item.getItemList({

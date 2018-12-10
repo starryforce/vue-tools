@@ -30,7 +30,6 @@ export default {
         memberID: this.memberID,
         rechargeID: this.selectedItem,
       })).data
-      console.log(orderID)
       this.$router.push({ name: 'order-checkout', params: { orderID } })
     },
   },

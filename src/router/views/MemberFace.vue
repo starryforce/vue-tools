@@ -6,12 +6,12 @@ export default {
     title: '绑定人脸识别',
     meta: [{ name: 'description', content: '绑定人脸识别' }],
   },
+  name: 'MemberFace',
   components: { Layout },
   props: {
     id: {
       type: String,
       required: true,
-      default: '0',
     },
   },
   data() {
@@ -19,6 +19,7 @@ export default {
       memberInformation: {},
       dialog: false,
       confirmDialog: false,
+      faceDeleting: {},
     }
   },
   created() {
@@ -28,11 +29,30 @@ export default {
     async getBaseInformation() {
       this.memberInformation = (await this.$api.member.getBaseInformation(
         this.id
-      )).data.customerInfo
+      )).customerInfo
     },
 
-    confirmDelete() {
-      this.dialog = false
+    async confirmDelete() {
+      try {
+        await this.$api.face.unbindFace(this.faceDeleting.ksFaceID)
+        this.dialog = false
+        this.faceDeleting = {}
+        this.$q.notify({
+          message: '删除成功',
+          type: 'positive',
+          position: 'center',
+        })
+      } catch (error) {
+        this.$q.notify({
+          message: error.message,
+          type: 'negative',
+          position: 'center',
+        })
+      }
+    },
+    selectFace(face) {
+      this.faceDeleting = face
+      this.dialog = true
     },
   },
 }
@@ -81,17 +101,17 @@ export default {
           </VBtn>
         </VFlex>
         <VFlex
-          v-for="i in 20"
-          :key="i"
+          v-for="face in 20"
+          :key="face"
           xs3
         >
           <img
-            :src="`https://randomuser.me/api/portraits/men/${i + 20}.jpg`"
+            :src="`https://randomuser.me/api/portraits/men/${face + 20}.jpg`"
             class="image"
             alt="lorem"
             width="100%"
             height="100%"
-            @click="dialog = !dialog"
+            @click="selectFace(face)"
           >
         </VFlex>
       </VLayout>
@@ -102,13 +122,6 @@ export default {
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <VBtn
-        slot="activator"
-        color="primary"
-        dark
-      >
-        Open Dialog
-      </VBtn>
       <VCard>
         <VToolbar
           dark

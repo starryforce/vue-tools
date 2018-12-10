@@ -46,13 +46,32 @@ export default {
             'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
         },
       ],
-      todayFaceInfo: [],
+      todayFaceList: [],
     }
   },
   async created() {
-    this.todayFaceInfo = await this.$api.face.todayFaceList()
+    this.todayFaceList = await this.$api.face.todayFaceList()
+    this.openWS()
   },
-  methods: {},
+  methods: {
+    openWS() {
+      const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
+
+      ws.onopen = function(event) {
+        console.log('Connection open ...')
+        ws.send('Hello WebSockets!')
+      }
+
+      ws.onmessage = function(event) {
+        console.log('Received Message: ' + event.data)
+        ws.close()
+      }
+
+      ws.onclose = function(event) {
+        console.log('Connection closed.')
+      }
+    },
+  },
 }
 </script>
 
@@ -134,7 +153,10 @@ export default {
                 </VBtn>
               </VFlex>
               <VFlex xs3>
-                <VBtn flat>
+                <VBtn
+                  flat
+                  :to="{name:'home-member',params:{scene:'vip'}}"
+                >
                   <VIcon dark>
                     cloud_queue
                   </VIcon>

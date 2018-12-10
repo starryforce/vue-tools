@@ -40,6 +40,11 @@ export default {
           name: 'add-credit',
           params: { memberID: member.id },
         })
+      } else if (this.scene === 'vip') {
+        this.$router.push({
+          name: 'join-vip',
+          params: { memberID: member.id },
+        })
       } else if (this.scene === 'label') {
         this.$store.dispatch('label/addMember', member)
         this.$router.back()

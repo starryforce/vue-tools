@@ -12,18 +12,23 @@ export default {
     id: {
       type: String,
       required: true,
-      default: '0',
     },
   },
   data() {
     return {
-      selection: [],
+      todayFaceList: [],
+      selection: {},
     }
   },
-  created() {},
+  async created() {
+    this.todayFaceList = (await this.$api.face.todayFaceList()).toShopList
+  },
   methods: {
-    confirmBind() {
-      console.log(this.selection)
+    async confirmBind() {
+      await this.$api.face.bindFace({
+        memberID: this.id,
+        ksFaceID: this.selection.ksFaceId,
+      })
     },
   },
 }
@@ -33,7 +38,6 @@ export default {
   <Layout>
     <VItemGroup
       v-model="selection"
-      multiple
     >
       <VContainer
         fluid
@@ -41,8 +45,8 @@ export default {
       >
         <VLayout wrap>
           <VFlex
-            v-for="i in 10"
-            :key="i"
+            v-for="face in todayFaceList"
+            :key="face.ksFaceId"
             xs3
           >
             <VItem>
@@ -52,7 +56,7 @@ export default {
                 :class="{[$style.selected]:active}"
                 width="100%"
                 height="100%"
-                :src="`https://randomuser.me/api/portraits/men/${i + 20}.jpg`"
+                :src="face.picUrl"
                 @click="toggle"
               >
                 <VFlex
@@ -60,7 +64,7 @@ export default {
                   offset-xs8
                 >
                   <VCheckbox
-                    v-model="active"
+                    :value="active"
                     color="primary"
                     :class="$style.identifier"
                   />
@@ -88,7 +92,7 @@ export default {
           dark
           @click="confirmBind"
         >
-          确定（{{ selection.length }}）
+          确定
         </VBtn>
       </VFlex>
     </VLayout>

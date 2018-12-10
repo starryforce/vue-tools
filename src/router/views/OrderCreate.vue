@@ -61,6 +61,9 @@ export default {
       this.selectedCouponList = []
       this.preCreateOrder()
     },
+    selectedAddress() {
+      this.preCreateOrder()
+    },
   },
   created() {
     this.preCreateOrder()
