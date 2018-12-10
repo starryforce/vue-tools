@@ -43,15 +43,15 @@ export const createSuperVip = memberID => {
  *
  * @param {Object} request - 请求体
  * @param {string} [request.BuyerName] - 购买人昵称
- * @param {string} [request.OrderNo] - 订单编号
+ * @param {string} [request.orderNo] - 订单编号
  * @param {string} [request.ReceiverName] - 收货人姓名
- * @param {string} [request.SellerId] - 店员Id
- * @param {string} [request.EndTime] - 创建结束时间
- * @param {number} [request.OrderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
- * @param {datetime} [request.BeginTime] - 创建开始时间
+ * @param {string} [request.sellerID] - 店员Id
+ * @param {string} [request.buyerID] - 购买人Id
+ * @param {datetime} [request.beginTime] - 创建开始时间
+ * @param {string} [request.endTime] - 创建结束时间
+ * @param {number} [request.orderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
  * @param {number} request.pageNo - 分页序号
  * @param {string} request.pageSize - 分页大小
- * @param {string} [request.BuyerId] - 购买人Id
  * @param {string} [request.PayingType] - 支付方式 例子：0支付宝,1微信,2现金,3银行卡,4余额,5无需支付,6积分
  * @param {string} [request.SkuName] - 商品名称关键字
  * @param {string} [request.SkuCode] - 商品编码
@@ -80,29 +80,29 @@ export const createSuperVip = memberID => {
  * @returns {string} CouponPostAmount - 优惠优惠的邮费金额
  * @returns {string} LimitAmount - 限时折扣优惠的金额
  */
-export const getOrders = ({
-  OrderNo,
-  SellerId,
-  BuyerId,
-  OrderStatus,
-  BeginTime,
-  EndTime,
-  PostType,
+export const getOrderList = ({
   pageNo = 1,
   pageSize = 20,
+  orderNo,
+  sellerID,
+  buyerID,
+  orderStatus,
+  beginTime,
+  endTime,
+  postType,
 } = {}) => {
   return request({
     url: '/BOrders/GetOrdersForB',
     data: {
-      OrderNo,
-      SellerId,
-      BuyerId,
-      OrderStatus,
-      BeginTime,
-      EndTime,
-      PostType,
       Page: pageNo,
       Size: pageSize,
+      OrderNo: orderNo,
+      SellerId: sellerID,
+      BuyerId: buyerID,
+      OrderStatus: orderStatus,
+      BeginTime: beginTime,
+      EndTime: endTime,
+      PostType: postType,
     },
   })
 }
@@ -219,7 +219,7 @@ export const getOrderDetail = orderID => {
 export default {
   getRecharge,
   createRecharge,
-  getOrders,
+  getOrderList,
   createSuperVip,
   preCreate,
   createOrder,

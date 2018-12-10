@@ -154,9 +154,10 @@ export default [
     component: () => lazyLoadView(import('@views/OrderReturnDetail')),
   },
   {
-    path: '/order/pickup/detail',
+    path: '/order/pickup/detail/:orderID',
     name: 'order-pickup-detail',
     meta: {},
+    props: true,
     component: () => lazyLoadView(import('@views/OrderPickUpDetail')),
   },
   {

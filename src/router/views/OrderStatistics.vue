@@ -1,5 +1,4 @@
 <script>
-/* eslint-disable */
 import Layout from '@layouts/MainLayout'
 import SelectorOrder from '@components/SelectorOrder'
 
@@ -20,7 +19,7 @@ export default {
   },
   methods: {
     async getOrderList() {
-      this.orderList = (await this.$api.order.getOrders()).data
+      this.orderList = (await this.$api.order.getOrderList()).data
     },
   },
 }
@@ -29,12 +28,18 @@ export default {
 <template>
   <Layout>
     <VContainer>
-      <VCard dark color="primary">
+      <VCard
+        dark
+        color="primary"
+      >
         <VCardText>
           <VLayout>总计金额（元）</VLayout>
-          <VLayout justify-space-between align-center>
+          <VLayout
+            justify-space-between
+            align-center
+          >
             <span>1200.09</span>
-            <SelectorOrder/>
+            <SelectorOrder />
           </VLayout>
           <VLayout column>
             <VFlex>现金：198.09元</VFlex>
@@ -44,26 +49,54 @@ export default {
         </VCardText>
       </VCard>
     </VContainer>
-    <VList two-line subheader>
+    <VList
+      two-line
+      subheader
+    >
       <VSubheader>08.09</VSubheader>
       <template v-for="(order, index) in orderList">
-        <VDivider v-if="index" :key="'divider'+index"/>
-        <VListTile :key="order.title" :to="{name:'order-detail',params:{orderID:order.id}}">
+        <VDivider
+          v-if="index"
+          :key="'divider'+index"
+        />
+        <VListTile
+          :key="order.title"
+          :to="{name:'order-detail',params:{orderID:order.id}}"
+        >
           <VLayout>
-            <VLayout column :class="$style.subInfo">
-              <VChip label small disable>{{order.payType}}</VChip>
-              <VListTileSubTitle>{{order.createTime}}</VListTileSubTitle>
+            <VLayout
+              column
+              :class="$style.subInfo"
+            >
+              <VChip
+                label
+                small
+                disable
+              >
+                {{ order.payType }}
+              </VChip>
+              <VListTileSubTitle>{{ order.createTime }}</VListTileSubTitle>
             </VLayout>
-            <VLayout column justify-space-between :class="$style.content">
+            <VLayout
+              column
+              justify-space-between
+              :class="$style.content"
+            >
               <VListTileTitle>{{ order.productName }}</VListTileTitle>
               <VListTileSubTitle>{{ order.skuSum }}件商品</VListTileSubTitle>
             </VLayout>
-            <VLayout column justify-space-between :class="$style.information">
-              <VListTileTitle>{{order.totalAmount}}元</VListTileTitle>
-              <VListTileSubTitle>{{order.buyerNick}}</VListTileSubTitle>
+            <VLayout
+              column
+              justify-space-between
+              :class="$style.information"
+            >
+              <VListTileTitle>{{ order.totalAmount }}元</VListTileTitle>
+              <VListTileSubTitle>{{ order.buyerNick }}</VListTileSubTitle>
             </VLayout>
             <VLayout :class="$style.listAction">
-              <VIcon small>arrow_forward_ios</VIcon>
+              <VIcon small>
+                arrow_forward_ios
+              </VIcon>
             </VLayout>
           </VLayout>
         </VListTile>

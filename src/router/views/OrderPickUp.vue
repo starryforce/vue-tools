@@ -1,5 +1,6 @@
 <script>
 import Layout from '@layouts/MainLayout'
+import ItemListCard from '@components/ItemListCard'
 
 export default {
   metaInfo: {
@@ -7,34 +8,22 @@ export default {
     meta: [{ name: 'description', content: 'OrderPickUp' }],
   },
   name: 'OrderPickUp',
-  components: { Layout },
+  components: { Layout, ItemListCard },
   data() {
     return {
-      tab: 0,
-      items: [
-        { header: 'Today' },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: 'Brunch this weekend?',
-          subtitle:
-            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-        },
-      ],
+      orderList: [],
     }
+  },
+  created() {
+    this.getOrderList()
+  },
+  methods: {
+    async getOrderList() {
+      this.orderList = (await this.$api.order.getOrderList({
+        orderStatus: 1, // 1 : 待发货
+        postType: 0, // 0: 自提
+      })).data
+    },
   },
 }
 </script>
@@ -46,39 +35,22 @@ export default {
         待提货
       </VSubheader>
       <VContainer
-        v-for="(item) in items"
-        :key="item.title"
+        v-for="order in orderList"
+        :key="order.orderNo"
         :class="$style.orderContainer"
-        @click="$router.push('/order/pickup/detail')"
+        @click="$router.push({name:'order-pickup-detail',orderID:order.id})"
       >
         <VLayout>
           <VFlex>
-            退单号：VX902324356
+            订单编号{{ order.orderNo }}
           </VFlex>
           <VSpacer />
           <VFlex>
-            2018-09-09 12:00
+            {{ order.totalAmount }}
           </VFlex>
         </VLayout>
         <VDivider />
-        <VContainer>
-          <VLayout>
-            <VFlex xs2>
-              <VImg
-                :src="item.cover"
-                :lazy-src="item.cover"
-                aspect-ratio="1"
-                class="grey lighten-2"
-              />
-            </VFlex>
-            <VFlex
-              xs9
-              offset-xs1
-            >
-              尤妮佳（Moony）纸尿裤 L68片（9-14kg）大号婴儿尿不湿
-            </VFlex>
-          </VLayout>
-        </VContainer>
+        <ItemListCard :item-list="order.detailList" />
       </VContainer>
     </VList>
   </Layout>
