@@ -20,16 +20,10 @@ export default {
           quantity: newValue,
         })
       } catch (error) {
-        this.$q.notify({
-          message: `当前仅可添加${
-            error.message === 'oversea' ? '跨境商品' : '普通商品'
-          }`,
-          detail: `普通商品和跨境购商品不可同时结算`,
-          type: 'warning',
-          color: 'warning',
-          textColor: 'black',
-          position: 'center',
-        })
+        this.$snotify.warning(
+          '普通商品和跨境购商品不可同时结算',
+          `当前仅可添加${error.message === 'oversea' ? '跨境商品' : '普通商品'}`
+        )
       }
     },
     quantity(skuId) {

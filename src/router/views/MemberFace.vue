@@ -37,17 +37,9 @@ export default {
         await this.$api.face.unbindFace(this.faceDeleting.ksFaceID)
         this.dialog = false
         this.faceDeleting = {}
-        this.$q.notify({
-          message: '删除成功',
-          type: 'positive',
-          position: 'center',
-        })
+        this.$snotify.success('删除成功')
       } catch (error) {
-        this.$q.notify({
-          message: error.message,
-          type: 'negative',
-          position: 'center',
-        })
+        this.$snotify.error(error.message)
       }
     },
     selectFace(face) {

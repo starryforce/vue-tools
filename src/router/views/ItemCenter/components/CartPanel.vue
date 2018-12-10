@@ -44,12 +44,7 @@ export default {
           throw new Error('请选择会员')
         }
       } catch (error) {
-        this.$q.notify({
-          message: error.message,
-          type: 'warning',
-          position: 'center',
-          textColor: 'black',
-        })
+        this.$snotify.warning(error.message)
         return
       }
       this.$router.push({ name: 'order-create' })

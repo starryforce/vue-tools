@@ -27,6 +27,7 @@ export default {
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
+    <vue-snotify />
     <keep-alive
       :include="['MemberLabelModify','OrderCreate']"
       :max="1"
@@ -62,7 +63,7 @@ export default {
 // Style loading bar between pages.
 // https://github.com/rstacruz/nprogress
 @import '~nprogress/nprogress.css';
-
+@import '~vue-snotify/styles/material';
 // Design variables and utilities from src/design.
 @import '@design';
 

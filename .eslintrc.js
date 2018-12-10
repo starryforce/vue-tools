@@ -32,6 +32,7 @@ module.exports = {
           'slot',
           'router-view',
           'router-link',
+          'vue-snotify',
         ],
       },
     ],

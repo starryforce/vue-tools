@@ -91,11 +91,7 @@ export default {
           })),
         })).data
       } catch (error) {
-        this.$q.notify({
-          message: error.message,
-          type: 'negative',
-          position: 'top',
-        })
+        this.$snotify.warning(error.message)
       }
     },
     async createOrder() {
@@ -115,11 +111,7 @@ export default {
         })).data
         this.$router.push({ name: 'order-checkout', params: { orderID } })
       } catch (error) {
-        this.$q.notify({
-          message: error.message,
-          type: 'negative',
-          position: 'center',
-        })
+        this.$snotify.warning(error.message)
       }
     },
     selectPointAmount(value) {

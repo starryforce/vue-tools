@@ -23,10 +23,4 @@ module.exports = {
       : // Proxy API endpoints a local mock API.
         { before: require('./tests/mock-api') }),
   },
-  pluginOptions: {
-    quasar: {
-      theme: 'mat',
-    },
-  },
-  transpileDependencies: [/[\\\/]node_modules[\\\/]quasar-framework[\\\/]/],
 }
