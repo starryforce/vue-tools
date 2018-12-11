@@ -74,8 +74,8 @@ export default {
                   d-flex
                 >
                   <VImg
-                    :src="item.itemCover"
-                    :lazy-src="item.itemCover"
+                    :src="item.itemCover || ''"
+                    :lazy-src="item.itemCover || ''"
                     aspect-ratio="1"
                     class="grey lighten-2"
                   >

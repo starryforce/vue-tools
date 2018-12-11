@@ -25,8 +25,8 @@ export default {
     <VLayout v-if="itemList.length === 1">
       <VFlex xs2>
         <VImg
-          :src="itemList[0].picUrl"
-          :lazy-src="itemList[0].picUrl"
+          :src="itemList[0].picUrl || ''"
+          :lazy-src="itemList[0].picUrl || ''"
           aspect-ratio="1"
           class="grey lighten-2"
         />

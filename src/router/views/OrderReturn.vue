@@ -79,8 +79,8 @@ export default {
               <VLayout>
                 <VFlex xs2>
                   <VImg
-                    :src="item.cover"
-                    :lazy-src="item.cover"
+                    :src="item.cover || ''"
+                    :lazy-src="item.cover || ''"
                     aspect-ratio="1"
                     class="grey lighten-2"
                   />

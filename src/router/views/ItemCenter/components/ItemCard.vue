@@ -43,7 +43,7 @@ export default {
       size="80"
     >
       <VImg
-        :src="item.itemCover"
+        :src="item.itemCover || ''"
       />
     </VListTileAvatar>
 
