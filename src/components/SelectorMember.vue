@@ -15,7 +15,6 @@ export default {
   },
   created() {
     this.getLabelList()
-    this.getMemberList()
   },
   methods: {
     async getLabelList() {
@@ -23,16 +22,16 @@ export default {
     },
     confirm() {
       this.showPanel = null
-      this.getMemberList()
-    },
-    async getMemberList() {
-      const memberList = await this.$api.member.getMemberList({
-        mobile: this.keyword,
+      const isMobile = this.keyword.match(
+        /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/
+      )
+      this.$emit('fetch:member-options', {
+        mobile: isMobile ? this.keyword : '',
+        customerName: !isMobile ? this.keyword : '',
         employeeId: this.settings.belong,
         isFaceId: this.settings.face,
         labelIds: this.settings.labels.join(','),
       })
-      this.$emit('fetch:member-list', memberList)
     },
   },
 }
@@ -50,7 +49,7 @@ export default {
         single-line
         light
         placeholder="搜索会员名、手机号、微信昵称、卡号"
-        @change="getMemberList"
+        @change="confirm"
       />
       <VBtn
         flat
