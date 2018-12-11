@@ -56,7 +56,7 @@ export default {
                 :class="{[$style.selected]:active}"
                 width="100%"
                 height="100%"
-                :src="face.picUrl"
+                :src="face.picUrl || ''"
                 @click="toggle"
               >
                 <VFlex

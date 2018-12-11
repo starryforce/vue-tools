@@ -362,8 +362,8 @@ export default {
                       d-flex
                     >
                       <VImg
-                        :src="item.picUrl"
-                        :lazy-src="item.picUrl"
+                        :src="item.picUrl || ''"
+                        :lazy-src="item.picUrl || ''"
                         aspect-ratio="1"
                         class="grey lighten-2"
                       >
@@ -483,8 +483,8 @@ export default {
             >
               <VListTileAvatar>
                 <VImg
-                  :src="activity.cover"
-                  :lazy-src="activity.cover"
+                  :src="activity.cover || ''"
+                  :lazy-src="activity.cover || ''"
                   aspect-ratio="2"
                 >
                   <VLayout

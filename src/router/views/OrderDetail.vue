@@ -158,7 +158,7 @@ export default {
         avatar
       >
         <VListTileAvatar>
-          <VImg :src="item.picUrl" />
+          <VImg :src="item.picUrl || ''" />
         </VListTileAvatar>
 
         <VListTileContent>

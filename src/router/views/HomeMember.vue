@@ -20,13 +20,39 @@ export default {
     return {
       dialog: false,
       memberList: [],
+      pageNo: 1,
+      pageSize: 20,
+      hasNext: true,
+      infiniteId: +new Date(),
+      memberOptions: {},
       inviteURL: 'http://192.168.1.126:8080',
     }
   },
   created() {},
   methods: {
-    fetchMemberList(newValue) {
-      this.memberList = newValue.customerList
+    fetchMemberOptions(newValue) {
+      this.memberOptions = newValue
+      this.pageNo = 1
+      this.memberList = []
+      this.infiniteId += 1
+    },
+    async infiniteHandler($state) {
+      let newData = (await this.$api.member.getMemberList(
+        Object.assign({}, this.memberOptions, {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize,
+        })
+      )).customerList
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.memberList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
     },
     // 选择会员时根据场景值进行跳转
     selectMember(member) {
@@ -62,7 +88,7 @@ export default {
 
 <template>
   <Layout>
-    <SelectorMember @fetch:member-list="fetchMemberList" />
+    <SelectorMember @fetch:member-options="fetchMemberOptions" />
     <VLayout :class="$style.brandable">
       <VFlex>
         <VDialog
@@ -195,6 +221,10 @@ export default {
           </VListTileAction>
         </VListTile>
       </template>
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+      />
     </VList>
   </Layout>
 </template>
