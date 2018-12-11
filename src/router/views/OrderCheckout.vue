@@ -18,16 +18,19 @@ export default {
     return {
       paymentList: [
         {
+          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+          title: '扫码支付',
+          id: 1,
+        },
+        {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: '微信支付',
+          title: '现金支付',
+          id: 2,
         },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: '现金支付',
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'POS 刷卡支付',
+          title: 'POS机刷卡',
+          id: 3,
         },
       ],
       orderInfo: {},
@@ -35,6 +38,38 @@ export default {
   },
   async created() {
     this.orderInfo = (await this.$api.order.getOrderDetail(this.orderID)).data
+  },
+  methods: {
+    pay(type) {
+      if (type > 1) {
+        const toast = this.$snotify.confirm(this.body, '确认您已收到钱款', {
+          buttons: [
+            {
+              text: '确认',
+              action: async () => {
+                try {
+                  var res = await this.$api.order.payOrder({
+                    orderID: this.orderID,
+                    payType: type,
+                  })
+                  if (res.data) {
+                    this.$snotify.success(this.body, '支付完成')
+                  } else {
+                    this.$snotify.warning(res.data, '支付遇到一些问题')
+                  }
+                } catch (error) {
+                  this.$snotify.warning(error.data.msg, '支付遇到一些问题')
+                }
+
+                this.$snotify.remove(toast.id)
+              },
+              bold: false,
+            },
+            { text: '我再想想', action: () => this.$snotify.remove(toast.id) },
+          ],
+        })
+      }
+    },
   },
 }
 </script>
@@ -63,7 +98,7 @@ export default {
         <VListTile
           :key="payment.title"
           avatar
-          @click=""
+          @click="pay(payment.id)"
         >
           <VListTileAvatar tile>
             <img :src="payment.avatar">

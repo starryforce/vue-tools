@@ -24,7 +24,10 @@ export const getRecharge = () => {
 export const createRecharge = ({ memberID, rechargeID }) => {
   return request({
     url: '/BOrders/BCreateRecharge',
-    data: { CustomerId: memberID, RechargeId: rechargeID },
+    data: {
+      CustomerId: memberID,
+      RechargeId: rechargeID,
+    },
   })
 }
 
@@ -35,7 +38,9 @@ export const createRecharge = ({ memberID, rechargeID }) => {
 export const createSuperVip = memberID => {
   return request({
     url: '/BOrders/BCreateSuperVip',
-    data: { Id: memberID },
+    data: {
+      Id: memberID,
+    },
   })
 }
 
@@ -178,7 +183,9 @@ export const createOrder = ({
 export const cancelOrder = orderID => {
   return request({
     url: '/BOrders/OrderCloseBySeller',
-    data: { Id: orderID },
+    data: {
+      Id: orderID,
+    },
   })
 }
 
@@ -212,7 +219,25 @@ export const cancelOrder = orderID => {
 export const getOrderDetail = orderID => {
   return request({
     url: '/BOrders/GetOrderDetailForB',
-    data: { Id: orderID },
+    data: {
+      Id: orderID,
+    },
+  })
+}
+
+/**
+ * @param {string} orderID - 订单 ID
+ * @param {string} payType - 支付类型 : 2 现金支付,3 POS机刷卡
+ *
+ */
+export const payOrder = ({ orderID, payType }) => {
+  return request({
+    url: '/BOrders/HandPaySuccess',
+    data: {
+      OrderId: orderID,
+      PayType: payType,
+      ErpPayType: payType + '',
+    },
   })
 }
 
@@ -225,4 +250,5 @@ export default {
   createOrder,
   cancelOrder,
   getOrderDetail,
+  payOrder,
 }
