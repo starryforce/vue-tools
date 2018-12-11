@@ -105,16 +105,16 @@ export const pointExchange = ({ activityID, memberID }) => {
 }
 
 export const getActivitySku = ({
-  keywords,
+  keyword,
   classID,
   activityID = '',
   pageNo = 1,
-  pageSize = 10,
+  pageSize = 20,
 } = {}) => {
   return request({
     url: '/CActivity/GetActivitySku',
     data: {
-      KeyWords: keywords,
+      KeyWords: keyword,
       ClassId: classID,
       ActivityId: activityID,
       Page: pageNo,

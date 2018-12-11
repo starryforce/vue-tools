@@ -171,12 +171,6 @@ export default {
           </VListTileContent>
           <VListTileAction>
             <VLayout>
-              <VIcon
-                :color="item.isFaceId?'primary':''"
-                large
-              >
-                account_box
-              </VIcon>
               <VBadge
                 right
                 overlap
@@ -191,6 +185,12 @@ export default {
                   label_important
                 </VIcon>
               </VBadge>
+              <VIcon
+                :color="item.isFaceId?'primary':''"
+                large
+              >
+                account_box
+              </VIcon>
             </VLayout>
           </VListTileAction>
         </VListTile>

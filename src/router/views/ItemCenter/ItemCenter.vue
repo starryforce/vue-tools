@@ -29,6 +29,8 @@ export default {
       keyword: '',
       pageNo: 1,
       pageSize: 20,
+      hasNext: true,
+      infiniteId: +new Date(),
     }
   },
   computed: {
@@ -45,43 +47,46 @@ export default {
     },
   },
   created() {
-    if (this.activityID) {
-      this.getActivityItemList()
-    } else {
-      this.getItemList()
-    }
     this.getItemClassList()
   },
   methods: {
     async getItemClassList() {
       this.itemClassData = (await this.$api.item.getItemClassList()).data
     },
-    async getActivityItemList({
-      activityID,
-      pageNo,
-      pageSize,
-      classID,
-      keywords,
-    } = {}) {
-      this.itemList = (await this.$api.activity.getActivitySku({
+    async infiniteHandler($state) {
+      let newData = (await this.$api.item.searchItem({
+        keyword: this.keyword,
         activityID: this.activityID,
-        pageNo: 1,
-        pageSize: 20,
-      })).data.map((item, index) =>
-        Object.assign(item, { isOversea: index % 2 })
-      )
-      this.dialog = false
-    },
-    async getItemList({ keyword = null, classID = null } = {}) {
-      this.itemList = (await this.$api.item.getItemList({
-        keyword: keyword,
-        classID: classID,
+        classID: this.classID,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
-      })).data.map((item, index) =>
-        Object.assign(item, { isOversea: index % 2 })
-      )
+      })).data
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.itemList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
+    },
+    changeKeyword() {
       this.dialog = false
+      this.selectedFirstClassCode = null
+      this.selectedSecondClassCode = null
+      this.selectedThirdClassCode = null
+      this.pageNo = 1
+      this.itemList = []
+      this.infiniteId += 1
+    },
+    changeClass() {
+      this.dialog = false
+      this.keyword = ''
+      this.pageNo = 1
+      this.itemList = []
+      this.infiniteId += 1
     },
     subClass(parentCode) {
       return this.itemClassData
@@ -123,7 +128,7 @@ export default {
         hide-details
         prepend-icon="search"
         single-line
-        @change="getItemList(keyword)"
+        @change="changeKeyword"
       />
       <VBtn
         :to="{name:'home-member',params:{scene:'cart'}}"
@@ -193,7 +198,7 @@ export default {
             <VBtn
               dark
               flat
-              @click="getItemList({classID})"
+              @click="changeClass"
             >
               确定
             </VBtn>
@@ -281,6 +286,10 @@ export default {
           :item="item"
         />
       </template>
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+      />
     </VList>
     <CartPanel />
   </Layout>

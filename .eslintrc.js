@@ -33,6 +33,7 @@ module.exports = {
           'router-view',
           'router-link',
           'vue-snotify',
+          'infinite-loading',
         ],
       },
     ],
