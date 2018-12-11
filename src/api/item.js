@@ -1,33 +1,34 @@
 import request from '@utils/request'
 
-export const searchSku = ({
-  keyWords,
-  classId,
-  activityId,
-  page = 1,
-  size = 10,
+export const searchItem = ({
+  keyword,
+  classID,
+  activityID,
+  pageNo = 1,
+  pageSize = 20,
 } = {}) => {
-  if (activityId)
+  if (activityID) {
     return request({
       url: '/CActivity/GetActivitySku',
       data: {
-        KeyWords: keyWords,
-        ClassId: classId,
-        ActivityId: activityId,
-        Page: page,
-        Size: size,
+        KeyWords: keyword,
+        ClassId: classID,
+        ActivityId: activityID,
+        Page: pageNo,
+        Size: pageSize,
       },
     })
-  else
+  } else {
     return request({
       url: '/GuideItem/ItemSearch',
       data: {
-        Keyword: keyWords,
-        ClassId: classId,
-        CurrentPage: page,
-        PageSize: size,
+        Keyword: keyword,
+        ClassId: classID,
+        CurrentPage: pageNo,
+        PageSize: pageSize,
       },
     })
+  }
 }
 
 /**
@@ -57,7 +58,7 @@ export const getItemClassList = () => {
 }
 
 export default {
-  searchSku,
+  searchItem,
   getItemList,
   getItemClassList,
 }
