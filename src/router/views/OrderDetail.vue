@@ -192,32 +192,44 @@ export default {
         </span>
       </li>
     </ul>
-    <VLayout v-if="orderDetail.orderStatus !=='订单关闭'">
+    <VLayout>
       <VSpacer />
       <VFlex
-        v-if="orderDetail.orderStatus ==='待支付'"
         xs4
       >
-        <VBtn @click="cancelOrder">
-          取消订单
+        <VBtn
+          :to="'/'"
+          replace
+        >
+          回首页
         </VBtn>
       </VFlex>
-      <VFlex
-        v-if="orderDetail.orderStatus ==='待支付'"
-        xs4
-      >
-        <VBtn :to="'/order/checkout/'+orderID">
-          去支付
-        </VBtn>
-      </VFlex>
-      <VFlex
-        v-if="orderDetail.orderStatus !=='待支付'"
-        xs4
-      >
-        <VBtn :to="'/order/createCreate/'+orderID">
-          申请退单
-        </VBtn>
-      </VFlex>
+      <template v-if="orderDetail.orderStatus !=='订单关闭'">
+        <VFlex
+          v-if="orderDetail.orderStatus ==='待支付'"
+          xs4
+        >
+          <VBtn @click="cancelOrder">
+            取消订单
+          </VBtn>
+        </VFlex>
+        <VFlex
+          v-if="orderDetail.orderStatus ==='待支付'"
+          xs4
+        >
+          <VBtn :to="'/order/checkout/'+orderID">
+            去支付
+          </VBtn>
+        </VFlex>
+        <VFlex
+          v-if="orderDetail.orderStatus !=='待支付'"
+          xs4
+        >
+          <VBtn :to="'/order/createCreate/'+orderID">
+            申请退单
+          </VBtn>
+        </VFlex>
+      </template>
     </VLayout>
   </Layout>
 </template>

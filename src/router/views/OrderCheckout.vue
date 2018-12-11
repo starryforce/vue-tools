@@ -54,7 +54,7 @@ export default {
                     payType: type,
                   })
                   if (res.data) {
-                    this.$snotify.success(this.body, '支付完成')
+                    this.success()
                   } else {
                     this.$snotify.warning(res.data, '支付遇到一些问题')
                   }
@@ -77,7 +77,7 @@ export default {
             orderNo: this.orderInfo.orderNo,
           })
           if (res.data) {
-            this.$snotify.success(this.body, '支付完成')
+            this.success()
           } else {
             this.$snotify.warning(res.data, '支付遇到一些问题')
           }
@@ -85,6 +85,10 @@ export default {
           this.$snotify.warning(error.data.msg, '支付遇到一些问题')
         }
       }
+    },
+    success() {
+      this.$snotify.success(this.body, '支付完成')
+      this.$router.replace('/order/detail/' + this.orderID)
     },
   },
 }
