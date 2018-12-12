@@ -1,14 +1,14 @@
 <script>
 import appConfig from '@src/app.config'
 import Layout from '@layouts/MainLayout'
-import ItemCard from './ItemCenter/components/ReturnItemCard'
+import ImageUpload from '@components/ImageUpload'
 
 export default {
   metaInfo: {
     title: '创建退货',
     meta: [{ name: 'description', content: appConfig.description }],
   },
-  components: { Layout, ItemCard },
+  components: { Layout, ImageUpload },
   props: {
     orderID: {
       type: String,
@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       orderDetail: {},
+      count: 1,
     }
   },
   computed: {
@@ -25,28 +26,46 @@ export default {
       return this.$store.state.itemStorage.baskets
     },
   },
-  async created() {
-    this.orderDetail = (await this.$api.order.getOrderDetail(this.orderID)).data
+  methods: {
+    change(file) {
+      // debugger
+      this.count++
+    },
   },
 }
 </script>
 
 <template>
   <Layout>
-    <p>请选择要退货的商品:</p>
-    <VList three-line>
-      <ItemCard
-        v-for="item in orderDetail.skuList"
-        :key="item.id"
-        :item="item"
-      />
-    </VList>
+    <VTextarea
+      name="input-7-1"
+      label="请输入退货原因："
+      value=""
+      hint="请确保不影响二次销售且不是跨境购商品"
+    />
+    <form>
+      <VLayout
+        row
+        wrap
+      >
+        <VFlex
+          v-for="n in count"
+          :key="n"
+          xs4
+          d-flex
+        >
+          <ImageUpload @change="change" />
+        </VFlex>
+      </VLayout>
+    </form>
+
+
     <div :class="$style.bottom">
       <VBtn
         color="info"
-        to="/order/returnSubmit"
+        to="/order/return/detail"
       >
-        确认选择
+        确认退货
       </VBtn>
     </div>
   </Layout>

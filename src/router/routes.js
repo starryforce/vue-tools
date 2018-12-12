@@ -148,11 +148,18 @@ export default [
     component: () => import('@views/OrderCheckout'),
   },
   {
-    path: '/order/createCreate/:orderID?',
+    path: '/order/returnCreate/:orderID?',
     name: 'order-return-create',
     meta: {},
     props: true,
     component: () => import('@views/OrderReturnCreate'),
+  },
+  {
+    path: '/order/returnSubmit',
+    name: 'order-return-submit',
+    meta: {},
+    props: true,
+    component: () => import('@views/OrderReturnSubmit'),
   },
   {
     path: '/order/return/confirm',
