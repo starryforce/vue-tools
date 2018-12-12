@@ -6,34 +6,23 @@ export default {
     title: '销售统计',
     meta: [{ name: 'description', content: 'HomeMy' }],
   },
+  name: 'HomeMy',
   components: { Layout },
   data() {
     return {
-      detail: {
-        employeeId: '00050037',
-        employeeName: '陶阳春',
-        storeId: '000508010103',
-        storeName: '江苏南京雨花区紫荆广场店',
-        role: ['店主', '店长'],
-        lastAssignAmount: 8866,
-        totalAssignAmount: 8866,
-        kpiDetail: {
-          month: 11,
-          currentSalesAmount: 0,
-          salesAmount: 36001,
-          currentCustomerCount: 0,
-          customerCount: 120,
-          currentRepurchaseCount: 0,
-          repurchaseCount: 0,
-          currentActivationCount: 0,
-          activationCount: 0,
-        },
+      employeeDetail: {
+        kpiDetail: {},
+        role: [],
       },
     }
   },
-  async created() {
-    let res = await this.$api.employee.getGuideEmployeeDetail()
-    this.detail = Object.assign({}, res.data)
+  created() {
+    this.getEmployeeDetail()
+  },
+  methods: {
+    async getEmployeeDetail() {
+      this.employeeDetail = (await this.$api.employee.getGuideEmployeeDetail()).data
+    },
   },
 }
 </script>
@@ -53,11 +42,12 @@ export default {
 
         <VListTileContent>
           <VListTileTitle>{{ detail.employeeName }}</VListTileTitle>
-          <VListTileSubTitle>{{ detail.storeName }} {{ detail.role.join(' ') }}</VListTileSubTitle>
+          <VListTileSubTitle>{{ detail.storeName }} {{ detail.role? detail.role.join(' '):'' }}</VListTileSubTitle>
         </VListTileContent>
       </VListTile>
     </VList>
     <VContainer
+      v-if="detail.kpiDetail"
       :class="$style.datas"
       @click="$router.push('/my/statistics')"
     >
