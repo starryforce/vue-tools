@@ -46,7 +46,7 @@ export default {
         const toast = this.$snotify.confirm(this.body, '确认您已收到钱款', {
           buttons: [
             {
-              text: '确认',
+              text: '收到了',
               action: async () => {
                 try {
                   var res = await this.$api.order.payOrder({
@@ -66,7 +66,7 @@ export default {
               },
               bold: false,
             },
-            { text: '我再想想', action: () => this.$snotify.remove(toast.id) },
+            { text: '没收到', action: () => this.$snotify.remove(toast.id) },
           ],
         })
       } else if (type === 1) {
@@ -76,8 +76,11 @@ export default {
             authCode: this.code,
             orderNo: this.orderInfo.orderNo,
           })
-          if (res.data) {
+          if (res.data === 'ok') {
             this.success()
+          } else if (res.data === '等待') {
+            this.$snotify.warning('等待用户操作，请确认用户付款', res.data)
+            // websocket
           } else {
             this.$snotify.warning(res.data, '支付遇到一些问题')
           }
