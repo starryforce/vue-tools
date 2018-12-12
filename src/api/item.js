@@ -57,8 +57,19 @@ export const getItemClassList = () => {
   })
 }
 
+export const getItems = () => {
+  return request({
+    url: '/GuideItem/MyStoreItemSearch',
+    data: {
+      CurrentPage: 1,
+      PageSize: 2000,
+    },
+  })
+}
+
 export default {
   searchItem,
   getItemList,
   getItemClassList,
+  getItems,
 }

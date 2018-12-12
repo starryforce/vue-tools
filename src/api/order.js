@@ -241,6 +241,22 @@ export const payOrder = ({ orderID, payType }) => {
   })
 }
 
+/**
+ * @param {string} orderID - 订单 ID
+ * @param {string} payType - 支付类型 : 2 现金支付,3 POS机刷卡
+ *
+ */
+export const payOrderbyCode = ({ orderID, authCode, orderNo }) => {
+  return request({
+    url: '/BOrders/BOrderPay',
+    data: {
+      OrderId: orderID,
+      AuthCode: authCode,
+      OrderNo: orderNo,
+    },
+  })
+}
+
 export default {
   getRecharge,
   createRecharge,
@@ -251,4 +267,5 @@ export default {
   cancelOrder,
   getOrderDetail,
   payOrder,
+  payOrderbyCode,
 }

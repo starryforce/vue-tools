@@ -58,18 +58,46 @@ export default {
       const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
 
       ws.onopen = function(event) {
-        console.log('Connection open ...')
+        // console.log('Connection open ...')
         ws.send('Hello WebSockets!')
       }
 
       ws.onmessage = function(event) {
-        console.log('Received Message: ' + event.data)
+        // console.log('Received Message: ' + event.data)
         ws.close()
       }
 
       ws.onclose = function(event) {
-        console.log('Connection closed.')
+        // console.log('Connection closed.')
       }
+    },
+    async scan() {
+      var list = (await this.$api.item.getItems()).data
+      await this.scanSearch(list)
+    },
+    async scanSearch(list) {
+      let code = '662562623525'
+      var res = list.filter(item => item.itemBarcode === code)
+      res = res & res[0]
+      if (!res) {
+        res = (await this.$api.item.getItems({
+          keyword: code,
+          pageNo: 1,
+          pageSize: 1,
+        })).data
+        res = res & res[0]
+      }
+      if (res) {
+        this.$snotify.success('', '已添加')
+      } else {
+        this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
+      }
+
+      let isBreak = false
+      if (isBreak)
+        setTimeout(async () => {
+          await this.scanSearch(list)
+        }, 200)
     },
   },
 }
@@ -113,7 +141,7 @@ export default {
           <VFlex xs3>
             <VBtn
               flat
-              to="/work/shopcart"
+              @click="scan"
             >
               <VIcon dark>
                 cloud_queue

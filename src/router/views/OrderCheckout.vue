@@ -16,6 +16,7 @@ export default {
   },
   data() {
     return {
+      code: '12',
       paymentList: [
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
@@ -40,7 +41,7 @@ export default {
     this.orderInfo = (await this.$api.order.getOrderDetail(this.orderID)).data
   },
   methods: {
-    pay(type) {
+    async pay(type) {
       if (type > 1) {
         const toast = this.$snotify.confirm(this.body, '确认您已收到钱款', {
           buttons: [
@@ -53,7 +54,7 @@ export default {
                     payType: type,
                   })
                   if (res.data) {
-                    this.$snotify.success(this.body, '支付完成')
+                    this.success()
                   } else {
                     this.$snotify.warning(res.data, '支付遇到一些问题')
                   }
@@ -68,7 +69,26 @@ export default {
             { text: '我再想想', action: () => this.$snotify.remove(toast.id) },
           ],
         })
+      } else if (type === 1) {
+        try {
+          var res = await this.$api.order.payOrderbyCode({
+            orderID: this.orderID,
+            authCode: this.code,
+            orderNo: this.orderInfo.orderNo,
+          })
+          if (res.data) {
+            this.success()
+          } else {
+            this.$snotify.warning(res.data, '支付遇到一些问题')
+          }
+        } catch (error) {
+          this.$snotify.warning(error.data.msg, '支付遇到一些问题')
+        }
       }
+    },
+    success() {
+      this.$snotify.success(this.body, '支付完成')
+      this.$router.replace('/order/detail/' + this.orderID)
     },
   },
 }
@@ -89,6 +109,12 @@ export default {
         </VBtn>
       </VToolbarItems>
     </VToolbar>
+    <br><br><br>
+    <input
+      v-model="code"
+      type="text"
+      style="margin:5px;border:2px solid;width:90%"
+    >
     <VList>
       <template v-for="(payment, index) in paymentList">
         <VDivider
