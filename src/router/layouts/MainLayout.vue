@@ -17,5 +17,6 @@ export default {
   height: 100vh;
   padding-bottom: 56px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>

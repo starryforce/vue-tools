@@ -16,5 +16,6 @@ export default {
 .container {
   height: 100vh;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>
