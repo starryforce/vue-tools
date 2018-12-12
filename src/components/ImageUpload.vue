@@ -33,44 +33,47 @@ export default {
     tile
     class="d-flex"
   >
-    <label
-      :for="id"
-      style="display:flex;justify-content:center"
+    <VImg
+      v-if="url"
+      :src="url"
+      :lazy-src="url"
+      aspect-ratio="1"
+      class="grey lighten-2"
     >
-      <VImg
-        v-if="url"
-        :src="url"
-        :lazy-src="url"
-        aspect-ratio="1"
-        class="grey lighten-2"
+      <VLayout
+        slot="placeholder"
+        fill-height
+        align-center
+        justify-center
+        ma-0
       >
-        <VLayout
-          slot="placeholder"
-          fill-height
-          align-center
-          justify-center
-          ma-0
+        <VProgressCircular
+          indeterminate
+          color="grey lighten-5"
+        />
+      </VLayout>
+    </VImg>
+    <template
+      v-else
+    >
+      <label
+        :for="id"
+        style="display:flex;justify-content:center"
+      >
+        <VIcon
+          large
         >
-          <VProgressCircular
-            indeterminate
-            color="grey lighten-5"
-          />
-        </VLayout>
-      </VImg>
-      <VIcon
-        v-else
-        large
+          add
+        </VIcon>
+      </label>
+      <input
+        :id="id"
+        ref="file"
+        type="file"
+        accept="image/*"
+        style="display:none"
+        @change="getUrl"
       >
-        add
-      </VIcon>
-    </label>
-    <input
-      :id="id"
-      ref="file"
-      type="file"
-      accept="image/*"
-      style="display:none"
-      @change="getUrl"
-    >
+    </template>
   </VCard>
 </template>

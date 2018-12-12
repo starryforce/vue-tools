@@ -82,7 +82,10 @@ export default [
         const storeId = getQueryString('storeId')
         const token = getQueryString('token')
         if (token) {
-          store.dispatch('auth/setAuth', { storeId, token })
+          store.dispatch('auth/setAuth', {
+            storeId,
+            token,
+          })
         }
         next()
       },
@@ -172,13 +175,6 @@ export default [
     meta: {},
     props: true,
     component: () => import('@views/OrderReturnCreate'),
-  },
-  {
-    path: '/order/returnSubmit',
-    name: 'order-return-submit',
-    meta: {},
-    props: true,
-    component: () => import('@views/OrderReturnSubmit'),
   },
   {
     path: '/order/return/confirm',

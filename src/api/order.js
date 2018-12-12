@@ -257,6 +257,22 @@ export const payOrderbyCode = ({ orderID, authCode, orderNo }) => {
   })
 }
 
+export const CreateReturnOrder = ({
+  orderID,
+  items,
+  returnReason = '',
+} = {}) => {
+  return request({
+    url: '/GuideReturnOrder/BAddOrEditReturnOrder',
+    data: {
+      Tid: orderID,
+      ReturnType: 0,
+      ReturnSkuIds: items.map(it => it.skuId + ':' + it.number).join(','),
+      ReturnReason: returnReason,
+    },
+  })
+}
+
 export default {
   getRecharge,
   createRecharge,
@@ -268,4 +284,5 @@ export default {
   getOrderDetail,
   payOrder,
   payOrderbyCode,
+  CreateReturnOrder,
 }
