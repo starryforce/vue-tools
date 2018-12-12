@@ -88,7 +88,6 @@ export default {
     },
     success() {
       this.$snotify.success(this.body, '支付完成')
-      this.$store.dispatch('itemStorage/clearCart')
       this.$router.replace('/order/detail/' + this.orderID)
     },
   },

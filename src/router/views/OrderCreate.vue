@@ -109,6 +109,8 @@ export default {
           couponIDs: this.selectedCouponList,
           totalAmount: this.preOrderInfo.totalAmount,
         })).data
+
+        this.$store.dispatch('itemStorage/clearCart')
         this.$router.push({ name: 'order-checkout', params: { orderID } })
       } catch (error) {
         this.$snotify.warning(error.message)
