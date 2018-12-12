@@ -10,7 +10,7 @@ export default {
   components: { Layout },
   data() {
     return {
-      employeeDetail: {
+      detail: {
         kpiDetail: {},
         role: [],
       },
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     async getEmployeeDetail() {
-      this.employeeDetail = (await this.$api.employee.getGuideEmployeeDetail()).data
+      this.detail = (await this.$api.employee.getGuideEmployeeDetail()).data
     },
   },
 }
@@ -85,7 +85,7 @@ export default {
         </VListTileAction>
       </VListTile>
       <VDivider />
-      <VListTile>
+      <VListTile :to="{name:'limit-manage'}">
         <VListTileContent>
           <VListTileTitle>额度管理</VListTileTitle>
         </VListTileContent>

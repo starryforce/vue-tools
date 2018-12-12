@@ -76,6 +76,11 @@ export default [
     component: () => lazyLoadView(import('@views/HomeWorkbench')),
   },
   {
+    path: '/limit/manage',
+    name: 'limit-manage',
+    component: () => lazyLoadView(import('@views/LimitManage/LimitManage')),
+  },
+  {
     path: '/home/order',
     meta: {
       showMainNav: true,
