@@ -16,45 +16,30 @@
         {{ tab.label }}
       </VTab>
     </VTabs>
-    <VContainer>
-      <VCard
-        v-for="point of pointList"
-        :key="point.id"
+    <VList two-line>
+      <template
+        v-for="(point,index) of pointList"
       >
-        <VImg
-          src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-          aspect-ratio="2.75"
+        <VDivider
+          v-if="index"
+          :key="index"
         />
-
-        <VCardTitle primary-title>
-          <div>
-            <h3 class="headline mb-0">
-              Kangaroo Valley Safari
-            </h3>
-            <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
-          </div>
-        </VCardTitle>
-
-        <VCardActions>
-          <VBtn
-            flat
-            color="orange"
-          >
-            Share
-          </VBtn>
-          <VBtn
-            flat
-            color="orange"
-          >
-            Explore
-          </VBtn>
-        </VCardActions>
-      </VCard>
+        <VListTile :key="point.id">
+          <VListTileContent>
+            <VListTileTitle>关联订单:{{ point.relationTid }}</VListTileTitle>
+            <VListTileSubTitle>{{ point.changeType?'消耗':'充值' }}</VListTileSubTitle>
+          </VListTileContent>
+          <VListTileAction>
+            <VListTileTitle>{{ point.changeCount }}</VListTileTitle>
+            <VListTileSubTitle>{{ point.changeTime }}</VListTileSubTitle>
+          </VListTileAction>
+        </VListTile>
+      </template>
       <infinite-loading
         :identifier="infiniteId"
         @infinite="infiniteHandler"
       />
-    </VContainer>
+    </VList>
   </div>
 </template>
 
