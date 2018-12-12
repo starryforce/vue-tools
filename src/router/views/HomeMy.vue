@@ -31,6 +31,7 @@ export default {
   <Layout>
     <VList
       two-line
+      dark
       :class="$style.nameBoard"
     >
       <VListTile
@@ -42,7 +43,10 @@ export default {
 
         <VListTileContent>
           <VListTileTitle>{{ detail.employeeName }}</VListTileTitle>
-          <VListTileSubTitle>{{ detail.storeName }} {{ detail.role? detail.role.join(' '):'' }}</VListTileSubTitle>
+          <VListTileSubTitle>
+            {{ detail.storeName }}
+            {{ detail.role? detail.role.join(' '):'' }}
+          </VListTileSubTitle>
         </VListTileContent>
       </VListTile>
     </VList>
@@ -51,7 +55,9 @@ export default {
       :class="$style.datas"
       @click="$router.push('/my/statistics')"
     >
-      <VSubheader>{{ detail.kpiDetail.month }}月业绩：</VSubheader>
+      <VSubheader dark>
+        {{ detail.kpiDetail.month }}月业绩：
+      </VSubheader>
       <VLayout>
         <VFlex xs4>
           {{ parseInt(detail.kpiDetail.currentSalesAmount / detail.kpiDetail.salesAmount *1000)/10 }}%
@@ -121,10 +127,11 @@ export default {
 .datas {
   color: #fff;
   text-align: center;
-  background-color: $color-brand-light;
+  background-color: #57c5c2;
 }
 .nameBoard {
   padding: 0;
-  background-color: $color-brand-light !important;
+  color: #fff;
+  background-color: #57c5c2 !important;
 }
 </style>
