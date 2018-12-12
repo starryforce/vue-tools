@@ -11,8 +11,23 @@ export default {
   components: { Layout, SelectorOrder },
   data() {
     return {
-      orderList: [],
+      orderList: {},
     }
+  },
+  computed: {
+    sum() {
+      var sumy = 0
+      if (!this.orderList.orders) return 0
+      for (const key in this.orderList) {
+        if (this.orderList.hasOwnProperty(key)) {
+          const element = this.orderList[key]
+          if (key !== 'orders') {
+            sumy += element
+          }
+        }
+      }
+      return sumy
+    },
   },
   created() {
     this.getOrderList()
@@ -29,6 +44,7 @@ export default {
   <Layout>
     <VContainer>
       <VCard
+        v-if="orderList"
         dark
         color="primary"
       >
@@ -38,13 +54,18 @@ export default {
             justify-space-between
             align-center
           >
-            <span>1200.09</span>
+            <span>{{ sum }}</span>
             <SelectorOrder />
           </VLayout>
           <VLayout column>
-            <VFlex>现金：198.09元</VFlex>
-            <VFlex>微信：198.09元</VFlex>
-            <VFlex>支付宝：198.09元</VFlex>
+            <VFlex
+              v-for="(value,key) in orderList"
+              :key="key"
+            >
+              <div v-if="key !='orders'">
+                {{ key }}：{{ value }}元
+              </div>
+            </VFlex>
           </VLayout>
         </VCardText>
       </VCard>
@@ -54,7 +75,7 @@ export default {
       subheader
     >
       <VSubheader>08.09</VSubheader>
-      <template v-for="(order, index) in orderList">
+      <template v-for="(order, index) in orderList.orders">
         <VDivider
           v-if="index"
           :key="'divider'+index"
