@@ -72,6 +72,20 @@ export default [
     name: 'home-workbench',
     meta: {
       showMainNav: true,
+      beforeResolve(routeTo, routeFrom, next) {
+        function getQueryString(name) {
+          var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+          var r = window.location.search.substr(1).match(reg)
+          if (r != null) return unescape(r[2])
+          return null
+        }
+        const storeId = getQueryString('storeId')
+        const token = getQueryString('token')
+        if (token) {
+          store.dispatch('auth/setAuth', { storeId, token })
+        }
+        next()
+      },
     },
     component: () => lazyLoadView(import('@views/HomeWorkbench')),
   },
