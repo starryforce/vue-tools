@@ -419,7 +419,7 @@ export default {
           <VSubheader>
             抵用资产
           </VSubheader>
-          <VListTile>
+          <VListTile :to="{name:'member-point',params:{memberID:id}}">
             <VListTileContent>
               <VListTileTitle>购物积分</VListTileTitle>
             </VListTileContent>
@@ -428,7 +428,7 @@ export default {
             </VListTileAction>
           </VListTile>
           <VDivider />
-          <VListTile>
+          <VListTile :to="{name:'member-balance',params:{memberID:id}}">
             <VListTileContent>
               <VListTileTitle>余额</VListTileTitle>
             </VListTileContent>
@@ -440,7 +440,7 @@ export default {
           <VSubheader>
             优惠券
           </VSubheader>
-          <VListTile>
+          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
             <VListTileContent>
               <VListTileTitle>可使用</VListTileTitle>
             </VListTileContent>
@@ -449,7 +449,7 @@ export default {
             </VListTileAction>
           </VListTile>
           <VDivider />
-          <VListTile>
+          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
             <VListTileContent>
               <VListTileTitle>已使用</VListTileTitle>
             </VListTileContent>
@@ -458,7 +458,7 @@ export default {
             </VListTileAction>
           </VListTile>
           <VDivider />
-          <VListTile>
+          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
             <VListTileContent>
               <VListTileTitle>已过期</VListTileTitle>
             </VListTileContent>

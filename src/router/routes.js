@@ -76,6 +76,11 @@ export default [
     component: () => lazyLoadView(import('@views/HomeWorkbench')),
   },
   {
+    path: '/limit/manage',
+    name: 'limit-manage',
+    component: () => lazyLoadView(import('@views/LimitManage/LimitManage')),
+  },
+  {
     path: '/home/order',
     meta: {
       showMainNav: true,
@@ -286,7 +291,32 @@ export default [
     name: 'member-information',
     props: true,
     meta: {},
-    component: () => lazyLoadView(import('@views/MemberInformation')),
+    component: () =>
+      lazyLoadView(import('@views/MemberInformation/MemberInformation')),
+  },
+  {
+    path: '/member/coupon/:memberID',
+    name: 'member-coupon',
+    props: true,
+    meta: {},
+    component: () =>
+      lazyLoadView(import('@views/MemberInformation/MemberCoupon')),
+  },
+  {
+    path: '/member/point/:memberID',
+    name: 'member-point',
+    props: true,
+    meta: {},
+    component: () =>
+      lazyLoadView(import('@views/MemberInformation/MemberPoint')),
+  },
+  {
+    path: '/member/balance/:memberID',
+    name: 'member-balance',
+    props: true,
+    meta: {},
+    component: () =>
+      lazyLoadView(import('@views/MemberInformation/MemberBalance')),
   },
   {
     path: '/login',

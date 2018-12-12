@@ -141,54 +141,107 @@ export const getAssets = id => {
   })
 }
 
+/**
+ *
+ * @param {string} [request.memberID] - 会员id（导购端要，c端不用填）
+ * @param {number} request.pageNo - 页码
+ * @param {number} request.pageSize - 一页几个
+ * @param {number} request.status - 优惠券类型0未使用1已经使用2已过期
+ * @param {bool} request.isPostCoupon - 是否邮费券
+ *
+ * @returns {string} discountExplain - 使用条件
+ * @returns {string} couponId - 优惠券id
+ * @returns {number} discountNum - 面额
+ * @returns {string} name - 优惠券名字
+ * @returns {string} availableTime - 有效期
+ * @returns {string} discountType - 面额类型0打折1减价
+ * @returns {string} id - 领取优惠券记录id
+ */
 export const getCouponList = ({
-  id,
-  couponType, // 优惠券类型0未使用1已经使用2已过期
-  isSend, // 是否邮费券
-  page,
-  size,
+  memberID,
+  status,
+  isPostCoupon,
+  pageNo,
+  pageSize,
 }) => {
   return request({
     url: '/CCoupon/CGetCouponList',
     data: {
-      customerId: id,
-      Page: page,
-      PageSize: size,
-      CouponType: couponType,
-      IsSend: isSend,
-    },
-  })
-}
-export const getIntegralList = ({
-  id,
-  changeType, //	变更类型 0：消费赠送 1：活动赠送 2：消费扣除 3：手动修改
-  page,
-  size,
-}) => {
-  return request({
-    url: '/tocustomer/integrallist',
-    data: {
-      customerId: id,
-      Page: page,
-      PageSize: size,
-      changeType: changeType,
+      AccountId: memberID,
+      Page: pageNo,
+      PageSize: pageSize,
+      CouponType: Number(status),
+      IsSend: isPostCoupon,
     },
   })
 }
 
-export const getRechargeList = ({
-  id,
+/**
+ *
+ * @param {object} request - 请求体
+ * @param {number} request.pageNo - 当前页码 例子：1
+ * @param {number} request.pageSize - 每页显示数目 例子：10
+ * @param {string} request.memberID - 会员ID
+ * @param {string} [request.changeType] - 变更类型 0：消费赠送 1：活动赠送 2：消费扣除 3：手动修改
+ *
+ * @typedef {Object} IntegralObject
+ * @property {number} changeType - 变更类型 0：消费赠送 1：老带新，老会员赠送 2：新会员注册赠送 3：充值赠送 4:分享赠送 5:活动赠送 6:消费扣除 7:手动修改
+ * @property {string} relationTid - 消费关联的订单号
+ * @property {datetime} changeTime - 变更时间
+ * @property {number} changeCount - 变更数量
+ * @property {string} customerId - 会员ID
+ * @property {string} memo - 备注
+ *
+ * @returns {number} totalCount - 总记录数
+ * @returns {IntegralObject[]} integralList - 积分对象集合
+ */
+export const getPointList = ({ pageNo, pageSize, memberID, changeType }) => {
+  return request({
+    url: '/tocustomer/integrallist',
+    data: {
+      currentPage: pageNo,
+      pageSize: pageSize,
+      customerId: memberID,
+      changeType: Number(changeType),
+    },
+  })
+}
+
+/**
+ *
+ * @param {object} request - 请求体
+ * @param {number} request.pageNo - 当前页码 例子：1
+ * @param {number} request.pageSize - 每页显示数目 例子：10
+ * @param {string} request.memberID - 会员ID
+ * @param {string} [request.changeType] - 变更类型 0：充值 1：消耗 空表示查询所有
+ *
+ * @typedef {object} RechargeRecordObject
+ * @property {number} changeType - 变更类型 0：充值 1：消耗
+ * @property {number} payAmount - 支付金额
+ * @property {number} changeAmount - 变更金额
+ * @property {datetime} changeTime - 变更时间
+ * @property {string} relationTid - 消费关联的订单号
+ * @property {string} customerId - 会员ID
+ * @property {number} giftAmount - 赠送金额
+ * @property {number} balance - 余额
+ *
+ * @returns {number} totalCount - 记录总数
+ * @returns {RechargeRecordObject[]} recordList - 记录集合对象
+ */
+export const getBalanceList = ({
+  pageNo,
+  pageSize,
+  memberID,
   changeType, // 变更类型 0：充值 1：消耗 空表示查询所有
-  page,
-  size,
 }) => {
+  const realType = changeType === '2' ? '' : changeType
   return request({
     url: '/tocustomer/rechargerecordlist',
     data: {
-      customerId: id,
-      Page: page,
-      PageSize: size,
-      changeType: changeType,
+      currentPage: pageNo,
+      pageSize: pageSize,
+      customerId: memberID,
+      changeType: realType,
     },
   })
 }
@@ -199,6 +252,6 @@ export default {
   getConsume,
   getAssets,
   getCouponList,
-  getIntegralList,
-  getRechargeList,
+  getPointList,
+  getBalanceList,
 }
