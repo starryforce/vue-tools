@@ -133,6 +133,9 @@ export default {
         </VSubheader>
       </template>
     </VList>
+    <p v-else>
+      暂无挂单
+    </p>
   </Layout>
 </template>
 
