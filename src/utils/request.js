@@ -20,7 +20,12 @@ let _requests = []
 const requestUtil = axios.create(config)
 
 const authInfo = store.state.auth
-const authorization = new Authorization(authInfo)
+let authorization
+if (authInfo.token) {
+  authorization = new Authorization(authInfo)
+} else {
+  authorization = new Authorization()
+}
 
 // request 拦截器
 requestUtil.interceptors.request.use(
