@@ -10,7 +10,7 @@ const store = new Vuex.Store({
   modules,
   plugins: [
     new VuexPersistence({
-      modules: ['setting', 'itemStorage'],
+      modules: ['setting', 'itemStorage', 'auth'],
     }).plugin,
   ],
   // Enable strict mode in development to get a warning

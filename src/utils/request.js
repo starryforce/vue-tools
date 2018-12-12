@@ -19,7 +19,8 @@ let _requests = []
 
 const requestUtil = axios.create(config)
 
-const authorization = new Authorization()
+const authInfo = store.state.auth
+const authorization = new Authorization(authInfo)
 
 // request 拦截器
 requestUtil.interceptors.request.use(
