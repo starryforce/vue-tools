@@ -10,7 +10,7 @@ export default {
   components: { Layout },
   data() {
     return {
-      showPanel: null,
+      showPanel: 0,
       items: [
         {
           action: '15 min',
@@ -113,16 +113,22 @@ export default {
               flat
               to="/item/center"
             >
-              <VIcon dark>
-                cloud_queue
+              <VIcon
+                dark
+                color="#99E3F9"
+              >
+                search
               </VIcon>
               <span>查看商品</span>
             </VBtn>
           </VFlex>
           <VFlex xs3>
             <VBtn flat>
-              <VIcon dark>
-                cloud_queue
+              <VIcon
+                dark
+                color="#CDBCF0"
+              >
+                person_add
               </VIcon>
               <span>邀请会员</span>
             </VBtn>
@@ -132,8 +138,11 @@ export default {
               flat
               :to="{name:'home-member',params:{scene:'credit'}}"
             >
-              <VIcon dark>
-                cloud_queue
+              <VIcon
+                dark
+                color="#FFE393"
+              >
+                monetization_on
               </VIcon>
               <span>会员充值</span>
             </VBtn>
@@ -143,8 +152,11 @@ export default {
               flat
               @click="scan"
             >
-              <VIcon dark>
-                cloud_queue
+              <VIcon
+                dark
+                color="#FF7C7C"
+              >
+                indeterminate_check_box
               </VIcon>
               <span>扫码开单</span>
             </VBtn>
@@ -158,24 +170,33 @@ export default {
             <VLayout :class="$style.buttonGroup">
               <VFlex xs3>
                 <VBtn flat>
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#FFC184"
+                  >
+                    child_friendly
                   </VIcon>
                   <span>购物车</span>
                 </VBtn>
               </VFlex>
               <VFlex xs3>
                 <VBtn flat>
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#F1ACC3"
+                  >
+                    redeem
                   </VIcon>
                   <span>发起退货</span>
                 </VBtn>
               </VFlex>
               <VFlex xs3>
                 <VBtn flat>
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#FB8D75"
+                  >
+                    center_focus_weak
                   </VIcon>
                   <span>核销</span>
                 </VBtn>
@@ -185,8 +206,11 @@ export default {
                   flat
                   :to="{name:'home-member',params:{scene:'vip'}}"
                 >
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#B28EFE"
+                  >
+                    people_outline
                   </VIcon>
                   <span>付费会员</span>
                 </VBtn>
@@ -195,16 +219,22 @@ export default {
             <VLayout :class="$style.buttonGroup">
               <VFlex xs3>
                 <VBtn flat>
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#54C2BF"
+                  >
+                    view_headline
                   </VIcon>
                   <span>提货列表</span>
                 </VBtn>
               </VFlex>
               <VFlex xs3>
                 <VBtn flat>
-                  <VIcon dark>
-                    cloud_queue
+                  <VIcon
+                    dark
+                    color="#78B6F6"
+                  >
+                    settings
                   </VIcon>
                   <span>打印设置</span>
                 </VBtn>

@@ -23,7 +23,9 @@ export default {
       replace
     >
       <span>会员</span>
-      <VIcon>people</VIcon>
+      <VIcon color="#C4D4E8">
+        child_care
+      </VIcon>
     </VBtn>
 
     <VBtn
@@ -34,7 +36,9 @@ export default {
       replace
     >
       <span>活动</span>
-      <VIcon>event</VIcon>
+      <VIcon color="#C4D4E8">
+        local_offer
+      </VIcon>
     </VBtn>
 
     <VBtn
@@ -45,7 +49,9 @@ export default {
       replace
     >
       <span>工作台</span>
-      <VIcon>grid_on</VIcon>
+      <VIcon color="#54C2BF">
+        apps
+      </VIcon>
     </VBtn>
 
     <VBtn
@@ -56,7 +62,9 @@ export default {
       replace
     >
       <span>订单</span>
-      <VIcon>assignment</VIcon>
+      <VIcon color="#C4D4E8">
+        local_play
+      </VIcon>
     </VBtn>
 
     <VBtn
@@ -67,7 +75,9 @@ export default {
       replace
     >
       <span>我的</span>
-      <VIcon>person</VIcon>
+      <VIcon color="#C4D4E8">
+        person
+      </VIcon>
     </VBtn>
   </VBottomNav>
 </template>
