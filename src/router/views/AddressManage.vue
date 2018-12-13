@@ -67,7 +67,10 @@ export default {
                 <VFlex xs5>
                   {{ address.phone }}
                 </VFlex>
-                <VFlex xs3>
+                <VFlex
+                  v-if="address.addressLable"
+                  xs3
+                >
                   <VChip
                     small
                     label

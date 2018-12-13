@@ -360,11 +360,15 @@ export default {
                   fluid
                   grid-list-sm
                 >
-                  <VLayout v-if="order">
+                  <VLayout
+                    v-if="order"
+                    :class="$style.imageContainer"
+                  >
                     <VFlex
                       v-for="item in order.orderDetail.length>5?order.orderDetail.slice(0,4):order.orderDetail"
                       :key="item.id"
                       d-flex
+                      :class="$style.imageContainer"
                     >
                       <VImg
                         :src="item.picUrl || ''"
@@ -582,5 +586,8 @@ export default {
 }
 .isEditing {
   color: $color-brand-light;
+}
+.imageContainer {
+  height: 70px;
 }
 </style>
