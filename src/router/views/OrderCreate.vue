@@ -1,5 +1,6 @@
 <script>
 import Layout from '@layouts/SubLayout'
+import $lodash from 'lodash'
 
 export default {
   metaInfo: {
@@ -19,6 +20,15 @@ export default {
       bargainDialog: false,
       selectedCouponList: [],
       remark: '',
+      realName: '',
+      idCard: '',
+      rules: {
+        realName: value => value.length > 1 || '姓名不合法',
+        idCard: v =>
+          /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(v) ||
+          '身份证号不合法',
+      },
+      showRealNameCard: true,
     }
   },
   computed: {
@@ -27,6 +37,9 @@ export default {
     },
     items() {
       return this.$store.state.itemStorage.cart
+    },
+    isOversea() {
+      return this.items[0] ? this.items[0].isCross : false
     },
     priceDetail() {
       return [
@@ -77,23 +90,27 @@ export default {
     })
   },
   methods: {
-    async preCreateOrder() {
-      try {
-        this.preOrderInfo = (await this.$api.order.preCreate({
-          CustomerId: this.currentMember.id,
-          AddressId: this.isSelfPick ? '' : this.selectedAddress.id,
-          IsPostBySelf: this.isSelfPick,
-          UsePoint: this.usePoint ? this.pointAmount : 0,
-          CouponIds: this.selectedCouponList,
-          SkuBuycount: this.items.map(item => ({
-            SkuId: item.skuId,
-            BuyCount: item.quantity,
-          })),
-        })).data
-      } catch (error) {
-        this.$snotify.warning(error.message)
-      }
-    },
+    preCreateOrder: $lodash.debounce(
+      async function() {
+        try {
+          this.preOrderInfo = (await this.$api.order.preCreate({
+            CustomerId: this.currentMember.id,
+            AddressId: this.isSelfPick ? '' : this.selectedAddress.id,
+            IsPostBySelf: this.isSelfPick,
+            UsePoint: this.usePoint ? this.pointAmount : 0,
+            CouponIds: this.selectedCouponList,
+            SkuBuycount: this.items.map(item => ({
+              SkuId: item.skuId,
+              BuyCount: item.quantity,
+            })),
+          })).data
+        } catch (error) {
+          this.$snotify.warning(error.message)
+        }
+      },
+      600,
+      { maxWait: 2000 }
+    ),
     async createOrder() {
       try {
         const orderID = (await this.$api.order.createOrder({
@@ -109,9 +126,9 @@ export default {
           couponIDs: this.selectedCouponList,
           totalAmount: this.preOrderInfo.totalAmount,
         })).data
-
+        this.showRealNameCard = true
         this.$store.dispatch('itemStorage/clearCart')
-        this.$router.push({ name: 'order-checkout', params: { orderID } })
+        this.$router.replace({ name: 'order-checkout', params: { orderID } })
       } catch (error) {
         this.$snotify.warning(error.message)
       }
@@ -120,6 +137,24 @@ export default {
       this.preCreateOrder()
       this.pointAmount = value
       this.pointSheet = false
+    },
+    reset() {
+      this.realName = ''
+      this.idCard = ''
+    },
+    async submitRealName() {
+      try {
+        await this.$api.member.verifyRealName({
+          idCard: this.idCard,
+          realName: this.realName,
+          memberID: this.currentMember.id,
+          mobile: this.currentMember.mobile,
+        })
+        this.showRealNameCard = false
+        this.$snotify.success('实名认证提交成功')
+      } catch (error) {
+        this.$snotify.warning(error.message)
+      }
     },
   },
 }
@@ -132,6 +167,40 @@ export default {
       <VSpacer />
       <VIcon>phone_iphone</VIcon>:{{ currentMember.mobile }}
     </VToolbar>
+    <VCard v-if="isOversea && showRealNameCard && currentMember.isRealName !==1">
+      <VCardText>
+        <h3>实名认证</h3>
+        <VTextField
+          v-model="realName"
+          :rules="[rules.realName]"
+          label="姓名："
+          hint="输入合法的姓名"
+        />
+        <VTextField
+          v-model="idCard"
+          :rules="[rules.idCard]"
+          label="身份证号："
+          hint="输入合法的身份证号"
+          counter
+        />
+      </VCardText>
+      <VCardActions>
+        <VSpacer />
+        <VBtn
+          flat
+          @click="reset"
+        >
+          重置
+        </VBtn>
+        <VBtn
+          color="orange"
+          flat
+          @click="submitRealName"
+        >
+          提交
+        </VBtn>
+      </VCardActions>
+    </VCard>
     <div :class="$style.section">
       <VRadioGroup
         v-model="isSelfPick"

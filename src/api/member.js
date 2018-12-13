@@ -246,6 +246,27 @@ export const getBalanceList = ({
   })
 }
 
+/**
+ *
+ * @param {string} [request.idCardNegative] - 身份证反面图片地址
+ * @param {string} [request.idCardPositive] - 身份证正面图片地址
+ * @param {string} request.idCard - 身份证
+ * @param {string} request.memberID - 会员ID
+ * @param {string} request.realName - 姓名
+ * @param {string} request.mobile - 手机号
+ */
+export const verifyRealName = ({ idCard, memberID, realName, mobile }) => {
+  return request({
+    url: '/tocustomer/realnameoperate',
+    data: {
+      idCard: idCard,
+      customerId: memberID,
+      realName: realName,
+      mobile: mobile,
+    },
+  })
+}
+
 export default {
   getMemberList,
   getBaseInformation,
@@ -254,4 +275,5 @@ export default {
   getCouponList,
   getPointList,
   getBalanceList,
+  verifyRealName,
 }

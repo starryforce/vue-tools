@@ -110,7 +110,7 @@ export default {
     },
     selectThirdClass(item) {
       this.selectedThirdClassCode = item.classCode
-      this.dialog = false
+      this.changeClass()
     },
   },
 }
