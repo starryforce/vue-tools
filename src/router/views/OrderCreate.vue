@@ -490,49 +490,6 @@ export default {
         <VBtn
           small
           dark
-          color="primary"
-          @click="bargainDialog = true"
-        >
-          改价
-        </VBtn>
-        <VDialog
-          v-model="bargainDialog"
-          persistent
-          max-width="600px"
-        >
-          <VCard>
-            <VCardTitle>
-              <span class="headline">
-                改价
-              </span>
-            </VCardTitle>
-            <VCardText>
-              <VTextField
-                label="改价金额"
-                required
-              />
-              <span>*改价金额必填</span>
-            </VCardText>
-            <VCardActions>
-              <VSpacer />
-              <VBtn
-                flat
-                @click="bargainDialog = false"
-              >
-                关闭
-              </VBtn>
-              <VBtn
-                color="primary"
-                @click="bargainDialog = false"
-              >
-                确定
-              </VBtn>
-            </VCardActions>
-          </VCard>
-        </VDialog>
-        <VBtn
-          small
-          dark
           color="secondary"
           @click="createOrder"
         >

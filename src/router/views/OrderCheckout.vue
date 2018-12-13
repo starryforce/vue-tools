@@ -35,10 +35,25 @@ export default {
         },
       ],
       orderInfo: {},
+      bargainDialog: false,
+      orderAmount: 0,
+      postAmount: 0,
+      lowestAmount: 0,
     }
+  },
+  computed: {
+    sumAmount() {
+      return (this.orderAmount - 0 + this.postAmount).toFixed(2)
+    },
+    serverOrderAmount() {
+      return this.orderInfo.totalAmount - this.orderInfo.postAmount
+    },
   },
   async created() {
     this.orderInfo = (await this.$api.order.getOrderDetail(this.orderID)).data
+    this.lowestAmount = this.orderInfo.lowestAmount || 1000
+    this.orderAmount = this.serverOrderAmount
+    this.postAmount = this.orderInfo.postAmount
   },
   methods: {
     async pay(type) {
@@ -106,6 +121,19 @@ export default {
       this.$snotify.success(this.body, '支付完成')
       this.$router.replace('/order/detail/' + this.orderID)
     },
+    async change() {
+      try {
+        await this.$api.order.changeOrder({
+          orderID: this.orderID,
+          newPrice: this.orderAmount,
+          newPost: this.postAmount,
+        })
+        this.$snotify.success('', '改价完成')
+      } catch (error) {
+        this.$snotify.warning(error.msg, '改价失败')
+      }
+      this.bargainDialog = false
+    },
   },
 }
 </script>
@@ -114,7 +142,10 @@ export default {
   <Layout>
     <VToolbar dense>
       <VToolbarTitle>
-        <VBtn color="primary">
+        <VBtn
+          color="primary"
+          @click="bargainDialog = true"
+        >
           改价
         </VBtn>
       </VToolbarTitle>
@@ -125,7 +156,64 @@ export default {
         </VBtn>
       </VToolbarItems>
     </VToolbar>
-    <br><br><br>
+
+
+    <VDialog
+      v-model="bargainDialog"
+      persistent
+      max-width="600px"
+    >
+      <VCard>
+        <VCardTitle>
+          <span class="headline">
+            改价
+          </span>
+        </VCardTitle>
+        <VCardText>
+          <VLayout
+            row
+            wrap
+          >
+            <VFlex xs6>
+              <VTextField
+                v-model="orderAmount"
+                label="商品金额"
+                :rules="[() => (orderAmount >= lowestAmount && orderAmount <= serverOrderAmount)|| `改价范围${lowestAmount} - ${ serverOrderAmount }`]"
+                required
+              />
+            </VFlex>
+            <VFlex xs1>
+              <span />
+            </VFlex>
+            <VFlex xs5>
+              <VTextField
+                v-model="postAmount"
+                label="运费金额"
+                :rules="[() => (postAmount >= 0 && postAmount <= orderInfo.postAmount)|| `改价范围${0} - ${orderInfo.postAmount }`]"
+                required
+              />
+            </VFlex>
+          </VLayout>
+          <div>原价{{ orderInfo.totalAmount }}</div>
+          <div>预计改到{{ sumAmount }}</div>
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn
+            flat
+            @click="bargainDialog = false"
+          >
+            关闭
+          </VBtn>
+          <VBtn
+            color="primary"
+            @click="change"
+          >
+            确定
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
 
     <VList>
       <template v-for="(payment, index) in paymentList">
