@@ -20,26 +20,8 @@ export default {
   },
   async created() {
     this.todayFaceList = await this.$api.face.todayFaceList()
-    this.openWS()
   },
   methods: {
-    openWS() {
-      const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
-
-      ws.onopen = function(event) {
-        // console.log('Connection open ...')
-        ws.send('Hello WebSockets!')
-      }
-
-      ws.onmessage = function(event) {
-        // console.log('Received Message: ' + event.data)
-        ws.close()
-      }
-
-      ws.onclose = function(event) {
-        // console.log('Connection closed.')
-      }
-    },
     async scan() {
       var list = (await this.$api.item.getItems()).data
       await this.scanSearch(list)
