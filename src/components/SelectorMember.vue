@@ -177,8 +177,8 @@ export default {
 }
 
 .brandable.brandable {
-  color: #fff;
-  background-color: $color-brand-light;
+  color: #fff !important;
+  background-color: #57c5c2 !important;
 }
 
 .expansionPanel {
