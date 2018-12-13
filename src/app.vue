@@ -38,20 +38,20 @@ export default {
     openWS() {
       const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
 
-      ws.onopen = function(event) {
+      ws.onopen = event => {
         // console.log('Connection open ...')
         ws.send('Hello WebSockets!')
       }
 
-      ws.onmessage = function(event) {
+      ws.onmessage = event => {
         // console.log('Received Message: ' + event.data)
         // ws.close()
-        alert(JSON.stringify(event))
-        this.$snotify.success('', '支付完成')
-        this.$router.replace('/order/detail/' + this.orderID)
+        this.$snotify.success(event.data, '支付完成')
+        this.$router.replace('/order/detail/' + event.data)
       }
 
-      ws.onclose = function(event) {
+      ws.onclose = event => {
+        alert('Connection closed.')
         // console.log('Connection closed.')
       }
     },

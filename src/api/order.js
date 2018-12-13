@@ -257,6 +257,12 @@ export const payOrderbyCode = ({ orderID, authCode, orderNo }) => {
   })
 }
 
+export const payOrderbyCode2 = () => {
+  return request({
+    url: '/BOrders/BOrderPay2',
+  })
+}
+
 export const CreateReturnOrder = ({
   orderID,
   items,
@@ -285,4 +291,5 @@ export default {
   payOrder,
   payOrderbyCode,
   CreateReturnOrder,
+  payOrderbyCode2,
 }
