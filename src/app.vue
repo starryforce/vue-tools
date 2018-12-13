@@ -21,7 +21,7 @@ export default {
   async created() {
     var cof = (await this.$api.item.getTicket()).data
     cof['jsApiList'] = ['scanQRCode']
-    cof['debug'] = true
+    // cof['debug'] = true
     cof['appId'] = cof.appid
     cof.signature = cof.signature.toLocaleLowerCase()
     // eslint-disable-next-line

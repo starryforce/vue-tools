@@ -45,6 +45,16 @@ export default {
       await this.scanSearch(list)
     },
     async scanSearch(list) {
+      // eslint-disable-next-line
+      wx.scanQRCode({
+        needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        scanType: ['barCode'], // 可以指定扫二维码还是一维码，默认二者都有 'qrCode',
+        success: function(res) {
+          // 当needResult 为 1 时，扫码返回的结果
+          alert(res.resultStr)
+        },
+      })
+
       let code = '662562623525'
       var res = list.filter(item => item.itemBarcode === code)
       res = res & res[0]
