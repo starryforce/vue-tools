@@ -88,7 +88,7 @@ export default {
       </template>
     </VList>
     <VBtn
-      :to="{name:'address-add'}"
+      :to="'/address/add/'+memberID"
       block
       fixed
       bottom
