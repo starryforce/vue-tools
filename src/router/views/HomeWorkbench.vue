@@ -47,36 +47,34 @@ export default {
     async scanSearch(list) {
       // eslint-disable-next-line
       wx.scanQRCode({
-        needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
         scanType: ['barCode'], // 可以指定扫二维码还是一维码，默认二者都有 'qrCode',
-        success: function(res) {
+        success: async msg => {
           // 当needResult 为 1 时，扫码返回的结果
-          alert(res.resultStr)
+          var code =
+            msg.resultStr.indexOf(',') === -1
+              ? msg.resultStr
+              : msg.resultStr.split(',')[1]
+          var res = list.filter(item => item.itemBarcode === code)
+          res = res & res[0]
+          if (!res) {
+            res = (await this.$api.item.getItems({
+              keyword: code,
+              pageNo: 1,
+              pageSize: 1,
+            })).data
+            res = res & res[0]
+          }
+          if (res) {
+            this.$snotify.success('', '已添加')
+          } else {
+            this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
+          }
+          setTimeout(async () => {
+            await this.scanSearch(list)
+          }, 200)
         },
       })
-
-      let code = '662562623525'
-      var res = list.filter(item => item.itemBarcode === code)
-      res = res & res[0]
-      if (!res) {
-        res = (await this.$api.item.getItems({
-          keyword: code,
-          pageNo: 1,
-          pageSize: 1,
-        })).data
-        res = res & res[0]
-      }
-      if (res) {
-        this.$snotify.success('', '已添加')
-      } else {
-        this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
-      }
-
-      let isBreak = false
-      if (isBreak)
-        setTimeout(async () => {
-          await this.scanSearch(list)
-        }, 200)
     },
     async invite() {
       this.inviteURL = (await this.$api.employee.getTicketUrl()).data

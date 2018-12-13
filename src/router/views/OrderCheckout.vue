@@ -70,23 +70,36 @@ export default {
           ],
         })
       } else if (type === 1) {
-        try {
-          var res = await this.$api.order.payOrderbyCode({
-            orderID: this.orderID,
-            authCode: this.code,
-            orderNo: this.orderInfo.orderNo,
-          })
-          if (res.data === 'ok') {
-            this.success()
-          } else if (res.data === '等待') {
-            this.$snotify.warning('等待用户操作，请确认用户付款', res.data)
-            // websocket
-          } else {
-            this.$snotify.warning(res.data, '支付遇到一些问题')
-          }
-        } catch (error) {
-          this.$snotify.warning(error.data.msg, '支付遇到一些问题')
-        }
+        // eslint-disable-next-line
+        wx.scanQRCode({
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ['qrCode'], // 可以指定扫二维码还是一维码，默认二者都有 '',
+          success: async msg => {
+            // 当needResult 为 1 时，扫码返回的结果
+            var code =
+              msg.resultStr.indexOf(',') === -1
+                ? msg.resultStr
+                : msg.resultStr.split(',')[1]
+
+            try {
+              var res = await this.$api.order.payOrderbyCode({
+                orderID: this.orderID,
+                authCode: code,
+                orderNo: this.orderInfo.orderNo,
+              })
+              if (res.data === 'ok') {
+                this.success()
+              } else if (res.data === '等待') {
+                this.$snotify.warning('等待用户操作，请确认用户付款', res.data)
+                // websocket
+              } else {
+                this.$snotify.warning(res.data, '支付遇到一些问题')
+              }
+            } catch (error) {
+              this.$snotify.warning(error.data.msg, '支付遇到一些问题')
+            }
+          },
+        })
       }
     },
     success() {
@@ -113,11 +126,7 @@ export default {
       </VToolbarItems>
     </VToolbar>
     <br><br><br>
-    <input
-      v-model="code"
-      type="text"
-      style="margin:5px;border:2px solid;width:90%"
-    >
+
     <VList>
       <template v-for="(payment, index) in paymentList">
         <VDivider
