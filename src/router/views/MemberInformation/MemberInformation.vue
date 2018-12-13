@@ -251,7 +251,12 @@ export default {
             </VListTileContent>
             <VListTileAction>
               <VListTileActionText v-if="!isEditing">
-                {{ memberInformation.isFaceId }}
+                <VIcon
+                  :color="memberInformation.isFaceId?'primary':''"
+                  large
+                >
+                  account_box
+                </VIcon>
               </VListTileActionText>
               <VListTileActionText
                 v-else
