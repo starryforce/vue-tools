@@ -82,6 +82,9 @@ export default {
       } else if (this.scene === 'cart') {
         this.$store.dispatch('itemStorage/selectMember', member)
         this.$router.back()
+      } else if (this.scene === 'order') {
+        this.$store.dispatch('order/selectMember', member)
+        this.$router.back()
       }
     },
   },

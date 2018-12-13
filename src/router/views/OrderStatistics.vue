@@ -11,16 +11,22 @@ export default {
   components: { Layout, SelectorOrder },
   data() {
     return {
-      orderList: {},
+      pageNo: 1,
+      pageSize: 20,
+      hasNext: true,
+      infiniteId: +new Date(),
+      orderData: {},
+      orderList: [],
+      orderOptions: {},
     }
   },
   computed: {
     sum() {
       var sumy = 0
-      if (!this.orderList.orders) return 0
-      for (const key in this.orderList) {
-        if (this.orderList.hasOwnProperty(key)) {
-          const element = this.orderList[key]
+      if (!this.orderData.orders) return 0
+      for (const key in this.orderData) {
+        if (this.orderData.hasOwnProperty(key)) {
+          const element = this.orderData[key]
           if (key !== 'orders') {
             sumy += element
           }
@@ -29,12 +35,35 @@ export default {
       return sumy
     },
   },
-  created() {
-    this.getOrderList()
-  },
   methods: {
-    async getOrderList() {
-      this.orderList = (await this.$api.order.getOrderList()).data
+    async infiniteHandler($state) {
+      try {
+        let newData = (await this.$api.order.getOrderList(
+          Object.assign({}, this.orderOptions, {
+            pageNo: this.pageNo,
+            pageSize: this.pageSize,
+          })
+        )).data
+        this.hasNext = newData.orders.length === this.pageSize
+        this.orderData = newData
+        if (newData.orders.length) {
+          this.orderList.push(...newData.orders)
+        }
+        if (this.hasNext) {
+          this.pageNo += 1
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      } catch (error) {
+        $state.complete()
+      }
+    },
+    fetchOrderOptions(newValue) {
+      this.orderOptions = newValue
+      this.pageNo = 1
+      this.orderList = []
+      this.infiniteId += 1
     },
   },
 }
@@ -44,7 +73,7 @@ export default {
   <Layout>
     <VContainer>
       <VCard
-        v-if="orderList"
+        v-if="orderData"
         dark
         color="primary"
       >
@@ -55,11 +84,11 @@ export default {
             align-center
           >
             <span>{{ sum }}</span>
-            <SelectorOrder />
+            <SelectorOrder @fetch:order-options="fetchOrderOptions" />
           </VLayout>
           <VLayout column>
             <VFlex
-              v-for="(value,key) in orderList"
+              v-for="(value,key) in orderData"
               :key="key"
             >
               <div v-if="key !='orders'">
@@ -75,7 +104,7 @@ export default {
       subheader
     >
       <VSubheader>08.09</VSubheader>
-      <template v-for="(order, index) in orderList.orders">
+      <template v-for="(order, index) in orderList">
         <VDivider
           v-if="index"
           :key="'divider'+index"
@@ -122,6 +151,10 @@ export default {
           </VLayout>
         </VListTile>
       </template>
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+      />
     </VList>
   </Layout>
 </template>

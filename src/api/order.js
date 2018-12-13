@@ -47,21 +47,21 @@ export const createSuperVip = memberID => {
 /**
  *
  * @param {Object} request - 请求体
- * @param {string} [request.BuyerName] - 购买人昵称
- * @param {string} [request.orderNo] - 订单编号
- * @param {string} [request.ReceiverName] - 收货人姓名
- * @param {string} [request.sellerID] - 店员Id
- * @param {string} [request.buyerID] - 购买人Id
- * @param {datetime} [request.beginTime] - 创建开始时间
- * @param {string} [request.endTime] - 创建结束时间
- * @param {number} [request.orderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
  * @param {number} request.pageNo - 分页序号
  * @param {string} request.pageSize - 分页大小
- * @param {string} [request.PayingType] - 支付方式 例子：0支付宝,1微信,2现金,3银行卡,4余额,5无需支付,6积分
- * @param {string} [request.SkuName] - 商品名称关键字
- * @param {string} [request.SkuCode] - 商品编码
- * @param {string} [request.ReceiverPhone] - 收货人电话
- * @param {number} [request.PostType] - 发货类型 例子：空不筛选,0自提,1快递,3无需物流(虚拟订单等等)
+ * @param {number} [request.orderStatus] - 订单状态 例子：0待支付,1,待发货,2,待收货,3,交易成功,4交易关闭,5买家删除,6退款中,7退款成功,8拒绝退款,9退货成功
+ * @param {string} [request.payingType] - 支付方式 例子：0支付宝,1微信,2现金,3银行卡,4余额,5无需支付,6积分
+ * @param {number} [request.postType] - 发货类型 例子：空不筛选,0自提,1快递,3无需物流(虚拟订单等等)
+ * @param {string} [request.buyerName] - 购买人昵称
+ * @param {string} [request.orderNo] - 订单编号
+ * @param {string} [request.receiverName] - 收货人姓名
+ * @param {string} [request.skuName] - 商品名称关键字
+ * @param {string} [request.skuCode] - 商品编码
+ * @param {string} [request.receiverPhone] - 收货人电话
+ * @param {datetime} [request.beginTime] - 创建开始时间
+ * @param {string} [request.endTime] - 创建结束时间
+ * @param {string} [request.sellerID] - 店员Id
+ * @param {string} [request.buyerID] - 购买人Id
  *
  * @returns {string} OrderNo - 订单编号
  * @returns {string} OrderStatus - 订单状态
@@ -93,8 +93,14 @@ export const getOrderList = ({
   buyerID,
   orderStatus,
   beginTime,
+  buyerName,
+  receiverName,
   endTime,
+  payingType,
   postType,
+  skuName,
+  skuCode,
+  receiverPhone,
 } = {}) => {
   return request({
     url: '/BOrders/GetOrdersForB',
@@ -102,11 +108,17 @@ export const getOrderList = ({
       Page: pageNo,
       Size: pageSize,
       OrderNo: orderNo,
+      BuyerName: buyerName,
+      ReceiverName: receiverName,
       SellerId: sellerID,
-      BuyerId: buyerID,
+      EndTime: endTime ? endTime + ' 23:59:59' : '',
       OrderStatus: orderStatus,
-      BeginTime: beginTime,
-      EndTime: endTime,
+      BeginTime: beginTime ? beginTime + ' 00:00:00' : '',
+      BuyerId: buyerID,
+      PayingType: payingType,
+      SkuName: skuName,
+      SkuCode: skuCode,
+      ReceiverPhone: receiverPhone,
       PostType: postType,
     },
   })
