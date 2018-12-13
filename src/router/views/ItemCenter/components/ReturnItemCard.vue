@@ -16,7 +16,11 @@ export default {
       default: 0,
     },
   },
-  methods: {},
+  methods: {
+    inp($event) {
+      this.$emit('input', $event)
+    },
+  },
 }
 </script>
 
@@ -48,6 +52,7 @@ export default {
               :min="0"
               :max="item.number"
               :step="1"
+              @input="inp"
             />
           </VFlex>
         </VLayout>

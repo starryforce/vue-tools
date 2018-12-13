@@ -1,5 +1,6 @@
 <script>
 import Layout from '@layouts/MainLayout'
+import QRCode from '@components/QRCode'
 
 export default {
   metaInfo: {
@@ -7,46 +8,14 @@ export default {
     meta: [{ name: 'description', content: 'HomeWorkbench' }],
   },
   name: 'HomeWorkbench',
-  components: { Layout },
+  components: { Layout, QRCode },
   data() {
     return {
       showPanel: 0,
-      items: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          title: 'Ali Connors',
-          subtitle:
-            "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          title: 'me, Scrott, Jennifer',
-          subtitle: "Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          title: 'Sandra Adams',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          title: 'Trevor Hansen',
-          subtitle:
-            'Have any ideas about what we should get Heidi for her birthday?',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          title: 'Britta Holt',
-          subtitle:
-            'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
+      items: [],
+      dialog: false,
       todayFaceList: [],
+      inviteURL: '',
     }
   },
   async created() {
@@ -99,6 +68,10 @@ export default {
           await this.scanSearch(list)
         }, 200)
     },
+    async invite() {
+      this.inviteURL = (await this.$api.employee.getTicketUrl()).data
+      this.dialog = true
+    },
   },
 }
 </script>
@@ -123,7 +96,10 @@ export default {
             </VBtn>
           </VFlex>
           <VFlex xs3>
-            <VBtn flat>
+            <VBtn
+              flat
+              @click="invite"
+            >
               <VIcon
                 dark
                 color="#CDBCF0"
@@ -274,6 +250,37 @@ export default {
         </VCardActions>
       </VCard>
     </VContainer>
+    <VDialog
+      v-model="dialog"
+      lazy
+      width="300"
+    >
+      <VCard>
+        <VCardActions>
+          <VSpacer />
+          <VBtn
+            icon
+            @click="dialog = false"
+          >
+            <VIcon>close</VIcon>
+          </VBtn>
+        </VCardActions>
+        <VResponsive>
+          <QRCode
+            :value="inviteURL"
+            :size="300"
+            :padding="25"
+          />
+        </VResponsive>
+
+        <VCardText :class="$style.scanTip">
+          扫一扫注册贝卡会员
+        </VCardText>
+
+        <VDivider />
+      </VCard>
+    </VDialog>
+
     <VList two-line>
       <template v-for="(item, index) in items">
         <VDivider

@@ -24,29 +24,31 @@ export default {
       returnReason: '',
     }
   },
-  computed: {
-    basketList() {
-      return this.$store.state.itemStorage.baskets
-    },
-  },
   async created() {
     this.orderDetail = (await this.$api.order.getOrderDetail(this.orderID)).data
+    this.orderDetail.skuList = this.orderDetail.skuList.map(it => {
+      return {
+        ...it,
+        num: 0,
+      }
+    })
   },
   methods: {
     change(file) {
-      // debugger
       this.count++
     },
     async submit() {
       if (this.e1 === 1) this.e1++
       else {
         try {
-          var res = (await this.$api.order.CreateReturnOrder({
+          var res = await this.$api.order.CreateReturnOrder({
             orderID: this.orderID,
-            items: this.orderDetail.skuList,
+            items: this.orderDetail.skuList
+              .map(it => it.skuId + ':' + it.num)
+              .join(','),
             returnReason: this.returnReason,
-          })).data
-          if (res.data) {
+          })
+          if (res.data === 'ok') {
             this.$router.push('/order/return/detail')
           } else {
             this.$snotify.warning(res.data, '退货遇到一些问题')
@@ -91,7 +93,9 @@ export default {
             <ItemCard
               v-for="item in orderDetail.skuList"
               :key="item.id"
+              v-model="item.num"
               :item="item"
+              :alt="item.num"
             />
           </VList>
         </VStepperContent>

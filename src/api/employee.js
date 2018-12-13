@@ -41,7 +41,14 @@ export const getGuideEmployeeInviteList = ({ page = 1, size = 10 } = {}) => {
   })
 }
 
+export const getTicketUrl = () => {
+  return request({
+    url: '/GuideWeChat/GetTicketUrl',
+  })
+}
+
 export default {
   getGuideEmployeeDetail,
   getGuideEmployeeInviteList,
+  getTicketUrl,
 }

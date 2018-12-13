@@ -267,7 +267,7 @@ export const CreateReturnOrder = ({
     data: {
       Tid: orderID,
       ReturnType: 0,
-      ReturnSkuIds: items.map(it => it.skuId + ':' + it.number).join(','),
+      ReturnSkuIds: items,
       ReturnReason: returnReason,
     },
   })

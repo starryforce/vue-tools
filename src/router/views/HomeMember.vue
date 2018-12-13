@@ -28,7 +28,9 @@ export default {
       inviteURL: 'http://192.168.1.126:8080',
     }
   },
-  created() {},
+  async created() {
+    this.inviteURL = (await this.$api.employee.getTicketUrl()).data
+  },
   methods: {
     fetchMemberOptions(newValue) {
       this.memberOptions = newValue
