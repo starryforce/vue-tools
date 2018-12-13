@@ -19,19 +19,34 @@ let _requests = []
 
 const requestUtil = axios.create(config)
 
-const authInfo = store.state.auth
-let authorization
-if (authInfo.token) {
-  authorization = new Authorization(authInfo)
-} else {
-  authorization = new Authorization()
+function getAuthInfo() {
+  function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+    var r = window.location.search.substr(1).match(reg)
+    if (r != null) return unescape(r[2])
+    return null
+  }
+  const storeId = getQueryString('storeId')
+  const token = getQueryString('token')
+  if (token) {
+    store.dispatch('auth/setAuth', {
+      storeId,
+      token,
+    })
+    return { storeId, token }
+  } else {
+    return store.state.auth || {}
+  }
 }
+
+const authInfo = getAuthInfo()
+
+const authorization = new Authorization(authInfo)
 
 // request 拦截器
 requestUtil.interceptors.request.use(
   config => {
     // 2. 带上token
-
     const authHeaders = authorization.getHeaders()
     if (authHeaders) {
       config.headers = Object.assign({}, config.headers, authHeaders)
