@@ -115,6 +115,15 @@ export default {
       { maxWait: 2000 }
     ),
     async createOrder() {
+      if (!this.selectedAddress.id) {
+        this.$snotify.warning('请选择地址')
+        return
+      }
+      if (!this.currentMember.id) {
+        this.$snotify.warning('请选择地址')
+        return
+      }
+
       try {
         const orderID = (await this.$api.order.createOrder({
           addressID: this.isSelfPick ? '' : this.selectedAddress.id,
@@ -352,7 +361,7 @@ export default {
         <VFlex>
           积分
           <span :class="$style.brandColor">
-            可用{{ preOrderInfo.canUsePoint }}积分，抵{{ preOrderInfo.canUsePointMoney }}元
+            共{{ preOrderInfo.canUsePoint }}积分，可用{{ Math.floor(preOrderInfo.canUsePoint/1000) * 1000 }}积分，抵{{ Math.floor(preOrderInfo.canUsePoint/1000) * 10 }}元
           </span>
         </VFlex>
         <VFlex :class="$style.rightElement">
