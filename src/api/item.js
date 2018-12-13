@@ -67,9 +67,19 @@ export const getItems = () => {
   })
 }
 
+export const getTicket = () => {
+  return request({
+    url: '/GuideWeChat/GetScanTicketEncode',
+    data: {
+      url: 'http://brt.test.bebefocus.com/', // window.location.href.split('#')[0]
+    },
+  })
+}
+
 export default {
   searchItem,
   getItemList,
   getItemClassList,
   getItems,
+  getTicket,
 }
