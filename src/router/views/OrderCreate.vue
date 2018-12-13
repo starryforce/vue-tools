@@ -32,6 +32,9 @@ export default {
     }
   },
   computed: {
+    cartTotalPrice() {
+      return this.$store.getters['itemStorage/cartTotalPrice']
+    },
     currentMember() {
       return this.$store.state.itemStorage.selectedMember
     },
@@ -43,7 +46,7 @@ export default {
     },
     priceDetail() {
       return [
-        { labelName: '商品原价合计：', value: 0 },
+        { labelName: '商品原价合计：', value: this.cartTotalPrice },
         {
           labelName: '优惠活动：',
           value: -(
