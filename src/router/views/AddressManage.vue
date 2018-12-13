@@ -58,7 +58,10 @@ export default {
           <VListTileContent>
             <VListTileTitle>
               <VLayout>
-                <VFlex xs4>
+                <VFlex
+                  xs4
+                  style="overflow:hidden;text-overflow : ellipsis "
+                >
                   {{ address.name }}
                 </VFlex>
                 <VFlex xs5>
@@ -76,7 +79,9 @@ export default {
                 </VFlex>
               </VLayout>
             </VListTileTitle>
-            <VListTileSubTitle>{{ address.provName }}{{ address.cityName }}{{ address.distName }}{{ address.detail }}</VListTileSubTitle>
+            <VListTileSubTitle>
+              {{ address.provName }}{{ address.cityName }}{{ address.distName }}{{ address.detail }}
+            </VListTileSubTitle>
           </VListTileContent>
 
           <!-- <VListTileAction @click.stop="$router.push({name:'address-edit',params:{addressInfo:address,memberID:memberID}})">
@@ -88,7 +93,7 @@ export default {
       </template>
     </VList>
     <VBtn
-      :to="{name:'address-add'}"
+      :to="'/address/add/'+memberID"
       block
       fixed
       bottom

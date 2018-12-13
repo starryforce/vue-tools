@@ -234,7 +234,7 @@ export default [
     component: () => lazyLoadView(import('@views/ItemCenter/ItemBaskets')),
   },
   {
-    path: '/address/manage/:memberID?',
+    path: '/address/manage/:memberID',
     name: 'address-manage',
     meta: {},
     props: true,
@@ -252,7 +252,7 @@ export default [
     component: () => lazyLoadView(import('@views/AddressEdit')),
   },
   {
-    path: '/address/add',
+    path: '/address/add/:memberID',
     name: 'address-add',
     meta: {},
     props: true,

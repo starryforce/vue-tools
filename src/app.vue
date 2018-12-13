@@ -18,6 +18,21 @@ export default {
       return this.$store.state.notice.spinner
     },
   },
+  async created() {
+    var cof = (await this.$api.item.getTicket()).data
+    cof['jsApiList'] = ['scanQRCode']
+    cof['debug'] = true
+    cof['appId'] = cof.appid
+    cof.signature = cof.signature.toLocaleLowerCase()
+    // eslint-disable-next-line
+    wx.config(cof)
+    // eslint-disable-next-line
+    wx.ready(function() {})
+    // eslint-disable-next-line
+    wx.error(function(res) {
+      this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
+    })
+  },
 }
 </script>
 

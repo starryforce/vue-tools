@@ -16,7 +16,7 @@ export default {
     },
     memberID: {
       type: String,
-      default: 'f9eab77eb5d2fdc4392404b98726ebc037454780',
+      required: true,
     },
   },
   data() {

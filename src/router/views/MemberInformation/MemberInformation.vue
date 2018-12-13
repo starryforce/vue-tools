@@ -138,7 +138,7 @@ export default {
               <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
-          <VDivider />
+          <!-- <VDivider />
           <VListTile>
             <VListTileContent>
               <VListTileTitle>会员卡号</VListTileTitle>
@@ -146,7 +146,7 @@ export default {
             <VListTileAction>
               <VListTileActionText>{{ memberInformation.cardID }}</VListTileActionText>
             </VListTileAction>
-          </VListTile>
+          </VListTile> -->
           <VDivider />
           <VListTile>
             <VListTileContent>
@@ -251,7 +251,12 @@ export default {
             </VListTileContent>
             <VListTileAction>
               <VListTileActionText v-if="!isEditing">
-                {{ memberInformation.isFaceId }}
+                <VIcon
+                  :color="memberInformation.isFaceId?'primary':''"
+                  large
+                >
+                  account_box
+                </VIcon>
               </VListTileActionText>
               <VListTileActionText
                 v-else

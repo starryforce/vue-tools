@@ -48,7 +48,7 @@ export default {
         prepend-inner-icon="search"
         single-line
         light
-        placeholder="搜索会员名、手机号、微信昵称、卡号"
+        placeholder="搜索会员名、手机号、微信昵称"
         @change="confirm"
       />
       <VBtn
