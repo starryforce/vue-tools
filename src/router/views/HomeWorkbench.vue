@@ -33,30 +33,36 @@ export default {
         scanType: ['barCode'], // 可以指定扫二维码还是一维码，默认二者都有 'qrCode',
         success: async msg => {
           // 当needResult 为 1 时，扫码返回的结果
-          alert(JSON.stringify(msg))
           var code =
             msg.resultStr.indexOf(',') === -1
               ? msg.resultStr
               : msg.resultStr.split(',')[1]
-          alert(code)
           // eslint-disable-next-line
           var res = list.filter(item => item.itemBarcode == code)
-          res = res & res[0]
+          res = res && res[0]
           if (!res) {
-            res = (await this.$api.item.getItems({
+            res = (await this.$api.item.getItemList({
               keyword: code,
               pageNo: 1,
               pageSize: 1,
             })).data
-            res = res & res[0]
+            res = res && res[0]
           }
-          alert(JSON.stringify(res))
           if (res) {
-            this.$store.dispatch('itemStorage/addItem', {
-              itemInfo: res[0],
-              quantity: 1,
-            })
-            this.$snotify.success('', '已添加')
+            try {
+              this.$store.dispatch('itemStorage/addItem', {
+                itemInfo: res,
+                quantity: 1,
+              })
+              this.$snotify.success('', '已添加')
+            } catch (error) {
+              this.$snotify.warning(
+                '普通商品和跨境购商品不可同时结算',
+                `当前仅可添加${
+                  error.message === 'oversea' ? '跨境商品' : '普通商品'
+                }`
+              )
+            }
           } else {
             this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
           }
