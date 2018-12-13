@@ -42,6 +42,7 @@ export default {
       tile
       size="80"
     >
+      {{ item.isCross?'跨境':'' }}
       <VImg
         :src="item.itemCover || ''"
       />

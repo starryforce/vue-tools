@@ -127,7 +127,7 @@ export default {
       <VSpacer />
       <VToolbarItems>
         <div :class="$style.priceContainer">
-          总计：￥ <span :class="$style.price">
+          ￥ <span :class="$style.price">
             {{ cartTotalPrice }}
           </span>
         </div>

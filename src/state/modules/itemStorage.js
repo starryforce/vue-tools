@@ -29,23 +29,30 @@ export const mutations = {
   // 如果商品数量为 0，则将其从购物车中移除
   UPDATE_ITEM(state, { itemInfo, quantity }) {
     if (state.cart[0]) {
-      const cartIsOversea = state.cart[0].isOversea
-      const itemIsOversea = itemInfo.isOversea
-      if (cartIsOversea !== itemIsOversea) {
-        throw new Error(cartIsOversea ? 'oversea' : 'common')
+      const cartisCross = state.cart[0].isCross
+      const itemisCross = itemInfo.isCross
+      if (cartisCross !== itemisCross) {
+        throw new Error(cartisCross ? 'oversea' : 'common')
       }
     }
     const isExist = state.cart.find(item => itemInfo.skuId === item.skuId)
     if (!isExist) {
-      state.cart.push(Object.assign(itemInfo, { quantity: quantity }))
+      state.cart.push(
+        Object.assign(itemInfo, {
+          quantity: quantity,
+        })
+      )
     } else {
       const index = state.cart.findIndex(item => itemInfo.skuId === item.skuId)
       state.cart.splice(
         index,
         1,
-        Object.assign({}, itemInfo, { quantity: quantity })
+        Object.assign({}, itemInfo, {
+          quantity: quantity,
+        })
       )
     }
+    state.cart = state.cart.filter(it => it.quantity > 0)
   },
   CLEAR_CART(state) {
     state.cart = []
@@ -89,7 +96,10 @@ export const mutations = {
 
 export const actions = {
   updateItem({ commit }, { itemInfo, quantity }) {
-    commit('UPDATE_ITEM', { itemInfo, quantity })
+    commit('UPDATE_ITEM', {
+      itemInfo,
+      quantity,
+    })
   },
   clearCart({ commit }) {
     commit('CLEAR_CART')

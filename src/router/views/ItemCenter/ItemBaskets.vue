@@ -106,7 +106,7 @@ export default {
             text-color="white"
             small
           >
-            {{ basket.items[0].isOversea?'跨境购':'普通商品' }}
+            {{ basket.items[0].isCross?'跨境购':'普通商品' }}
           </VChip>
           <VSpacer />
           共 {{ totalQuantity(basket.items) }} 件
