@@ -12,9 +12,11 @@ export const getters = {
     return item ? item.quantity : 0
   },
   cartTotalPrice(state) {
-    return state.cart.reduce((accumulator, current) => {
-      return accumulator + current.quantity * current.itemPrice
-    }, 0)
+    return state.cart
+      .reduce((accumulator, current) => {
+        return accumulator + current.quantity * current.itemPrice
+      }, 0)
+      .toFixed(2)
   },
   totalQuantity(state) {
     return state.cart.reduce((accumulator, current) => {
