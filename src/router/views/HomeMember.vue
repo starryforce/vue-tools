@@ -122,14 +122,16 @@ export default {
                 <VIcon>close</VIcon>
               </VBtn>
             </VCardActions>
-            <VResponsive>
-              <QRCode
-                :value="inviteURL"
-                :size="300"
-                :padding="25"
-              />
-            </VResponsive>
-
+            <VLayout justify-space-around>
+              <VFlex
+                :class="$style.qr"
+              >
+                <QRCode
+                  :value="inviteURL"
+                  :size="250"
+                />
+              </VFlex>
+            </VLayout>
             <VCardText :class="$style.scanTip">
               扫一扫注册贝卡会员
             </VCardText>
@@ -241,5 +243,8 @@ export default {
   font-size: 18px;
   color: $color-brand-light;
   text-align: center;
+}
+.qr {
+  flex: none;
 }
 </style>

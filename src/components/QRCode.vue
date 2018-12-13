@@ -102,7 +102,5 @@ export default {
 </script>
 
 <template>
-  <div>
-    <canvas ref="qrcode" />
-  </div>
+  <canvas ref="qrcode" />
 </template>
