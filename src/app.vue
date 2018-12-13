@@ -19,6 +19,7 @@ export default {
     },
   },
   async created() {
+    this.openWS()
     var cof = (await this.$api.item.getTicket()).data
     cof['jsApiList'] = ['scanQRCode']
     // cof['debug'] = true
@@ -32,6 +33,28 @@ export default {
     wx.error(function(res) {
       this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
     })
+  },
+  methods: {
+    openWS() {
+      const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
+
+      ws.onopen = event => {
+        // console.log('Connection open ...')
+        ws.send('Hello WebSockets!')
+      }
+
+      ws.onmessage = event => {
+        // console.log('Received Message: ' + event.data)
+        // ws.close()
+        this.$snotify.success(event.data, '支付完成')
+        this.$router.replace('/order/detail/' + event.data)
+      }
+
+      ws.onclose = event => {
+        alert('Connection closed.')
+        // console.log('Connection closed.')
+      }
+    },
   },
 }
 </script>

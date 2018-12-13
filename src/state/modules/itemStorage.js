@@ -56,6 +56,34 @@ export const mutations = {
     }
     state.cart = state.cart.filter(it => it.quantity > 0)
   },
+  ADD_ITEM(state, { itemInfo, quantity }) {
+    if (state.cart[0]) {
+      const cartisCross = state.cart[0].isCross
+      const itemisCross = itemInfo.isCross
+      if (cartisCross !== itemisCross) {
+        throw new Error(cartisCross ? 'oversea' : 'common')
+      }
+    }
+    const isExist = state.cart.find(item => itemInfo.skuId === item.skuId)
+    if (!isExist) {
+      state.cart.push(
+        Object.assign(itemInfo, {
+          quantity: quantity,
+        })
+      )
+    } else {
+      const index = state.cart.findIndex(item => itemInfo.skuId === item.skuId)
+      const item = state.cart.find(item => itemInfo.skuId === item.skuId)
+      state.cart.splice(
+        index,
+        1,
+        Object.assign({}, itemInfo, {
+          quantity: item.quantity + quantity,
+        })
+      )
+    }
+    state.cart = state.cart.filter(it => it.quantity > 0)
+  },
   CLEAR_CART(state) {
     state.cart = []
   },
@@ -99,6 +127,12 @@ export const mutations = {
 export const actions = {
   updateItem({ commit }, { itemInfo, quantity }) {
     commit('UPDATE_ITEM', {
+      itemInfo,
+      quantity,
+    })
+  },
+  addItem({ commit }, { itemInfo, quantity }) {
+    commit('ADD_ITEM', {
       itemInfo,
       quantity,
     })

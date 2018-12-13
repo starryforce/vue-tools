@@ -269,6 +269,23 @@ export const payOrderbyCode = ({ orderID, authCode, orderNo }) => {
   })
 }
 
+export const payOrderbyCode2 = () => {
+  return request({
+    url: '/BOrders/BOrderPay2',
+  })
+}
+
+export const changeOrder = ({ orderID, newPrice, newPost } = {}) => {
+  return request({
+    url: 'BOrders/ChangePriceBySeller',
+    data: {
+      orderID,
+      newPrice,
+      newPost,
+    },
+  })
+}
+
 export const CreateReturnOrder = ({
   orderID,
   items,
@@ -297,4 +314,6 @@ export default {
   payOrder,
   payOrderbyCode,
   CreateReturnOrder,
+  payOrderbyCode2,
+  changeOrder,
 }

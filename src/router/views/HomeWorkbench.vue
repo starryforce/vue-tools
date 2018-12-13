@@ -20,62 +20,8 @@ export default {
   },
   async created() {
     this.todayFaceList = await this.$api.face.todayFaceList()
-    this.openWS()
   },
   methods: {
-    openWS() {
-      const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
-
-      ws.onopen = function(event) {
-        // console.log('Connection open ...')
-        ws.send('Hello WebSockets!')
-      }
-
-      ws.onmessage = function(event) {
-        // console.log('Received Message: ' + event.data)
-        ws.close()
-      }
-
-      ws.onclose = function(event) {
-        // console.log('Connection closed.')
-      }
-    },
-    async scan() {
-      var list = (await this.$api.item.getItems()).data
-      await this.scanSearch(list)
-    },
-    async scanSearch(list) {
-      // eslint-disable-next-line
-      wx.scanQRCode({
-        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-        scanType: ['barCode'], // 可以指定扫二维码还是一维码，默认二者都有 'qrCode',
-        success: async msg => {
-          // 当needResult 为 1 时，扫码返回的结果
-          var code =
-            msg.resultStr.indexOf(',') === -1
-              ? msg.resultStr
-              : msg.resultStr.split(',')[1]
-          var res = list.filter(item => item.itemBarcode === code)
-          res = res & res[0]
-          if (!res) {
-            res = (await this.$api.item.getItems({
-              keyword: code,
-              pageNo: 1,
-              pageSize: 1,
-            })).data
-            res = res & res[0]
-          }
-          if (res) {
-            this.$snotify.success('', '已添加')
-          } else {
-            this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
-          }
-          setTimeout(async () => {
-            await this.scanSearch(list)
-          }, 200)
-        },
-      })
-    },
     async invite() {
       this.inviteURL = (await this.$api.employee.getTicketUrl()).data
       this.dialog = true
@@ -134,7 +80,7 @@ export default {
           <VFlex xs3>
             <VBtn
               flat
-              @click="scan"
+              :to="{name:'item-center',params:{isScan:'true'}}"
             >
               <VIcon
                 dark
