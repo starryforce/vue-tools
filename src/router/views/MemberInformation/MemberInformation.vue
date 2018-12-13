@@ -284,7 +284,7 @@ export default {
               <VListTileTitle>收货地址</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>" "</VListTileActionText>
+              <VListTileActionText> >> </VListTileActionText>
             </VListTileAction>
           </VListTile>
         </VList>
