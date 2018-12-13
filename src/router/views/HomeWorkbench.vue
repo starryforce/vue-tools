@@ -51,11 +51,14 @@ export default {
         scanType: ['barCode'], // 可以指定扫二维码还是一维码，默认二者都有 'qrCode',
         success: async msg => {
           // 当needResult 为 1 时，扫码返回的结果
+          alert(JSON.stringify(msg))
           var code =
             msg.resultStr.indexOf(',') === -1
               ? msg.resultStr
               : msg.resultStr.split(',')[1]
-          var res = list.filter(item => item.itemBarcode === code)
+          alert(code)
+          // eslint-disable-next-line
+          var res = list.filter(item => item.itemBarcode == code)
           res = res & res[0]
           if (!res) {
             res = (await this.$api.item.getItems({
@@ -65,7 +68,12 @@ export default {
             })).data
             res = res & res[0]
           }
+          alert(JSON.stringify(res))
           if (res) {
+            this.$store.dispatch('itemStorage/addItem', {
+              itemInfo: res[0],
+              quantity: 1,
+            })
             this.$snotify.success('', '已添加')
           } else {
             this.$snotify.warning('请检查商品是否存在多个条码', '条码不存在 ')
