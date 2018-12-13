@@ -138,7 +138,7 @@ export default {
               <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
-          <VDivider />
+          <!-- <VDivider />
           <VListTile>
             <VListTileContent>
               <VListTileTitle>会员卡号</VListTileTitle>
@@ -146,7 +146,7 @@ export default {
             <VListTileAction>
               <VListTileActionText>{{ memberInformation.cardID }}</VListTileActionText>
             </VListTileAction>
-          </VListTile>
+          </VListTile> -->
           <VDivider />
           <VListTile>
             <VListTileContent>
