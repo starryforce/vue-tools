@@ -20,6 +20,13 @@ export default {
     async getLabelList() {
       this.labelList = (await this.$api.label.getLabelList()).data
     },
+    reset() {
+      this.settings = {
+        belong: '',
+        face: -1,
+        labels: [],
+      }
+    },
     confirm() {
       this.showPanel = null
       const isMobile = this.keyword.match(
@@ -131,6 +138,7 @@ export default {
             <VBtn
               block
               :color="$style['button-bg-color']"
+              @click="reset"
             >
               重置所选
             </VBtn>
