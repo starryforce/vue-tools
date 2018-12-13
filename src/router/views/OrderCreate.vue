@@ -115,6 +115,15 @@ export default {
       { maxWait: 2000 }
     ),
     async createOrder() {
+      if (!this.selectedAddress.id) {
+        this.$snotify.warning('请选择地址')
+        return
+      }
+      if (!this.currentMember.id) {
+        this.$snotify.warning('请选择地址')
+        return
+      }
+
       try {
         const orderID = (await this.$api.order.createOrder({
           addressID: this.isSelfPick ? '' : this.selectedAddress.id,
