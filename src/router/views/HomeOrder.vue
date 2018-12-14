@@ -33,9 +33,9 @@ export default {
       <VTab to="/home/order/return">
         退单列表
       </VTab>
-      <VTab to="/home/order/pickup">
+      <!-- <VTab to="/home/order/pickup">
         提货订单
-      </VTab>
+      </VTab> -->
     </VTabs>
     <router-view
       :key="$route.fullPath"

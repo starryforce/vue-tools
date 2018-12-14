@@ -147,7 +147,7 @@ export default {
         vertical
         dark
       />
-      <VFlex>
+      <!-- <VFlex>
         <VBtn
           flat
           dark
@@ -160,7 +160,7 @@ export default {
           </VIcon>
           扫会员码
         </VBtn>
-      </VFlex>
+      </VFlex> -->
       <VDivider
         vertical
         dark

@@ -99,7 +99,10 @@ export default {
           <VExpansionPanelContent>
             <VLayout :class="$style.buttonGroup">
               <VFlex xs3>
-                <VBtn flat>
+                <VBtn
+                  flat
+                  to="/item/center"
+                >
                   <VIcon
                     dark
                     color="#FFC184"
