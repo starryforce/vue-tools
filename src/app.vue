@@ -18,6 +18,7 @@ export default {
       return this.$store.state.notice.spinner
     },
   },
+  /* global wx */
   async created() {
     this.openWS()
     var cof = (await this.$api.item.getTicket()).data
@@ -25,11 +26,8 @@ export default {
     // cof['debug'] = true
     cof['appId'] = cof.appid
     cof.signature = cof.signature.toLocaleLowerCase()
-    // eslint-disable-next-line
     wx.config(cof)
-    // eslint-disable-next-line
     wx.ready(function() {})
-    // eslint-disable-next-line
     wx.error(function(res) {
       this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
     })
@@ -49,7 +47,6 @@ export default {
 
       ws.onmessage = event => {
         // console.log('Received Message: ' + event.data)
-        // ws.close()
         this.$snotify.success(event.data, '支付完成')
         if (event.data.indexOf('orderID') !== -1)
           this.$router.replace('/order/detail/' + event.data)
@@ -114,13 +111,6 @@ export default {
 // vw polyfill 图片显示 bug 修复
 img {
   content: normal !important;
-}
-
-// 修复两个 ui 库 图标冲突
-.v-icon.v-icon.v-icon {
-  justify-content: center;
-  font-size: 24px;
-  vertical-align: text-bottom;
 }
 
 // ===
