@@ -99,7 +99,7 @@ export default {
               </VFlex>
               <VSpacer />
               <VFlex>
-                {{ item.info.payType }}
+                金额：{{ item.info.returnFee }}
               </VFlex>
             </VLayout>
             <VDivider />
@@ -153,7 +153,7 @@ export default {
               </VFlex>
               <VSpacer />
               <VFlex>
-                {{ item.info.payType }}
+                金额：{{ item.info.returnFee }}
               </VFlex>
             </VLayout>
             <VDivider />

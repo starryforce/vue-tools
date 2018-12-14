@@ -103,7 +103,7 @@ export default {
       two-line
       subheader
     >
-      <VSubheader>08.09</VSubheader>
+      <VSubheader />
       <template v-for="(order, index) in orderList">
         <VDivider
           v-if="index"

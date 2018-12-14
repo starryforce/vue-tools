@@ -222,11 +222,10 @@ export default {
           </VBtn>
         </VFlex>
         <VFlex
-          v-if="orderDetail.orderStatus !=='待支付'"
+          v-if="orderDetail.orderStatus ==='待收货' && orderDetail.orderType=='普通订单'"
           xs4
         >
           <VBtn
-            v-if="orderDetail.orderType=='普通订单'"
             :to="'/order/returnCreate/'+orderID"
           >
             申请退单
