@@ -17,7 +17,6 @@ export default {
       pointAmount: 0,
       pointSheet: false,
       couponSheet: false,
-      bargainDialog: false,
       selectedCouponList: [],
       remark: '',
       realName: '',
@@ -74,7 +73,7 @@ export default {
       this.preCreateOrder()
     },
     currentMember() {
-      this.selectedCouponList = []
+      this.resetSelections()
       this.preCreateOrder()
     },
     selectedAddress() {
@@ -153,6 +152,39 @@ export default {
     reset() {
       this.realName = ''
       this.idCard = ''
+    },
+    resetSelections() {
+      this.isSelfPick = false
+      this.usePoint = false
+      this.pointAmount = 0
+      this.pointSheet = false
+      this.couponSheet = false
+      this.selectedCouponList = []
+      this.remark = ''
+      this.realName = ''
+      this.idCard = ''
+      this.showRealNameCard = true
+    },
+    isDisabled(coupon) {
+      if (
+        this.selectedCouponList.find(item => item === coupon.couponDetailId)
+      ) {
+        return false
+      }
+      const currentType = coupon.couponType
+      return this.selectedCouponList.some(coupon => {
+        const originCoupon = this.preOrderInfo.usableCoupons.find(
+          item => item.couponDetailId === coupon
+        )
+        // 0商品优惠券 1品牌优惠券 2品类优惠券 3包邮券 4赠品券
+        // [0,1,2] + 3 +4
+        // 0 1 2 三种类型最多使用一张，3 4 各可用一张
+        if (currentType in [0, 1, 2] && originCoupon.couponType in [0, 1, 2]) {
+          return true
+        } else {
+          return currentType === originCoupon.couponType
+        }
+      })
     },
     async submitRealName() {
       try {
@@ -272,6 +304,7 @@ export default {
       <VBottomSheet
         v-model="couponSheet"
         full-width
+        :disabled="!preOrderInfo.usableCoupons.length"
       >
         <VLayout
           slot="activator"
@@ -322,6 +355,7 @@ export default {
               <VListTile
                 slot-scope="{ active, toggle }"
                 :selected="active"
+                :disabled="isDisabled(coupon)"
                 @click="toggle"
               >
                 <VListTileAvatar>
@@ -368,7 +402,7 @@ export default {
           <VSwitch
             v-model="usePoint"
             color="primary"
-            :disabled="!preOrderInfo.canUsePoint"
+            :disabled="!Math.floor(preOrderInfo.canUsePoint/1000)"
           />
         </VFlex>
       </VLayout>
