@@ -26,6 +26,10 @@ export default {
   },
   methods: {
     async createRechargeOrder() {
+      if (!(this.selectedItem > 0)) {
+        this.$snotify.warning('', '请选择储值档位')
+        return
+      }
       const orderID = (await this.$api.order.createRecharge({
         memberID: this.memberID,
         rechargeID: this.selectedItem,

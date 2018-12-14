@@ -22,6 +22,7 @@ export default {
   methods: {
     async getEmployeeDetail() {
       this.detail = (await this.$api.employee.getGuideEmployeeDetail()).data
+      this.detail.kpiDetail = this.detail.kpiDetail || { month: '本' }
     },
   },
 }
@@ -60,13 +61,13 @@ export default {
       </VSubheader>
       <VLayout>
         <VFlex xs4>
-          {{ parseInt(detail.kpiDetail.currentSalesAmount / detail.kpiDetail.salesAmount *1000)/10 }}%
+          {{ parseInt(detail.kpiDetail.currentSalesAmount / detail.kpiDetail.salesAmount *1000)/10 ||0 }}%
         </VFlex>
         <VFlex xs4>
-          {{ parseInt(detail.kpiDetail.currentCustomerCount / detail.kpiDetail.customerCount *1000)/10 }}%
+          {{ parseInt(detail.kpiDetail.currentCustomerCount / detail.kpiDetail.customerCount *1000)/10 ||0 }}%
         </VFlex>
         <VFlex xs4>
-          {{ parseInt(detail.kpiDetail.currentRepurchaseCount / detail.kpiDetail.repurchaseCount *1000)/10 }}%
+          {{ parseInt(detail.kpiDetail.currentRepurchaseCount / detail.kpiDetail.repurchaseCount *1000)/10 ||0 }}%
         </VFlex>
       </VLayout>
       <VLayout>
@@ -82,7 +83,7 @@ export default {
       </VLayout>
     </VContainer>
     <VList>
-      <VListTile>
+      <!-- <VListTile>
         <VListTileContent>
           <VListTileTitle>个人信息</VListTileTitle>
         </VListTileContent>
@@ -90,7 +91,7 @@ export default {
           <VIcon>chevron_right</VIcon>
         </VListTileAction>
       </VListTile>
-      <VDivider />
+      <VDivider /> -->
       <VListTile :to="{name:'limit-manage'}">
         <VListTileContent>
           <VListTileTitle>额度管理</VListTileTitle>
@@ -100,7 +101,7 @@ export default {
         </VListTileAction>
       </VListTile>
       <VDivider />
-      <VListTile>
+      <!-- <VListTile>
         <VListTileContent>
           <VListTileTitle>意见反馈</VListTileTitle>
         </VListTileContent>
@@ -117,7 +118,7 @@ export default {
           <VIcon>chevron_right</VIcon>
         </VListTileAction>
       </VListTile>
-      <VDivider />
+      <VDivider /> -->
     </VList>
   </Layout>
 </template>
