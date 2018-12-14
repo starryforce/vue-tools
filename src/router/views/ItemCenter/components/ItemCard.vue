@@ -50,7 +50,7 @@ export default {
 
     <VListTileContent>
       <VListTileTitle>{{ item.itemName }}</VListTileTitle>
-      <VListTileSubTitle>¥ {{ item.itemPrice.toFixed(2) }}</VListTileSubTitle>
+      <VListTileSubTitle>{{ item.itemPrice | currency }}</VListTileSubTitle>
       <VListTileSubTitle>
         <VLayout>
           <VFlex>1</VFlex>

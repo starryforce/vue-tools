@@ -395,7 +395,7 @@ export default {
         <VFlex>
           积分
           <span :class="$style.brandColor">
-            最多可用{{ (Math.floor(preOrderInfo.canUsePoint/1000) * 1000).toFixed(0) }}积分，抵{{ (Math.floor(preOrderInfo.canUsePoint/1000) * 10).toFixed(2) }}元
+            最多可用{{ (Math.floor(preOrderInfo.canUsePoint/1000) * 1000) }}积分，抵{{ (Math.floor(preOrderInfo.canUsePoint/1000) * 10) | currency }}元
           </span>
         </VFlex>
         <VFlex :class="$style.rightElement">

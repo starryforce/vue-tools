@@ -91,7 +91,7 @@ export default {
           </VListTileAvatar>
           <VListTileContent>
             <VListTileTitle>{{ item.spuName || item.itemName }}</VListTileTitle>
-            <VListTileSubTitle>¥ {{ item.itemPrice.toFixed(2) }}</VListTileSubTitle>
+            <VListTileSubTitle>{{ item.itemPrice | currency }}</VListTileSubTitle>
           </VListTileContent>
           <VListTileAction style="min-width:80px">
             <NumericInput
