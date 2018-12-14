@@ -22,7 +22,7 @@ export default {
         </VBtn>
       </VToolbarSideIcon>
       <VSpacer />
-      <VToolbarTitle>2018-09</VToolbarTitle>
+      <VToolbarTitle />
       <VSpacer />
       <VToolbarItems>
         <VBtn icon>
