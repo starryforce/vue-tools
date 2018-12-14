@@ -30,6 +30,7 @@ export default {
         />
         <VListTile
           :key="item.title"
+          :class="$style.activity"
           avatar
           @click="$router.push('/activity/offline/detail/'+item.integralActiveId)"
         >
@@ -55,13 +56,18 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-.cover {
-  width: 140px !important;
-  height: 80px !important;
-  padding-right: 10px;
-  // stylelint-disable-next-line selector-class-pattern
+.activity {
+  // stylelint-disable
+  :global(.v-list__tile__avatar) {
+    flex: none;
+    width: 120px;
+  }
+  :global(.v-list__tile__avatar) {
+    width: 120px;
+    margin-top: 0;
+  }
   :global(.v-avatar--tile) {
-    width: 140px !important;
+    width: 115px !important;
     height: 80px !important;
   }
 }
