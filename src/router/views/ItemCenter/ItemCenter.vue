@@ -228,7 +228,7 @@ export default {
             扫码选择
           </VBtn>
         </VFlex>
-        <VFlex>
+        <!-- <VFlex>
           <VBtn
             dark
             flat
@@ -237,7 +237,7 @@ export default {
           >
             无码商品
           </VBtn>
-        </VFlex>
+        </VFlex> -->
       </VLayout>
       <VCard>
         <VToolbar
