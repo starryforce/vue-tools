@@ -7,6 +7,35 @@ export default {
     meta: [{ name: 'description', content: 'OrderReturnDetail' }],
   },
   components: { Layout },
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
+  created() {
+    this.loadOrder()
+  },
+  methods: {
+    async submit(isPass) {
+      var func =
+        (this.order && this.order.state) === ''
+          ? this.$api.order.returnPass
+          : this.$api.order.returnGoods
+      try {
+        await func({
+          orderID: this.id,
+          isPass,
+          reason: '',
+        })
+        this.$snotify.success('请继续下一步', '审核完成')
+        this.loadOrder()
+      } catch (error) {
+        this.$snotify.warning(error.data.msg, '申请失败')
+      }
+    },
+    async loadOrder() {},
+  },
 }
 </script>
 
@@ -111,8 +140,9 @@ export default {
         <VBtn
           block
           text--primary
+          @click="submit(false)"
         >
-          驳回申请
+          驳回
         </VBtn>
       </VFlex>
       <VFlex>
@@ -120,8 +150,9 @@ export default {
           block
           color="primary"
           dark
+          @click="submit(true)"
         >
-          审核通过
+          确认
         </VBtn>
       </VFlex>
     </VLayout>

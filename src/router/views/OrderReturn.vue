@@ -34,7 +34,26 @@ export default {
             "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
         },
       ],
+      list1: [],
+      list2: [],
     }
+  },
+  created() {
+    this.getlist1()
+  },
+  methods: {
+    async getlist1() {
+      this.list1 = Object.assign(
+        {},
+        (await this.$api.order.getReturnOrders({ state: 0 })).data
+      )
+    },
+    async getlist2() {
+      this.list2 = Object.assign(
+        {},
+        (await this.$api.order.getReturnOrders({ state: 3 })).data
+      )
+    },
   },
 }
 </script>
@@ -46,10 +65,10 @@ export default {
       grow
       :active-class="$style.activeTab"
     >
-      <VTab>
+      <VTab @click="getlist1">
         审核
       </VTab>
-      <VTab>
+      <VTab @click="getlist2">
         收货
       </VTab>
     </VTabs>
@@ -60,27 +79,39 @@ export default {
             待审核
           </VSubheader>
           <VContainer
-            v-for="(item) in items"
-            :key="item.title"
+            v-for="(item) in list1"
+            :key="item.info.id"
             :class="$style.orderContainer"
-            @click="$router.push('/order/return/detail')"
+            @click="$router.push('/order/return/detail/'+item.info.id)"
           >
             <VLayout>
               <VFlex>
-                退单号：VX902324356
+                退单号：{{ item.info.returnOrderNo }}
               </VFlex>
               <VSpacer />
               <VFlex>
-                2018-09-09 12:00
+                {{ item.info.time }}
+              </VFlex>
+            </VLayout>
+            <VLayout>
+              <VFlex>
+                用户：{{ item.info.receiverPhone }}
+              </VFlex>
+              <VSpacer />
+              <VFlex>
+                {{ item.info.payType }}
               </VFlex>
             </VLayout>
             <VDivider />
             <VContainer>
-              <VLayout>
+              <VLayout
+                v-for="it in item.detailList"
+                :key="it.skuName "
+              >
                 <VFlex xs2>
                   <VImg
-                    :src="item.cover || ''"
-                    :lazy-src="item.cover || ''"
+                    :src="it.picUrl || ''"
+                    :lazy-src="it.picUrl || ''"
                     aspect-ratio="1"
                     class="grey lighten-2"
                   />
@@ -89,7 +120,7 @@ export default {
                   xs9
                   offset-xs1
                 >
-                  尤妮佳（Moony）纸尿裤 L68片（9-14kg）大号婴儿尿不湿
+                  {{ it.skuName }}
                 </VFlex>
               </VLayout>
             </VContainer>
@@ -102,27 +133,39 @@ export default {
             待收货
           </VSubheader>
           <VContainer
-            v-for="(item) in items"
-            :key="item.title"
+            v-for="(item) in list2"
+            :key="item.info.id"
             :class="$style.orderContainer"
-            @click="$router.push('/order/return/detail')"
+            @click="$router.push('/order/return/detail/'+id)"
           >
             <VLayout>
               <VFlex>
-                退单号：VX902324356
+                退单号：{{ item.info.returnOrderNo }}
               </VFlex>
               <VSpacer />
               <VFlex>
-                2018-09-09 12:00
+                {{ item.info.time }}
+              </VFlex>
+            </VLayout>
+            <VLayout>
+              <VFlex>
+                用户：{{ item.info.receiverPhone }}
+              </VFlex>
+              <VSpacer />
+              <VFlex>
+                {{ item.info.payType }}
               </VFlex>
             </VLayout>
             <VDivider />
             <VContainer>
-              <VLayout>
+              <VLayout
+                v-for="it in item.detailList"
+                :key="it.skuName "
+              >
                 <VFlex xs2>
                   <VImg
-                    :src="item.cover"
-                    :lazy-src="item.cover"
+                    :src="it.picUrl || ''"
+                    :lazy-src="it.picUrl || ''"
                     aspect-ratio="1"
                     class="grey lighten-2"
                   />
@@ -131,7 +174,7 @@ export default {
                   xs9
                   offset-xs1
                 >
-                  尤妮佳（Moony）纸尿裤 L68片（9-14kg）大号婴儿尿不湿
+                  {{ it.skuName }}
                 </VFlex>
               </VLayout>
             </VContainer>

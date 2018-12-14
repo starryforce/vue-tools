@@ -46,7 +46,7 @@ export default {
       return (this.orderAmount - 0 + this.postAmount).toFixed(2)
     },
     serverOrderAmount() {
-      return this.orderInfo.totalAmount - this.orderInfo.postAmount
+      return (this.orderInfo.totalAmount - this.orderInfo.postAmount).toFixed(2)
     },
   },
   async created() {
@@ -141,7 +141,7 @@ export default {
 <template>
   <Layout>
     <VToolbar dense>
-      <VToolbarTitle>
+      <VToolbarTitle v-if="orderInfo.orderType == '普通订单'">
         <VBtn
           color="primary"
           @click="bargainDialog = true"

@@ -120,9 +120,10 @@ export default [
     ],
   },
   {
-    path: '/order/return/detail',
+    path: '/order/return/detail/:id',
     name: 'order-return-detail',
     meta: {},
+    props: true,
     component: () => lazyLoadView(import('@views/OrderReturnDetail')),
   },
   {

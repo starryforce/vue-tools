@@ -30,7 +30,7 @@ export default {
         线上促销
       </VTab>
       <VTab to="/home/activity/offline">
-        线下促销
+        线下活动
       </VTab>
     </VTabs>
     <router-view
@@ -48,6 +48,7 @@ export default {
 .tabs {
   position: absolute;
   top: 0;
+  z-index: 10;
   width: 100%;
 }
 .view {

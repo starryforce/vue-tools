@@ -302,6 +302,40 @@ export const CreateReturnOrder = ({
   })
 }
 
+/// 订单状态0：顾客申请，1：门店同意，2：门店驳回，3：顾客已发货，4：已收货，5：收货拒绝，6：中台同意，7：中台驳回，8：已退款（已退换）不填全部
+export const getReturnOrders = ({ pageNo = 1, pageSize = 20, state } = {}) => {
+  return request({
+    url: '/GuideReturnOrder/BGetReturnOrderList',
+    data: {
+      PageSize: pageSize,
+      Page: pageNo,
+      State: state,
+    },
+  })
+}
+
+export const returnPass = ({ orderID, isPass, reason } = {}) => {
+  return request({
+    url: '/GuideReturnOrder/ShopPass',
+    data: {
+      returnOrderId: orderID,
+      isPass,
+      reason,
+    },
+  })
+}
+
+export const returnGoods = ({ orderID, isPass, reason } = {}) => {
+  return request({
+    url: '/GuideReturnOrder/ConfirmGood',
+    data: {
+      returnOrderId: orderID,
+      isPass,
+      reason,
+    },
+  })
+}
+
 export default {
   getRecharge,
   createRecharge,
@@ -316,4 +350,7 @@ export default {
   CreateReturnOrder,
   payOrderbyCode2,
   changeOrder,
+  getReturnOrders,
+  returnPass,
+  returnGoods,
 }
