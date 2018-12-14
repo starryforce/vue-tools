@@ -368,7 +368,7 @@ export default {
           <VSwitch
             v-model="usePoint"
             color="primary"
-            :disabled="!preOrderInfo.canUsePoint"
+            :disabled="!Math.floor(preOrderInfo.canUsePoint/1000)"
           />
         </VFlex>
       </VLayout>

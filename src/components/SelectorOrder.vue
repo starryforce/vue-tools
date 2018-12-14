@@ -3,7 +3,6 @@ export default {
   name: 'SelectorOrder',
   data() {
     return {
-      dialog: false,
       panel: [true, true, true, true, true],
       radioGroup: 1,
       customSwtich: false,
@@ -51,6 +50,14 @@ export default {
     selectedMember() {
       return this.$store.state.order.selectedMember
     },
+    dialog: {
+      get() {
+        return this.$store.state.settings.orderSelector
+      },
+      set() {
+        this.$store.dispatch('settings/triggerOrderSelector')
+      },
+    },
   },
   methods: {
     selectMember() {
@@ -60,7 +67,11 @@ export default {
       this.dialog = false
       this.$emit(
         'fetch:order-options',
-        Object.assign({}, this.options, { buyerID: this.selectedMember.id })
+        Object.assign({}, this.options, {
+          beginTime: this.customSwtich ? this.options.beginTime : '',
+          endTime: this.customSwtich ? this.options.endTime : '',
+          buyerID: this.selectedMember.id,
+        })
       )
     },
   },
@@ -111,6 +122,22 @@ export default {
           </VBtn>
         </VToolbarItems>
       </VToolbar>
+      <VToolbar
+        dense
+        flat
+        @click="selectMember"
+      >
+        <VToolbarTitle>{{ selectedMember.id?selectedMember.customerName:'选择会员' }}</VToolbarTitle>
+        <VSpacer />
+        <VToolbarItems @click.stop="$store.dispatch('order/clearMember')">
+          <VBtn
+            flat
+            icon
+          >
+            <VIcon>close</VIcon>
+          </VBtn>
+        </VToolbarItems>
+      </VToolbar>
       <VContainer>
         <VTextField
           v-model="options.buyerName"
@@ -142,22 +169,6 @@ export default {
         v-model="panel"
         expand
       >
-        <VExpansionPanelContent
-          disabled
-          @click.native="selectMember"
-        >
-          <VLayout
-            slot="header"
-            justify-space-between
-          >
-            <VFlex>
-              会员选择
-            </VFlex>
-            <VFlex :class="$style.option">
-              {{ selectedMember.id?selectedMember.customerName:'请选择' }}
-            </VFlex>
-          </VLayout>
-        </VExpansionPanelContent>
         <VExpansionPanelContent>
           <VLayout slot="header">
             <VFlex>
@@ -248,7 +259,7 @@ export default {
           <VContainer>
             <VSwitch
               v-model="customSwtich"
-              label="自定义"
+              label="自定义时间"
             />
             <VLayout v-if="customSwtich">
               <VFlex
@@ -304,7 +315,7 @@ export default {
                 </VMenu>
               </VFlex>
             </VLayout>
-            <VRadioGroup
+            <!-- <VRadioGroup
               v-else
               v-model="radioGroup"
             >
@@ -312,31 +323,7 @@ export default {
                 label="今天"
                 value="a"
               />
-              <VRadio
-                label="昨天"
-                value="b"
-              />
-              <VRadio
-                label="近7天"
-                value="c"
-              />
-              <VRadio
-                label="本周"
-                value="d"
-              />
-              <VRadio
-                label="上周"
-                value="e"
-              />
-              <VRadio
-                label="本月"
-                value="f"
-              />
-              <VRadio
-                label="上月"
-                value="g"
-              />
-            </VRadioGroup>
+            </VRadioGroup> -->
           </VContainer>
         </VExpansionPanelContent>
       </VExpansionPanel>
