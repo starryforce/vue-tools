@@ -8,7 +8,7 @@ export default {
   },
   props: {},
   data: () => ({
-    sheet: false,
+    dialog: false,
   }),
   computed: {
     cartItemList() {
@@ -33,7 +33,7 @@ export default {
     },
     clearCart() {
       this.$store.dispatch('itemStorage/clearCart')
-      this.sheet = false
+      this.dialog = false
     },
     confirmItems() {
       try {
@@ -55,56 +55,68 @@ export default {
 
 <template>
   <div>
-    <VBottomSheet v-model="sheet">
-      <VList two-line>
-        <VSubheader>
-          <VLayout justify-space-between>
-            <VFlex
-              xs9
-              align-self-center
+    <VDialog v-model="dialog">
+      <VCard>
+        <VCardTitle>
+          {{ currentMember.customerName }} 的购物车
+          <VSpacer />
+          <VBtn
+            icon
+            @click="dialog = false"
+          >
+            <VIcon>close</VIcon>
+          </VBtn>
+        </VCardTitle>
+        <VCardText :class="$style.main">
+          <VList two-line>
+            <VListTile
+              v-for="item in cartItemList"
+              :key="item.skuId"
             >
-              {{ currentMember.customerName }} 的购物车
-            </VFlex>
-            <VFlex xs3>
-              <VBtn
-                flat
-                @click="clearCart"
-              >
-                清空
-              </VBtn>
-            </VFlex>
-          </VLayout>
-        </VSubheader>
-        <VListTile
-          v-for="item in cartItemList"
-          :key="item.skuId"
-        >
-          <VListTileAvatar>
-            <VAvatar
-              tile
-            >
-              <img
-                :src="item.itemCover"
-                :alt="item.spuName"
-              >
-            </VAvatar>
-          </VListTileAvatar>
-          <VListTileContent>
-            <VListTileTitle>{{ item.spuName || item.itemName }}</VListTileTitle>
-            <VListTileSubTitle>{{ item.itemPrice | currency }}</VListTileSubTitle>
-          </VListTileContent>
-          <VListTileAction style="min-width:80px">
-            <NumericInput
-              :value="item.quantity"
-              :min="0"
-              :max="99"
-              :step="1"
-              @change="updateCart($event,item)"
-            />
-          </VListTileAction>
-        </VListTile>
-      </VList>
-    </VBottomSheet>
+              <VListTileAvatar>
+                <VAvatar
+                  tile
+                >
+                  <img
+                    :src="item.itemCover"
+                    :alt="item.spuName"
+                  >
+                </VAvatar>
+              </VListTileAvatar>
+              <VListTileContent>
+                <VListTileTitle>{{ item.spuName || item.itemName }}</VListTileTitle>
+                <VListTileSubTitle>{{ item.itemPrice | currency }}</VListTileSubTitle>
+              </VListTileContent>
+              <VListTileAction style="min-width:80px">
+                <NumericInput
+                  :value="item.quantity"
+                  :min="0"
+                  :max="99"
+                  :step="1"
+                  @change="updateCart($event,item)"
+                />
+              </VListTileAction>
+            </VListTile>
+          </VList>
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn
+            flat
+            @click="clearCart"
+          >
+            清空
+          </VBtn>
+          <VBtn
+            flat
+            color="primary"
+            @click="dialog=false"
+          >
+            关闭
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
     <VToolbar
       :class="$style.container"
       dense
@@ -114,11 +126,11 @@ export default {
         color="orange"
       >
         <span slot="badge">
-          {{ totalQuantity }}
+          {{ totalQuantity>99 ? '99+' : totalQuantity }}
         </span>
         <VBtn
           icon
-          @click="sheet = true"
+          @click="dialog = true"
         >
           <VIcon>shopping_cart</VIcon>
         </VBtn>
@@ -180,5 +192,8 @@ export default {
   :global(.v-toolbar__content) {
     padding-right: 0;
   }
+}
+.main {
+  padding: 0;
 }
 </style>
