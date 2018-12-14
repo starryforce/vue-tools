@@ -203,7 +203,7 @@ export default {
             <VListTileSubTitle>{{ item.mobile }}</VListTileSubTitle>
           </VListTileContent>
           <VListTileAction>
-            <VLayout>
+            <VLayout v-if="scene === 'list'">
               <VBadge
                 right
                 overlap
@@ -225,6 +225,12 @@ export default {
                 account_box
               </VIcon>
             </VLayout>
+            <VBtn
+              v-else
+              color="primary"
+            >
+              选中会员
+            </VBtn>
           </VListTileAction>
         </VListTile>
       </template>
