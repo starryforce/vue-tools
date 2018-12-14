@@ -11,9 +11,27 @@ export default {
   components: { Layout, EmployeeCard },
   data() {
     return {
-      total: 16000,
-      remain: 5000,
+      list: [],
     }
+  },
+  computed: {
+    total() {
+      var sum = 0
+      this.list.forEach(element => {
+        sum += element.assignAmount
+      })
+      return sum
+    },
+    remain() {
+      var sum = 0
+      this.list.forEach(element => {
+        sum += element.currentAssignAmount
+      })
+      return sum
+    },
+  },
+  async created() {
+    this.list = (await this.$api.employee.getEmpleeAssignAmounts()).data
   },
 }
 </script>
@@ -40,7 +58,14 @@ export default {
         </VFlex>
       </VLayout>
     </VContainer>
-    <EmployeeCard :remain="remain" />
+    <EmployeeCard
+      v-for="it in list"
+      :key="it.id"
+      :remain="it.currentAssignAmount"
+      :max="remain"
+      :old="it.assignAmount"
+      :name="it.name"
+    />
   </Layout>
 </template>
 

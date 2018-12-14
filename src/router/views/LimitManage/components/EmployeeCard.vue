@@ -6,6 +6,18 @@ export default {
       type: Number,
       required: true,
     },
+    max: {
+      type: Number,
+      required: true,
+    },
+    old: {
+      type: Number,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -29,10 +41,10 @@ export default {
         <img src="">
       </VListTileAvatar>
       <VListTileContent>
-        <VListTileTitle>大幅度（店长）</VListTileTitle>
+        <VListTileTitle>{{ name }}</VListTileTitle>
       </VListTileContent>
       <VListTileAction>
-        <VDialog
+        <!-- <VDialog
           v-model="dialog"
           lazy
           persistent
@@ -50,7 +62,7 @@ export default {
                 <VFlex xs9>
                   <VSlider
                     v-model="credit"
-                    :max="remain"
+                    :max="max"
                     label="剩余"
                   />
                 </VFlex>
@@ -81,7 +93,7 @@ export default {
               </VBtn>
             </VCardActions>
           </VCard>
-        </VDialog>
+        </VDialog> -->
       </VListTileAction>
     </VListTile>
     <VDivider />
@@ -89,14 +101,14 @@ export default {
       <VListTileContent>
         <VListTileTitle>分配额度</VListTileTitle>
       </VListTileContent>
-      <VListTileAction>￥5000</VListTileAction>
+      <VListTileAction>￥{{ remain }}</VListTileAction>
     </VListTile>
     <VDivider />
     <VListTile>
       <VListTileContent>
         <VListTileTitle>剩余</VListTileTitle>
       </VListTileContent>
-      <VListTileAction>￥5000</VListTileAction>
+      <VListTileAction>￥{{ old }}</VListTileAction>
     </VListTile>
     <VDivider />
   </VList>
