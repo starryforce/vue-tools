@@ -80,7 +80,7 @@ export default {
           <VFlex xs3>
             <VBtn
               flat
-              :to="{name:'item-center',params:{isScan:'true'}}"
+              :to="{name:'item-center',params:{isScan:true}}"
             >
               <VIcon
                 dark
