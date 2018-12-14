@@ -494,7 +494,7 @@ export default {
         required
       />
     </div>
-    <div :class="$style.section">
+    <div :class="[$style.section,$style.lastSection]">
       <VLayout
         v-for="item of priceDetail"
         :key="item.labelName"
@@ -544,6 +544,9 @@ export default {
   padding: 0 10px;
   margin-bottom: 10px;
   background-color: #fff;
+}
+.lastSection {
+  padding-bottom: 40px;
 }
 .deliveryType {
   padding-top: 15px;
