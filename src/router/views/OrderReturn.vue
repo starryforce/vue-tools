@@ -51,7 +51,7 @@ export default {
     async getlist2() {
       this.list2 = Object.assign(
         {},
-        (await this.$api.order.getReturnOrders({ state: 3 })).data
+        (await this.$api.order.getReturnOrders({ state: 1 })).data
       )
     },
   },
