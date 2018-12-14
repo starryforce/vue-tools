@@ -40,7 +40,7 @@ export default {
 
     <VListTileContent>
       <VListTileTitle>{{ item.skuName }}</VListTileTitle>
-      <VListTileSubTitle>¥ {{ item.salePrice.toFixed(2) }}</VListTileSubTitle>
+      <VListTileSubTitle>{{ item.salePrice | currency }}</VListTileSubTitle>
       <VListTileSubTitle>
         <VLayout>
           <VFlex>共 {{ item.number }}减</VFlex>
