@@ -43,11 +43,15 @@ export default {
         ws.send('Hello WebSockets!')
       }
 
+      setTimeout(() => {
+        this.$api.order.payOrderbyCode2()
+      }, 5000)
+
       ws.onmessage = event => {
         // console.log('Received Message: ' + event.data)
         // ws.close()
         this.$snotify.success(event.data, '支付完成')
-        if (event.data.index('orderID') !== -1)
+        if (event.data.indexOf('orderID') !== -1)
           this.$router.replace('/order/detail/' + event.data)
       }
 

@@ -45,6 +45,9 @@ export default {
 <template>
   <Layout :class="$style.container">
     <VList two-line>
+      <div v-if="!addressList || addressList.length<1">
+        暂无地址
+      </div>
       <template v-for="(address, index) in addressList">
         <VDivider
           v-if="index"
