@@ -18,6 +18,10 @@ export default {
 
 <template>
   <Layout :class="$style.container">
+    <router-view
+      :key="$route.fullPath"
+      :class="$style.view"
+    />
     <VTabs
       v-model="tab"
       :class="$style.tabs"
@@ -37,10 +41,6 @@ export default {
         提货订单
       </VTab>
     </VTabs>
-    <router-view
-      :key="$route.fullPath"
-      :class="$style.view"
-    />
   </Layout>
 </template>
 
