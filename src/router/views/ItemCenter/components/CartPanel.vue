@@ -114,7 +114,7 @@ export default {
         color="orange"
       >
         <span slot="badge">
-          {{ totalQuantity }}
+          {{ totalQuantity>99 ? '99+' : totalQuantity }}
         </span>
         <VBtn
           icon
