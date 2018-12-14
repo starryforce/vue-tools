@@ -47,7 +47,8 @@ export default {
         // console.log('Received Message: ' + event.data)
         // ws.close()
         this.$snotify.success(event.data, '支付完成')
-        this.$router.replace('/order/detail/' + event.data)
+        if (event.data.index('orderID') !== -1)
+          this.$router.replace('/order/detail/' + event.data)
       }
 
       ws.onclose = event => {
