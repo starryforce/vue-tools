@@ -38,18 +38,22 @@ export default {
 
       ws.onopen = event => {
         // console.log('Connection open ...')
-        ws.send('Hello WebSockets!')
+        setTimeout(() => {
+          this.$api.order.payOrderbyCode2()
+        }, 200)
       }
-
-      setTimeout(() => {
-        this.$api.order.payOrderbyCode2()
-      }, 5000)
 
       ws.onmessage = event => {
         // console.log('Received Message: ' + event.data)
-        this.$snotify.success(event.data, '支付完成')
-        if (event.data.indexOf('orderID') !== -1)
-          this.$router.replace('/order/detail/' + event.data)
+        if (event.data.indexOf('pay|') !== -1) {
+          if (event.data.indexOf('pay|') !== -1) {
+            this.$snotify.success(event.data, '支付完成')
+            var orderid = event.data.replace('pay|', '').replace('.ok', '')
+            this.$router.replace('/order/detail/' + orderid)
+          } else {
+            this.$snotify.warning(event.data, '支付失败')
+          }
+        }
       }
 
       ws.onclose = event => {

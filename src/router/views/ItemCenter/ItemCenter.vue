@@ -35,6 +35,7 @@ export default {
       pageSize: 20,
       hasNext: true,
       infiniteId: +new Date(),
+      list: null,
     }
   },
   computed: {
@@ -56,8 +57,11 @@ export default {
   },
   methods: {
     async scan() {
-      var list = (await this.$api.item.getItems()).data
-      await this.scanSearch(list)
+      if (!this.list) {
+        this.$snotify.warning('', '商品数据下载中')
+        this.list = (await this.$api.item.getItems()).data
+      }
+      await this.scanSearch(this.list)
     },
     async scanSearch(list) {
       // eslint-disable-next-line
@@ -219,7 +223,7 @@ export default {
             dark
             flat
             small
-            @click="tabActive=1"
+            @click.stop.prevent="scan"
           >
             扫码选择
           </VBtn>

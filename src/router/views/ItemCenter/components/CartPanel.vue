@@ -90,10 +90,10 @@ export default {
             </VAvatar>
           </VListTileAvatar>
           <VListTileContent>
-            <VListTileTitle>{{ item.spuName }}</VListTileTitle>
+            <VListTileTitle>{{ item.spuName || item.itemName }}</VListTileTitle>
             <VListTileSubTitle>¥ {{ item.itemPrice.toFixed(2) }}</VListTileSubTitle>
           </VListTileContent>
-          <VListTileAction>
+          <VListTileAction style="min-width:80px">
             <NumericInput
               :value="item.quantity"
               :min="0"
