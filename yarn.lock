@@ -1401,15 +1401,21 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@fortawesome/fontawesome-common-types@^0.2.10":
+  version "0.2.10"
+  resolved "http://registry.npm.taobao.org/@fortawesome/fontawesome-common-types/download/@fortawesome/fontawesome-common-types-0.2.10.tgz#ae0e6858daf6f9ff1e2396f9fbea87b244628343"
+  integrity sha1-rg5oWNr2+f8eI5b5++qHskRig0M=
+
 "@fortawesome/fontawesome-common-types@^0.2.7":
   version "0.2.7"
   resolved "http://registry.npm.taobao.org/@fortawesome/fontawesome-common-types/download/@fortawesome/fontawesome-common-types-0.2.7.tgz#fe76803922db0eb4393675199c2e0c3bad52629c"
 
-"@fortawesome/fontawesome-svg-core@1.2.7":
-  version "1.2.7"
-  resolved "http://registry.npm.taobao.org/@fortawesome/fontawesome-svg-core/download/@fortawesome/fontawesome-svg-core-1.2.7.tgz#064aefa1c8e4b055fbc6de0b6fbd3ff5ecf564ea"
+"@fortawesome/fontawesome-svg-core@1.2.10":
+  version "1.2.10"
+  resolved "http://registry.npm.taobao.org/@fortawesome/fontawesome-svg-core/download/@fortawesome/fontawesome-svg-core-1.2.10.tgz#235f82b209f36c94792a79b9aea127dfa29651c9"
+  integrity sha1-I1+CsgnzbJR5Knm5rqEn36KWUck=
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.7"
+    "@fortawesome/fontawesome-common-types" "^0.2.10"
 
 "@fortawesome/free-solid-svg-icons@5.4.2":
   version "5.4.2"
@@ -3587,13 +3593,6 @@ code-point-at@^1.0.0:
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codependency@^2.1.0:
-  version "2.1.0"
-  resolved "http://registry.npm.taobao.org/codependency/download/codependency-2.1.0.tgz#597d01ccc6b2704ab8d7a12af5d27ac9b4e27e8a"
-  integrity sha1-WX0BzMaycEq416Eq9dJ6ybTifoo=
-  dependencies:
-    semver "^5.3.0"
-
 collapse-white-space@^1.0.2:
   version "1.0.4"
   resolved "http://registry.npm.taobao.org/collapse-white-space/download/collapse-white-space-1.0.4.tgz#ce05cf49e54c3277ae573036a26851ba430a0091"
@@ -4532,9 +4531,10 @@ deepmerge@^1.5.2:
   resolved "http://registry.npm.taobao.org/deepmerge/download/deepmerge-1.5.2.tgz#10499d868844cdad4fee0842df8c7f6f0c95a753"
   integrity sha1-EEmdhohEza1P7ghC34x/bwyVp1M=
 
-deepmerge@^2.0.0:
+deepmerge@^2.2.1:
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/deepmerge/download/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+  integrity sha1-XT/yKgHAD2RUBaL7wX0HeKGAEXA=
 
 default-gateway@^2.6.0:
   version "2.7.2"
@@ -11510,12 +11510,6 @@ postcss-values-parser@^1.5.0:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-viewport-units@^0.1.6:
-  version "0.1.6"
-  resolved "http://registry.npm.taobao.org/postcss-viewport-units/download/postcss-viewport-units-0.1.6.tgz#c1a019f0a0f677296ed53b0dffd08d6d9f4f08e8"
-  dependencies:
-    postcss "^5.2.8"
-
 postcss-write-svg@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/postcss-write-svg/download/postcss-write-svg-3.0.1.tgz#76e495d40f2321ff09b56487e03845af737f801a"
@@ -11540,7 +11534,7 @@ postcss-zindex@^4.0.1:
     postcss "^7.0.0"
     uniqs "^2.0.0"
 
-postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.16, postcss@^5.2.6, postcss@^5.2.8:
+postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.16, postcss@^5.2.6:
   version "5.2.18"
   resolved "http://registry.npm.taobao.org/postcss/download/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
   integrity sha1-ut+hSX1GJE9jkPWLMZgw2RB4U8U=
@@ -14504,7 +14498,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-cli-plugin-vuetify@^0.4.4:
+vue-cli-plugin-vuetify@^0.4.6:
   version "0.4.6"
   resolved "http://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-0.4.6.tgz#91c4534d17bc04bbd6f41eacdb6ff49be0f59f2b"
   integrity sha1-kcRTTRe8BLvW9B6s22/0m+D1nys=
@@ -14576,19 +14570,16 @@ vue-loader@^15.2.4, vue-loader@^15.4.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-meta@1.5.5:
-  version "1.5.5"
-  resolved "http://registry.npm.taobao.org/vue-meta/download/vue-meta-1.5.5.tgz#e24a5fea3a0c11b67c85947f0a7ee3f3edcbc01d"
+vue-meta@^1.5.6:
+  version "1.5.6"
+  resolved "http://registry.npm.taobao.org/vue-meta/download/vue-meta-1.5.6.tgz#8c6e56e560217c63637bb9ed66434df15c162057"
+  integrity sha1-jG5W5WAhfGNje7ntZkNN8VwWIFc=
   dependencies:
-    deepmerge "^2.0.0"
+    deepmerge "^2.2.1"
     lodash.isplainobject "^4.0.6"
     object-assign "^4.1.1"
 
-vue-router@3.0.1:
-  version "3.0.1"
-  resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
-
-vue-router@^3.0.1:
+vue-router@3.0.2, vue-router@^3.0.1:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
   integrity sha1-3txnr+bE4rwlaCyLHCqMDXx+Vr4=
@@ -14620,7 +14611,15 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@2.5.17, vue-template-compiler@^2.5.16:
+vue-template-compiler@2.5.21:
+  version "2.5.21"
+  resolved "http://registry.npm.taobao.org/vue-template-compiler/download/vue-template-compiler-2.5.21.tgz#a57ceb903177e8f643560a8d639a0f8db647054a"
+  integrity sha1-pXzrkDF36PZDVgqNY5oPjbZHBUo=
+  dependencies:
+    de-indent "^1.0.2"
+    he "^1.1.0"
+
+vue-template-compiler@^2.5.16:
   version "2.5.17"
   resolved "http://registry.npm.taobao.org/vue-template-compiler/download/vue-template-compiler-2.5.17.tgz#52a4a078c327deb937482a509ae85c06f346c3cb"
   dependencies:
@@ -14632,9 +14631,14 @@ vue-template-es2015-compiler@^1.6.0:
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
   integrity sha1-3EJpcTMwLOMBdSQ1amxht7abShg=
 
-vue@2.5.17, vue@^2.5.16:
+vue@^2.5.16:
   version "2.5.17"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
+
+vue@^2.5.21:
+  version "2.5.21"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
+  integrity sha1-PTPc0Du4E5Es6JSoMDq1U2mcSoU=
 
 vuepress-html-webpack-plugin@^3.2.0:
   version "3.2.0"
@@ -14711,18 +14715,17 @@ vuepress@0.14.x:
     webpackbar "^2.6.1"
     workbox-build "^3.1.0"
 
-vuetify-loader@^1.0.5:
-  version "1.0.7"
-  resolved "http://registry.npm.taobao.org/vuetify-loader/download/vuetify-loader-1.0.7.tgz#bcfb867d4d1fcd36c886a381de0a32edf1985731"
-  integrity sha1-vPuGfU0fzTbIhqOB3goy7fGYVzE=
+vuetify-loader@^1.0.8:
+  version "1.0.8"
+  resolved "http://registry.npm.taobao.org/vuetify-loader/download/vuetify-loader-1.0.8.tgz#db99b7325d0336acae3970d411bf7237b27d52bf"
+  integrity sha1-25m3Ml0DNqyuOXDUEb9yN7J9Ur8=
   dependencies:
-    codependency "^2.1.0"
     loader-utils "^1.1.0"
 
-vuetify@^1.3.0:
-  version "1.3.9"
-  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.3.9.tgz#19af65f7ef0c26efb1076464815d9ad9a5e4fa4f"
-  integrity sha1-Ga9l9+8MJu+xB2RkgV2a2aXk+k8=
+vuetify@^1.3.14:
+  version "1.3.14"
+  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.3.14.tgz#d0dbcbd2c10b5bf5954ba05a823f0a0cacb58661"
+  integrity sha1-0NvL0sELW/WVS6Bagj8KDKy1hmE=
 
 vuex-persist@^2.0.0:
   version "2.0.0"
@@ -14731,9 +14734,10 @@ vuex-persist@^2.0.0:
     circular-json "^0.5.5"
     lodash.merge "^4.6.1"
 
-vuex@3.0.1:
+vuex@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/vuex/download/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
+  integrity sha1-52E1Lr4K9TfUu3Vam53Evj3379I=
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

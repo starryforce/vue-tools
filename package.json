@@ -40,7 +40,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.7",
+    "@fortawesome/fontawesome-svg-core": "1.2.10",
     "@fortawesome/free-solid-svg-icons": "5.4.2",
     "@fortawesome/vue-fontawesome": "0.1.x",
     "axios": "0.18.0",
@@ -50,14 +50,14 @@
     "normalize.css": "8.0.0",
     "nprogress": "0.2.0",
     "qrious": "^4.0.2",
-    "vue": "2.5.17",
+    "vue": "^2.5.21",
     "vue-currency-filter": "^3.2.0",
     "vue-infinite-loading": "^2.4.3",
-    "vue-meta": "1.5.5",
-    "vue-router": "3.0.1",
+    "vue-meta": "^1.5.6",
+    "vue-router": "3.0.2",
     "vue-snotify": "^3.2.1",
-    "vuetify": "^1.3.0",
-    "vuex": "3.0.1",
+    "vuetify": "^1.3.14",
+    "vuex": "^3.0.1",
     "vuex-persist": "^2.0.0"
   },
   "devDependencies": {
@@ -88,7 +88,6 @@
     "nodemon": "^1.18.5",
     "postcss-cssnext": "^3.1.0",
     "postcss-px-to-viewport": "^0.0.3",
-    "postcss-viewport-units": "^0.1.6",
     "postcss-write-svg": "^3.0.1",
     "sass-loader": "7.1.x",
     "stylelint": "9.7.x",
@@ -99,10 +98,10 @@
     "stylelint-scss": "3.3.x",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "vue-cli-plugin-vuetify": "^0.4.4",
+    "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-jest": "^3.0.1",
-    "vue-template-compiler": "2.5.17",
+    "vue-template-compiler": "2.5.21",
     "vuepress": "0.14.x",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.0.8"
   }
 }
