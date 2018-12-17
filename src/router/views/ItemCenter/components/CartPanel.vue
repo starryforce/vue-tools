@@ -186,7 +186,7 @@ export default {
   color: $color-button-danger;
 }
 .container {
-  position: absolute !important;
+  position: fixed !important;
   bottom: 0;
   // stylelint-disable selector-class-pattern
   :global(.v-toolbar__content) {
