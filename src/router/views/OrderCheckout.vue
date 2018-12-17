@@ -19,17 +19,17 @@ export default {
       code: '12',
       paymentList: [
         {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+          icon: 'crop_free',
           title: '扫码支付',
           id: 1,
         },
         {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+          icon: 'money',
           title: '现金支付',
           id: 2,
         },
         {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+          icon: 'credit_card',
           title: 'POS机刷卡',
           id: 3,
         },
@@ -227,7 +227,7 @@ export default {
           @click="pay(payment.id)"
         >
           <VListTileAvatar tile>
-            <img :src="payment.avatar">
+            <VIcon>{{ payment.icon }}</VIcon>
           </VListTileAvatar>
 
           <VListTileContent>

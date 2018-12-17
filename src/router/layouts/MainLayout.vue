@@ -14,7 +14,7 @@ export default {
 @import '@design';
 
 .container {
-  height: 100vh;
+  height: 100%;
   padding-bottom: 56px;
   overflow: auto;
   // -webkit-overflow-scrolling: touch;
