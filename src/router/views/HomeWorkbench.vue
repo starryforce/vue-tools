@@ -173,20 +173,20 @@ export default {
                 </VBtn>
               </VFlex>
               <VFlex xs3>
-                <VBtn flat>
+                <!-- <VBtn flat>
                   <VIcon dark>
                     cloud_queue
                   </VIcon>
                   <span>构建标志</span>
-                </VBtn>
+                </VBtn> -->
               </VFlex>
               <VFlex xs3>
-                <VBtn flat>
+                <!-- <VBtn flat>
                   <VIcon dark>
                     cloud_queue
                   </VIcon>
                   <span>无</span>
-                </VBtn>
+                </VBtn> -->
               </VFlex>
             </VLayout>
           </VExpansionPanelContent>

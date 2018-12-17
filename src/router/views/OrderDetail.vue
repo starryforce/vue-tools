@@ -127,13 +127,18 @@ export default {
       </li>
       <li>
         <label :class="$style.listLabel">
-          消费门店：
-        </label>{{ orderDetail.createTime }}
+          收件人姓名：
+        </label>{{ orderDetail.receiverName }}
       </li>
       <li>
         <label :class="$style.listLabel">
-          配送方式：
-        </label>{{ orderDetail.createTime }}
+          收件人电话：
+        </label>{{ orderDetail.receiverPhone }}
+      </li>
+      <li>
+        <label :class="$style.listLabel">
+          收件人地址：
+        </label>{{ orderDetail.receiverAddress }}
       </li>
     </ul>
     <VList two-line>

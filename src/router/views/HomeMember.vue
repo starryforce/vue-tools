@@ -208,11 +208,14 @@ export default {
                 right
                 overlap
               >
-                <span slot="badge">
+                <span 
+                  v-if="item.labelInfo && item.labelInfo.length" 
+                  slot="badge"
+                >
                   {{ item.labelInfo ? item.labelInfo.length : 0 }}
                 </span>
                 <VIcon
-                  :color="item.isFaceId?'primary':''"
+                  :color="item.labelInfo && item.labelInfo.length?'primary':''"
                   large
                 >
                   label_important

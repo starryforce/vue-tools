@@ -39,14 +39,12 @@ export default {
       )
 
       ws.onopen = event => {
-        // console.log('Connection open ...')
         setTimeout(() => {
           this.$api.order.payOrderbyCode2()
         }, 200)
       }
 
       ws.onmessage = event => {
-        // console.log('Received Message: ' + event.data)
         if (event.data.indexOf('pay|') !== -1) {
           if (event.data.indexOf('pay|') !== -1) {
             this.$snotify.success(event.data, '支付完成')
@@ -58,9 +56,8 @@ export default {
         }
       }
 
-      ws.onclose = event => {
-        alert('Connection closed.')
-        // console.log('Connection closed.')
+      ws.onclose = () => {
+        this.$snotify.info('持久化链接已断开', '提示')
       }
     },
   },
