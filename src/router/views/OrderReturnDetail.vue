@@ -13,6 +13,9 @@ export default {
       required: true,
     },
   },
+  data: function() {
+    return { order: {} }
+  },
   created() {
     this.loadOrder()
   },
@@ -34,7 +37,12 @@ export default {
         this.$snotify.warning(error.data.msg, '申请失败')
       }
     },
-    async loadOrder() {},
+    async loadOrder() {
+      this.order = Object.assign(
+        {},
+        (await this.$api.order.getReturnDetail(this.id)).data
+      )
+    },
   },
 }
 </script>
@@ -43,18 +51,20 @@ export default {
   <Layout>
     <VList two-line>
       <VListTile
+        v-for="it in order.orderDetailList"
+        :key="it.skuName"
         avatar
       >
         <VListTileAvatar>
-          <VImg src="" />
+          <VImg :src="it.picUrl" />
         </VListTileAvatar>
 
         <VListTileContent>
-          <VListTileSubTitle>尤妮佳（Moony）纸尿裤 L68片（9-14kg）大号婴儿尿不湿</VListTileSubTitle>
+          <VListTileSubTitle> {{ it.skuName }}</VListTileSubTitle>
           <VListTileSubTitle>
             <VLayout>
-              <VFlex>单价：¥ 99.00</VFlex>
-              <VFlex>数量：2</VFlex>
+              <VFlex>总价：¥ {{ it.salePrice }}</VFlex>
+              <VFlex>数量：{{ it.num }}</VFlex>
             </VLayout>
           </VListTileSubTitle>
         </VListTileContent>
@@ -63,26 +73,25 @@ export default {
     <VList :class="$style.form">
       <VListTile>
         <VListTileSubTitle>退单号:</VListTileSubTitle>
-        <VListTileTitle>VX902324356</VListTileTitle>
+        <VListTileTitle>{{ order.no }}</VListTileTitle>
       </VListTile>
       <VListTile>
-        <VListTileSubTitle>申请人：</VListTileSubTitle>
-        <VListTileTitle>年糕妈妈</VListTileTitle>
+        <VListTileSubTitle>购买人：</VListTileSubTitle>
+        <VListTileTitle>{{ order.nick }}</VListTileTitle>
       </VListTile>
       <VListTile>
         <VListTileSubTitle>联系电话：</VListTileSubTitle>
-        <VListTileTitle>190000000000</VListTileTitle>
+        <VListTileTitle>{{ order.phone }}</VListTileTitle>
       </VListTile>
       <VListTile>
         <VListTileSubTitle>申请时间：</VListTileSubTitle>
-        <VListTileTitle>2018-09-09 12:00</VListTileTitle>
+        <VListTileTitle>{{ order.time }}</VListTileTitle>
       </VListTile>
       <VListTile :class="$style.fullHeight">
         <VListTileSubTitle>退单描述：</VListTileSubTitle>
         <VListTileTitle>
           <VTextarea
-            value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            hint="Hint text"
+            :value="order.discribe"
             auto-grow
           />
         </VListTileTitle>
@@ -99,7 +108,7 @@ export default {
               wrap
             >
               <VFlex
-                v-for="n in 9"
+                v-for="n in order.imgs"
                 :key="n"
                 xs4
                 d-flex

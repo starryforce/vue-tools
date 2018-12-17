@@ -47,8 +47,21 @@ export const getTicketUrl = () => {
   })
 }
 
+export const getEmpleeAssignAmounts = () => {
+  return request({
+    url: '/GuideEmployee/GetEmpleeAssignAmounts',
+    data: {
+      CurrentPage: 1,
+      PageSize: 100,
+      Year: parseInt(Date.now() / 31556926000 + 1970),
+      Month: parseInt(((Date.now() / 31556926000 + 1970) % 1) * 12 + 1),
+    },
+  })
+}
+
 export default {
   getGuideEmployeeDetail,
   getGuideEmployeeInviteList,
   getTicketUrl,
+  getEmpleeAssignAmounts,
 }

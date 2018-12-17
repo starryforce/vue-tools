@@ -135,7 +135,7 @@ export default {
               <VListTileTitle>昵称</VListTileTitle>
             </VListTileContent>
             <VListTileAction>
-              <VListTileActionText>{{ memberInformation.customerName }}</VListTileActionText>
+              <VListTileActionText>{{ memberInformation.buyerNick }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
           <!-- <VDivider />

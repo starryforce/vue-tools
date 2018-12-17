@@ -314,6 +314,15 @@ export const getReturnOrders = ({ pageNo = 1, pageSize = 20, state } = {}) => {
   })
 }
 
+export const getReturnDetail = orderID => {
+  return request({
+    url: '/GuideReturnOrder/GetReturnOrderDetail',
+    data: {
+      ReturnOrderId: orderID,
+    },
+  })
+}
+
 export const returnPass = ({ orderID, isPass, reason } = {}) => {
   return request({
     url: '/GuideReturnOrder/ShopPass',
@@ -353,4 +362,5 @@ export default {
   getReturnOrders,
   returnPass,
   returnGoods,
+  getReturnDetail,
 }

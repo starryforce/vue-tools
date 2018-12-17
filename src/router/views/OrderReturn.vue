@@ -51,7 +51,7 @@ export default {
     async getlist2() {
       this.list2 = Object.assign(
         {},
-        (await this.$api.order.getReturnOrders({ state: 3 })).data
+        (await this.$api.order.getReturnOrders({ state: 1 })).data
       )
     },
   },
@@ -99,7 +99,7 @@ export default {
               </VFlex>
               <VSpacer />
               <VFlex>
-                {{ item.info.payType }}
+                金额：{{ item.info.returnFee }}
               </VFlex>
             </VLayout>
             <VDivider />
@@ -153,7 +153,7 @@ export default {
               </VFlex>
               <VSpacer />
               <VFlex>
-                {{ item.info.payType }}
+                金额：{{ item.info.returnFee }}
               </VFlex>
             </VLayout>
             <VDivider />
