@@ -34,7 +34,9 @@ export default {
   },
   methods: {
     openWS() {
-      const ws = new WebSocket('ws://114.55.4.22:9002/bksoc?socketid=toshop123')
+      const ws = new WebSocket(
+        'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
+      )
 
       ws.onopen = event => {
         // console.log('Connection open ...')

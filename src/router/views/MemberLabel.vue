@@ -53,7 +53,7 @@ export default {
       </template>
     </VList>
 
-    <VLayout :class="$style.button">
+    <VFooter fixed>
       <VBtn
         color="primary"
         dark
@@ -63,15 +63,10 @@ export default {
       >
         新增标签
       </VBtn>
-    </VLayout>
+    </VFooter>
   </Layout>
 </template>
 
 <style lang="scss" module>
 @import '@design';
-.button {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
 </style>
