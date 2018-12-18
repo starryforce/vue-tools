@@ -15,24 +15,16 @@ export default {
       pageSize: 20,
       hasNext: true,
       infiniteId: +new Date(),
-      orderData: {},
+      orderData: [],
       orderList: [],
       orderOptions: {},
     }
   },
   computed: {
-    sum() {
-      var sumy = 0
-      if (!this.orderData.orders) return 0
-      for (const key in this.orderData) {
-        if (this.orderData.hasOwnProperty(key)) {
-          const element = this.orderData[key]
-          if (key !== 'orders') {
-            sumy += element
-          }
-        }
-      }
-      return sumy
+    turnover() {
+      return this.orderData.reduce((accumulator, current) => {
+        return accumulator + current.value
+      }, 0)
     },
   },
   methods: {
@@ -45,7 +37,16 @@ export default {
           })
         )).data
         this.hasNext = newData.orders.length === this.pageSize
-        this.orderData = newData
+        if (this.pageNo === 1) {
+          this.orderData = [
+            { name: 'POS 收款', value: newData.posPay },
+            { name: '支付宝收款', value: newData.aliPay },
+            { name: '微信收款', value: newData.weChatPay },
+            { name: '现金收款', value: newData.cashPay },
+            { name: '余额收款', value: newData.balancePay },
+            { name: '积分收款', value: newData.pointsPay },
+          ]
+        }
         if (newData.orders.length) {
           this.orderList.push(...newData.orders)
         }
@@ -73,7 +74,6 @@ export default {
   <Layout>
     <VContainer>
       <VCard
-        v-if="orderData"
         dark
         color="primary"
       >
@@ -83,17 +83,15 @@ export default {
             justify-space-between
             align-center
           >
-            <span>{{ sum }}</span>
+            <span>{{ turnover }}元</span>
             <SelectorOrder @fetch:order-options="fetchOrderOptions" />
           </VLayout>
           <VLayout column>
             <VFlex
-              v-for="(value,key) in orderData"
-              :key="key"
+              v-for="data of orderData"
+              :key="data.name"
             >
-              <div v-if="key !='orders'">
-                {{ key }}：{{ value }}元
-              </div>
+              {{ data.name }}：{{ data.value }}元
             </VFlex>
           </VLayout>
         </VCardText>
