@@ -57,18 +57,42 @@ export default {
     },
     priceDetail() {
       return [
-        { labelName: '商品原价合计：', value: this.cartTotalPrice },
+        { labelName: '商品原价合计：', value: this.cartTotalPrice, sign: '' },
         {
-          labelName: '优惠活动：',
-          value: -(
-            this.preOrderInfo.freeLimitAmount + this.preOrderInfo.freeFullAmount
-          ),
+          labelName: 'VIP优惠：',
+          value: this.preOrderInfo.freeVipAmount,
+          sign: '-',
         },
-        { labelName: 'VIP优惠：', value: -this.preOrderInfo.freeVipAmount },
-        { labelName: '改价优惠：', value: -0 },
-        { labelName: '优惠券：', value: -this.preOrderInfo.freeCouponAmount },
-        { labelName: '积分抵扣：', value: -this.preOrderInfo.usePointMoney },
-        { labelName: '运费：', value: +this.preOrderInfo.totalPostAmount },
+        {
+          labelName: '满减满折优惠：',
+          value: this.preOrderInfo.freeFullAmount,
+          sign: '-',
+        },
+        {
+          labelName: '限时折扣：',
+          value: this.preOrderInfo.freeLimitAmount,
+          sign: '-',
+        },
+        {
+          labelName: '优惠券抵扣：',
+          value: this.preOrderInfo.freeCouponAmount,
+          sign: '-',
+        },
+        {
+          labelName: '积分抵扣：',
+          value: this.preOrderInfo.usePointMoney,
+          sign: '-',
+        },
+        {
+          labelName: '运费：',
+          value: this.preOrderInfo.totalPostAmount,
+          sign: '+',
+        },
+        {
+          labelName: '减免的邮费：',
+          value: this.preOrderInfo.freePostAmount,
+          sign: '-',
+        },
       ]
     },
     selectedAddress() {
@@ -530,7 +554,7 @@ export default {
           {{ item.labelName }}
         </VFlex>
         <VFlex :class="$style.rightElement">
-          {{ item.value }}
+          {{ item.sign }} ¥{{ item.value }}
         </VFlex>
       </VLayout>
     </div>

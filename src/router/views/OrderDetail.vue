@@ -197,14 +197,14 @@ export default {
         </span>
       </li>
     </ul>
-    <VLayout>
-      <VSpacer />
+    <VLayout :class="$style.panel">
       <VFlex
         xs4
       >
         <VBtn
           :to="'/'"
           replace
+          block
         >
           回首页
         </VBtn>
@@ -212,28 +212,36 @@ export default {
       <template v-if="orderDetail.orderStatus !=='订单关闭'">
         <VFlex
           v-if="orderDetail.orderStatus ==='待支付'"
-          xs4
+          xs3
         >
-          <VBtn @click="cancelOrder">
+          <VBtn
+            block
+            @click="cancelOrder"
+          >
             取消订单
           </VBtn>
         </VFlex>
         <VFlex
-          v-if="orderDetail.orderStatus ==='待支付'"
-          xs4
-        >
-          <VBtn :to="'/order/checkout/'+orderID">
-            去支付
-          </VBtn>
-        </VFlex>
-        <VFlex
           v-if="orderDetail.orderStatus ==='待收货' && orderDetail.orderType=='普通订单'"
-          xs4
+          xs3
         >
           <VBtn
             :to="'/order/returnCreate/'+orderID"
+            block
           >
             申请退单
+          </VBtn>
+        </VFlex>
+        <VFlex
+          v-if="orderDetail.orderStatus ==='待支付'"
+          xs5
+        >
+          <VBtn
+            :to="'/order/checkout/'+orderID"
+            block
+            color="primary"
+          >
+            去支付
           </VBtn>
         </VFlex>
       </template>
@@ -265,5 +273,13 @@ export default {
   font-size: 16px;
   font-weight: bold;
   color: $color-brand;
+}
+.priceList {
+  margin-bottom: 50px;
+}
+.panel {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>
