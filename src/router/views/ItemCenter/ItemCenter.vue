@@ -39,6 +39,7 @@ export default {
     }
   },
   computed: {
+    // 最终选中的类目 ID
     classID() {
       if (this.selectedThirdClassCode) return this.selectedThirdClassCode
       if (this.selectedSecondClassCode) return this.selectedSecondClassCode

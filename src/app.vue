@@ -20,50 +20,57 @@ export default {
   },
   /* global wx */
   async created() {
-    this.openWS()
-    var cof = (await this.$api.item.getTicket()).data
-    cof['jsApiList'] = ['scanQRCode']
-    // cof['debug'] = true
-    cof['appId'] = cof.appid
-    cof.signature = cof.signature.toLocaleLowerCase()
-    wx.config(cof)
-    wx.ready(function(res) {
-      this.$snotify.success(res, '微信初始化成功')
-    })
-    wx.error(function(res) {
-      this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
-    })
+    try {
+      this.openWS()
+    } catch (error) {
+      this.$snotify.info('持久化链接初始化失败', '提示')
+    }
+    try {
+      this.initWX()
+    } catch (error) {
+      this.$snotify.info('微信初始化失败', '提示')
+    }
   },
   methods: {
+    async initWX() {
+      var cof = (await this.$api.item.getTicket()).data
+      cof['jsApiList'] = ['scanQRCode']
+      // cof['debug'] = true
+      cof['appId'] = cof.appid
+      cof.signature = cof.signature.toLocaleLowerCase()
+      wx.config(cof)
+      wx.ready(function(res) {
+        this.$snotify.success(res, '微信初始化成功')
+      })
+      wx.error(function(res) {
+        this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
+      })
+    },
     openWS() {
-      try {
-        const ws = new WebSocket(
-          'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
-        )
+      const ws = new WebSocket(
+        'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
+      )
 
-        ws.onopen = event => {
-          setTimeout(() => {
-            this.$api.order.payOrderbyCode2()
-          }, 200)
-        }
+      ws.onopen = event => {
+        setTimeout(() => {
+          this.$api.order.payOrderbyCode2()
+        }, 200)
+      }
 
-        ws.onmessage = event => {
+      ws.onmessage = event => {
+        if (event.data.indexOf('pay|') !== -1) {
           if (event.data.indexOf('pay|') !== -1) {
-            if (event.data.indexOf('pay|') !== -1) {
-              this.$snotify.success(event.data, '支付完成')
-              var orderid = event.data.replace('pay|', '').replace('.ok', '')
-              this.$router.replace('/order/detail/' + orderid)
-            } else {
-              this.$snotify.warning(event.data, '支付失败')
-            }
+            this.$snotify.success(event.data, '支付完成')
+            var orderid = event.data.replace('pay|', '').replace('.ok', '')
+            this.$router.replace('/order/detail/' + orderid)
+          } else {
+            this.$snotify.warning(event.data, '支付失败')
           }
         }
+      }
 
-        ws.onclose = () => {
-          this.$snotify.info('持久化链接已断开', '提示')
-        }
-      } catch (error) {
-        this.$snotify.info('持久化链接失败', '提示')
+      ws.onclose = () => {
+        this.$snotify.info('持久化链接已断开', '提示')
       }
     },
   },
@@ -89,7 +96,7 @@ export default {
     />
     <div
       v-show="spinnerVisible"
-      :class="$style.spinnerContainer"
+      id="spinner"
     >
       <VProgressCircular
         :size="70"
@@ -123,13 +130,8 @@ export default {
 #nprogress .bar {
   background: $color-link-text;
 }
-</style>
 
-<style lang="scss" module>
-// stylelint-disable no-duplicate-at-import-rules
-@import '@design';
-
-.spinnerContainer {
+#spinner {
   position: absolute;
   top: 50%;
   left: 50%;

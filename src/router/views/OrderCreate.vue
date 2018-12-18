@@ -9,6 +9,18 @@ export default {
   },
   name: 'OrderCreate',
   components: { Layout },
+  filters: {
+    couponTag: function(value) {
+      const couponTags = [
+        '商品优惠券',
+        '品牌优惠券',
+        '品类优惠券',
+        '包邮券',
+        '赠品券',
+      ]
+      return couponTags[value]
+    },
+  },
   data() {
     return {
       isSelfPick: false,
@@ -119,7 +131,7 @@ export default {
         return
       }
       if (!this.currentMember.id) {
-        this.$snotify.warning('请选择地址')
+        this.$snotify.warning('请选择会员')
         return
       }
 
@@ -358,13 +370,26 @@ export default {
                 :disabled="isDisabled(coupon)"
                 @click="toggle"
               >
-                <VListTileAvatar>
-                  <VAvatar tile>
-                    {{ coupon.title }}
-                  </VAvatar>
+                <VListTileAvatar
+                  :class="$style.couponCover"
+                  color="primary"
+                  tile
+                >
+                  ￥<span :class="$style.couponValue">
+                    {{ coupon.reduceAmount || coupon.postAmount }}
+                  </span>
                 </VListTileAvatar>
                 <VListTileContent>
-                  <VListTileTitle>{{ coupon.title }}</VListTileTitle>
+                  <VListTileTitle>
+                    <VChip
+                      :class="$style.couponTag"
+                      color="primary"
+                      text-color="white"
+                      small
+                    >
+                      {{ coupon.couponType | couponTag }}
+                    </VChip>{{ coupon.title }}
+                  </VListTileTitle>
                   <VListTileSubTitle>{{ coupon.beginTime.split(" ")[0] }} 至 {{ coupon.endTime.split(" ")[0] }}</VListTileSubTitle>
                 </VListTileContent>
                 <VListTileAction>
@@ -510,7 +535,7 @@ export default {
       </VLayout>
     </div>
     <VToolbar
-      :class="$style.toobar"
+      :class="$style.toolbar"
       dense
     >
       <div :class="$style.priceContainer">
@@ -578,8 +603,8 @@ export default {
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.toobar {
-  position: absolute !important;
+.toolbar {
+  position: fixed !important;
   bottom: 0;
   // stylelint-disable selector-class-pattern
   :global(.v-toolbar__content) {
@@ -593,5 +618,24 @@ export default {
 }
 .price {
   color: $color-button-danger;
+}
+
+.couponTag {
+  height: 24px !important;
+  margin: 0 5px 0 0;
+}
+
+.couponCover {
+  width: 88px;
+  height: 88px;
+  margin-top: 0 !important;
+  :global(.v-avatar--tile) {
+    width: 80px !important;
+    height: 80px !important;
+    color: #fff;
+  }
+}
+.couponValue {
+  font-size: 24px;
 }
 </style>
