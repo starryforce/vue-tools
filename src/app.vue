@@ -27,37 +27,43 @@ export default {
     cof['appId'] = cof.appid
     cof.signature = cof.signature.toLocaleLowerCase()
     wx.config(cof)
-    wx.ready(function() {})
+    wx.ready(function(res) {
+      this.$snotify.success(res, '微信初始化成功')
+    })
     wx.error(function(res) {
       this.$snotify.warning(res, '微信初始化失败，无法使用扫一扫')
     })
   },
   methods: {
     openWS() {
-      const ws = new WebSocket(
-        'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
-      )
+      try {
+        const ws = new WebSocket(
+          'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
+        )
 
-      ws.onopen = event => {
-        setTimeout(() => {
-          this.$api.order.payOrderbyCode2()
-        }, 200)
-      }
+        ws.onopen = event => {
+          setTimeout(() => {
+            this.$api.order.payOrderbyCode2()
+          }, 200)
+        }
 
-      ws.onmessage = event => {
-        if (event.data.indexOf('pay|') !== -1) {
+        ws.onmessage = event => {
           if (event.data.indexOf('pay|') !== -1) {
-            this.$snotify.success(event.data, '支付完成')
-            var orderid = event.data.replace('pay|', '').replace('.ok', '')
-            this.$router.replace('/order/detail/' + orderid)
-          } else {
-            this.$snotify.warning(event.data, '支付失败')
+            if (event.data.indexOf('pay|') !== -1) {
+              this.$snotify.success(event.data, '支付完成')
+              var orderid = event.data.replace('pay|', '').replace('.ok', '')
+              this.$router.replace('/order/detail/' + orderid)
+            } else {
+              this.$snotify.warning(event.data, '支付失败')
+            }
           }
         }
-      }
 
-      ws.onclose = () => {
-        this.$snotify.info('持久化链接已断开', '提示')
+        ws.onclose = () => {
+          this.$snotify.info('持久化链接已断开', '提示')
+        }
+      } catch (error) {
+        this.$snotify.info('持久化链接失败', '提示')
       }
     },
   },
