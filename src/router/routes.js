@@ -145,7 +145,7 @@ export default [
     path: '/order/create',
     name: 'order-create',
     meta: {},
-    component: () => import('@views/OrderCreate'),
+    component: () => import('@views/OrderCreate/OrderCreate'),
   },
   {
     path: '/order/checkout/:orderID',

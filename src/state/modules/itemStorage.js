@@ -116,6 +116,11 @@ export const mutations = {
   SELECT_MEMBER(state, member) {
     state.selectedMember = member
   },
+  UPDATE_REALNAME_STATUS(state) {
+    state.selectedMember = Object.assign({}, state.selectedMember, {
+      isRealName: 1,
+    })
+  },
   SELECT_ADDRESS(state, address) {
     state.selectedAddress = address
   },
@@ -152,6 +157,9 @@ export const actions = {
   },
   selectMember({ commit }, member) {
     commit('SELECT_MEMBER', member)
+  },
+  updateRealnameStatus({ commit }) {
+    commit('UPDATE_REALNAME_STATUS')
   },
   selectAddress({ commit }, address) {
     commit('SELECT_ADDRESS', address)

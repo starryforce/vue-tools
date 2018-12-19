@@ -1,6 +1,8 @@
 <script>
-import Layout from '@layouts/SubLayout'
 import $lodash from 'lodash'
+import Layout from '@layouts/SubLayout'
+import OrderItemList from './components/OrderItemList'
+import OrderPriceList from './components/OrderPriceList'
 
 export default {
   metaInfo: {
@@ -8,7 +10,7 @@ export default {
     meta: [{ name: 'description', content: '创建订单' }],
   },
   name: 'OrderCreate',
-  components: { Layout },
+  components: { Layout, OrderItemList, OrderPriceList },
   filters: {
     couponTag: function(value) {
       const couponTags = [
@@ -39,13 +41,9 @@ export default {
           /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(v) ||
           '身份证号不合法',
       },
-      showRealNameCard: true,
     }
   },
   computed: {
-    cartTotalPrice() {
-      return this.$store.getters['itemStorage/cartTotalPrice']
-    },
     currentMember() {
       return this.$store.state.itemStorage.selectedMember
     },
@@ -54,46 +52,6 @@ export default {
     },
     isOversea() {
       return this.items[0] ? this.items[0].isCross : false
-    },
-    priceDetail() {
-      return [
-        { labelName: '商品原价合计：', value: this.cartTotalPrice, sign: '' },
-        {
-          labelName: 'VIP优惠：',
-          value: this.preOrderInfo.freeVipAmount,
-          sign: '-',
-        },
-        {
-          labelName: '满减满折优惠：',
-          value: this.preOrderInfo.freeFullAmount,
-          sign: '-',
-        },
-        {
-          labelName: '限时折扣：',
-          value: this.preOrderInfo.freeLimitAmount,
-          sign: '-',
-        },
-        {
-          labelName: '优惠券抵扣：',
-          value: this.preOrderInfo.freeCouponAmount,
-          sign: '-',
-        },
-        {
-          labelName: '积分抵扣：',
-          value: this.preOrderInfo.usePointMoney,
-          sign: '-',
-        },
-        {
-          labelName: '运费：',
-          value: this.preOrderInfo.totalPostAmount,
-          sign: '+',
-        },
-        {
-          labelName: '减免的邮费：',
-          value: this.preOrderInfo.freePostAmount,
-          sign: '-',
-        },
-      ]
     },
     selectedAddress() {
       return this.$store.state.itemStorage.selectedAddress
@@ -106,13 +64,20 @@ export default {
   },
   watch: {
     selectedCouponList() {
+      this.usePoint = false
+      this.pointAmount = 0
+      this.pointSheet = false
       this.preCreateOrder()
     },
     currentMember() {
+      // 重选客户后重置状态
       this.resetSelections()
       this.preCreateOrder()
     },
     selectedAddress() {
+      this.preCreateOrder()
+    },
+    isSelfPick() {
       this.preCreateOrder()
     },
   },
@@ -122,8 +87,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name === 'item-center') {
-        vm.selectedCouponList = []
-        vm.$store.dispatch('itemStorage/clearAddress')
+        // 由商品中心进入时重置状态
+        vm.resetSelections()
       }
     })
   },
@@ -173,7 +138,6 @@ export default {
           couponIDs: this.selectedCouponList,
           totalAmount: this.preOrderInfo.totalAmount,
         })).data
-        this.showRealNameCard = true
         this.$store.dispatch('itemStorage/clearCart')
         this.$router.replace({ name: 'order-checkout', params: { orderID } })
       } catch (error) {
@@ -181,13 +145,9 @@ export default {
       }
     },
     selectPointAmount(value) {
-      this.preCreateOrder()
       this.pointAmount = value
       this.pointSheet = false
-    },
-    reset() {
-      this.realName = ''
-      this.idCard = ''
+      this.preCreateOrder()
     },
     resetSelections() {
       this.isSelfPick = false
@@ -199,7 +159,7 @@ export default {
       this.remark = ''
       this.realName = ''
       this.idCard = ''
-      this.showRealNameCard = true
+      this.$store.dispatch('itemStorage/clearAddress')
     },
     isDisabled(coupon) {
       if (
@@ -230,7 +190,7 @@ export default {
           memberID: this.currentMember.id,
           mobile: this.currentMember.mobile,
         })
-        this.showRealNameCard = false
+        this.$store.dispatch('itemStorage/updateRealnameStatus')
         this.$snotify.success('实名认证提交成功')
       } catch (error) {
         this.$snotify.warning(error.message)
@@ -247,7 +207,7 @@ export default {
       <VSpacer />
       <VIcon>phone_iphone</VIcon>:{{ currentMember.mobile }}
     </VToolbar>
-    <VCard v-if="isOversea && showRealNameCard && currentMember.isRealName !==1">
+    <VCard v-if="isOversea && currentMember.isRealName !==1">
       <VCardText>
         <h3>实名认证</h3>
         <VTextField
@@ -266,12 +226,6 @@ export default {
       </VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn
-          flat
-          @click="reset"
-        >
-          重置
-        </VBtn>
         <VBtn
           color="orange"
           flat
@@ -488,54 +442,11 @@ export default {
       </VLayout>
     </div>
 
-    <VList
-      :class="$style.items"
-      three-line
-    >
-      <VSubheader>
-        共<span :class="$style.brandColor">
-          {{ preOrderInfo.skuSum }}
-        </span>件商品
-      </VSubheader>
-      <template v-for="(item, index) in items">
-        <VDivider
-          :key="index"
-          :inset="item.inset"
-        />
+    <OrderItemList
+      :items="items"
+      :total-quantity="preOrderInfo.skuSum"
+    />
 
-        <VListTile
-          :key="item.title"
-          avatar
-        >
-          <VListTileAvatar tile>
-            <img :src="item.itemCover">
-          </VListTileAvatar>
-
-          <VListTileContent>
-            <VListTileTitle>
-              <VLayout>
-                <VFlex>{{ item.itemCode }}</VFlex>
-                <VFlex :class="$style.rightElement">
-                  {{ item.quantity }}件
-                </VFlex>
-              </VLayout>
-            </VListTileTitle>
-            <VListTileTitle>{{ item.itemName }}</VListTileTitle>
-            <VListTileSubTitle>
-              <VLayout
-                justify-space-between
-                shrink
-              >
-                <VFlex>{{ item.itemCode }}</VFlex>
-                <VFlex :class="$style.rightElement">
-                  ￥{{ item.itemPrice }}
-                </VFlex>
-              </VLayout>
-            </VListTileSubTitle>
-          </VListTileContent>
-        </VListTile>
-      </template>
-    </VList>
     <div :class="$style.section">
       <VTextField
         v-model="remark"
@@ -543,21 +454,9 @@ export default {
         required
       />
     </div>
-    <div :class="[$style.section,$style.lastSection]">
-      <VLayout
-        v-for="item of priceDetail"
-        :key="item.labelName"
-        :class="$style.priceList"
-        align-center
-      >
-        <VFlex>
-          {{ item.labelName }}
-        </VFlex>
-        <VFlex :class="$style.rightElement">
-          {{ item.sign }} ¥{{ item.value }}
-        </VFlex>
-      </VLayout>
-    </div>
+
+    <OrderPriceList :pre-order-info="preOrderInfo" />
+
     <VToolbar
       :class="$style.toolbar"
       dense
@@ -594,9 +493,6 @@ export default {
   margin-bottom: 10px;
   background-color: #fff;
 }
-.lastSection {
-  padding-bottom: 40px;
-}
 .deliveryType {
   padding-top: 15px;
   margin-top: 0;
@@ -609,18 +505,11 @@ export default {
 .option {
   height: 44px;
 }
-.priceList {
-  height: 30px;
-  padding: 0 10px;
-}
 .brandColor {
   color: $color-brand;
 }
 .rightElement {
   flex: none;
-}
-.items {
-  margin-bottom: 10px;
 }
 .bottomSheet {
   height: 350px;
