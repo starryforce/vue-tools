@@ -80,6 +80,12 @@ export default {
     isSelfPick() {
       this.preCreateOrder()
     },
+    usePoint(value) {
+      if (!value) {
+        this.pointAmount = 0
+        this.preCreateOrder()
+      }
+    },
   },
   created() {
     this.preCreateOrder()
