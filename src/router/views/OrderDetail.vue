@@ -133,23 +133,28 @@ export default {
           订单时间：
         </label>{{ orderDetail.createTime }}
       </li>
-      <li>
-        <label :class="$style.listLabel">
-          收件人姓名：
-        </label>{{ orderDetail.receiverName }}
-      </li>
-      <li>
-        <label :class="$style.listLabel">
-          收件人电话：
-        </label>{{ orderDetail.receiverPhone }}
-      </li>
-      <li>
-        <label :class="$style.listLabel">
-          收件人地址：
-        </label>{{ orderDetail.receiverAddress }}
-      </li>
+      <template v-if="orderDetail.orderType=='普通订单'">
+        <li>
+          <label :class="$style.listLabel">
+            收件人姓名：
+          </label>{{ orderDetail.receiverName }}
+        </li>
+        <li>
+          <label :class="$style.listLabel">
+            收件人电话：
+          </label>{{ orderDetail.receiverPhone }}
+        </li>
+        <li>
+          <label :class="$style.listLabel">
+            收件人地址：
+          </label>{{ orderDetail.receiverAddress }}
+        </li>
+      </template>
     </ul>
-    <VList two-line>
+    <VList
+      v-if="orderDetail.orderType=='普通订单'"
+      two-line
+    >
       <VListTile
         avatar
       >
@@ -163,8 +168,6 @@ export default {
           </VListTileSubTitle>
         </VListTileContent>
       </VListTile>
-    </VList>
-    <VList two-line>
       <VListTile
         v-for="item of orderDetail.skuList"
         :key="item.id"
