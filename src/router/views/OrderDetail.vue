@@ -80,7 +80,15 @@ export default {
       )).data
     },
     async cancelOrder() {
-      await this.$api.order.cancelOrder(this.orderID)
+      try {
+        await this.$api.order.cancelOrder(this.orderID)
+        this.$snotify.success('订单取消成功')
+        this.orderDetail = Object.assign({}, this.orderDetail, {
+          orderStatus: '订单关闭',
+        })
+      } catch (error) {
+        this.$snotify.warning(error.msg)
+      }
     },
   },
 }

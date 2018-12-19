@@ -216,7 +216,7 @@ export default [
     component: () => lazyLoadView(import('@views/MemberLabel')),
   },
   {
-    path: '/add/credit',
+    path: '/add/credit/:memberID',
     name: 'add-credit',
     meta: {},
     props: true,

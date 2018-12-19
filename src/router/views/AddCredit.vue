@@ -20,13 +20,17 @@ export default {
       list: [],
     }
   },
+  computed: {
+    selectedActivity() {
+      return this.list.find(item => item.id === this.selectedItem) || {}
+    },
+  },
   async created() {
-    var res = await this.$api.order.getRecharge()
-    this.list = res.data
+    this.list = (await this.$api.order.getRecharge()).data
   },
   methods: {
     async createRechargeOrder() {
-      if (!(this.selectedItem > 0)) {
+      if (!this.selectedItem) {
         this.$snotify.warning('', '请选择储值档位')
         return
       }
@@ -57,13 +61,13 @@ export default {
               <VFlex
                 v-for="item in list"
                 :key="item.id"
+                :class="$style.options"
                 xs6
               >
                 <VItem :value="item.id">
                   <VBtn
                     slot-scope="{ active, toggle }"
                     :input-value="active"
-                    :class="$style.options"
                     block
                     @click="toggle"
                   >
@@ -77,26 +81,31 @@ export default {
       </VCardTitle>
     </VCard>
     <VSubheader>
-      优惠活动：
+      优惠活动：{{ selectedActivity.activityName }}
     </VSubheader>
     <VList>
-      <template v-for="(item, index) in list">
-        <VDivider
-          v-if="index"
-          :key="'divider'+index"
-        />
-
-        <VListTile
-          :key="item.id"
-          avatar
-        >
-          <VListTileContent>
-            <VListTileTitle>
-              {{ item.activityName }}<VListTileTitle />
-            </vlisttiletitle>
-          </VListTileContent>
-        </VListTile>
-      </template>
+      <VListTile v-if="selectedActivity.giveMoney">
+        <VListTileContent>
+          <VListTileTitle>
+            充值送余额
+            <VListTileTitle />
+          </vlisttiletitle>
+        </VListTileContent>
+        <VListTileAction>
+          <VListTileActionText>{{ selectedActivity.giveMoney }}</VListTileActionText>
+        </VListTileAction>
+      </VListTile>
+      <VListTile v-if="selectedActivity.giveCoupons && selectedActivity.giveCoupons.id">
+        <VListTileContent>
+          <VListTileTitle>
+            充值送券
+            <VListTileTitle />
+          </vlisttiletitle>
+        </VListTileContent>
+        <VListTileAction>
+          <VListTileActionText>{{ selectedActivity.giveCoupons.name }}</VListTileActionText>
+        </VListTileAction>
+      </VListTile>
     </VList>
     <VBtn
       :class="$style.button"
@@ -115,5 +124,12 @@ export default {
 @import '@design';
 .button {
   bottom: 0;
+}
+.options {
+  // stylelint-disable-next-line
+  :global(.v-btn--active) {
+    color: #fff !important;
+    background-color: $color-brand-light !important;
+  }
 }
 </style>
