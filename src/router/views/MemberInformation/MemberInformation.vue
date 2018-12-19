@@ -1,5 +1,9 @@
 <script>
 import Layout from '@layouts/SubLayout'
+import MemberConsume from './components/MemberConsume'
+import MemberOrder from './components/MemberOrder'
+import MemberAssets from './components/MemberAssets'
+import MemberActivity from './components/MemberActivity'
 
 export default {
   metaInfo: {
@@ -7,7 +11,13 @@ export default {
     meta: [{ name: 'description', content: 'MemberInformation' }],
   },
   name: 'MemberInformation',
-  components: { Layout },
+  components: {
+    Layout,
+    MemberAssets,
+    MemberOrder,
+    MemberConsume,
+    MemberActivity,
+  },
   props: {
     id: {
       type: String,
@@ -17,9 +27,7 @@ export default {
   },
   data() {
     return {
-      memberInformation: () => {},
-      orders: () => {},
-      assets: () => {},
+      memberInformation: {},
       active: 0,
       tabs: ['基础信息', '消费统计', '订单列表', '会员资产', '活动参与'],
       isEditing: false,
@@ -34,20 +42,6 @@ export default {
       this.memberInformation = (await this.$api.member.getBaseInformation(
         this.id
       )).customerInfo
-    },
-    next() {
-      const active = parseInt(this.active)
-      this.active = active < 2 ? active + 1 : 0
-    },
-    async tabChange(name) {
-      switch (name) {
-        case '订单列表':
-          this.orders = await this.$api.member.getConsume(this.id)
-          break
-        case '会员资产':
-          this.assets = await this.$api.member.getAssets(this.id)
-          break
-      }
     },
   },
 }
@@ -110,7 +104,6 @@ export default {
         v-for="tabName in tabs"
         :key="tabName"
         ripple
-        @click="tabChange(tabName)"
       >
         {{ tabName }}
       </VTab>
@@ -138,15 +131,6 @@ export default {
               <VListTileActionText>{{ memberInformation.buyerNick }}</VListTileActionText>
             </VListTileAction>
           </VListTile>
-          <!-- <VDivider />
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>会员卡号</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ memberInformation.cardID }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile> -->
           <VDivider />
           <VListTile>
             <VListTileContent>
@@ -289,236 +273,17 @@ export default {
           </VListTile>
         </VList>
       </VTabItem>
-      <VTabItem>
-        <VList>
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>消费总金额</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.consumAmount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>消费次数</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ memberInformation.consumCount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>客单价</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>￥{{ memberInformation.unitPrice }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>最近活动参与时间</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ memberInformation.lastActivityTime }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile>
-            <VListTileContent>
-              <VListTileTitle>最近消费时间</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ memberInformation.lastTradeTime }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-        </VList>
+      <VTabItem lazy>
+        <MemberConsume v-bind="memberInformation" />
       </VTabItem>
-      <VTabItem>
-        <VList
-          v-if="orders"
-          :class="$style.order"
-          subheader
-        >
-          <template v-for="(order, index) in orders.orderInfo">
-            <VDivider
-              v-if="index"
-              :key="'divider'+order.orderNo"
-            />
-            <VSubheader :key="'id'+order.orderNo">
-              <VIcon>assignment</VIcon>
-              订单号：{{ order.orderNo }}
-            </VSubheader>
-            <VListTile
-              :key="'order'+order.orderNo"
-            >
-              <VListTileContent>
-                <VContainer
-                  fluid
-                  grid-list-sm
-                >
-                  <VLayout
-                    v-if="order"
-                    :class="$style.imageContainer"
-                  >
-                    <VFlex
-                      v-for="item in order.orderDetail.length>5?order.orderDetail.slice(0,4):order.orderDetail"
-                      :key="item.id"
-                      d-flex
-                      :class="$style.imageContainer"
-                    >
-                      <VImg
-                        :src="item.picUrl || ''"
-                        :lazy-src="item.picUrl || ''"
-                        aspect-ratio="1"
-                        class="grey lighten-2"
-                      >
-                        <VLayout
-                          slot="placeholder"
-                          fill-height
-                          align-center
-                          justify-center
-                          ma-0
-                        >
-                          <VProgressCircular
-                            indeterminate
-                            color="grey lighten-5"
-                          />
-                        </VLayout>
-                      </VImg>
-                    </VFlex>
-                    <VFlex
-                      v-if="order.orderDetail.length>5"
-                      d-flex
-                      align-center
-                      colunm
-                      :class="$style.itemQuantity"
-                    >
-                      <VLayout
-                        :column="true"
-                        align-center
-                      >
-                        <VFlex>
-                          共{{ order.orderDetail.length }}件
-                        </VFlex>
-                        <VFlex>
-                          商品
-                        </VFlex>
-                      </VLayout>
-                    </VFlex>
-                  </VLayout>
-                </VContainer>
-              </VListTileContent>
-            </VListTile>
-            <VSubheader :key="'header'+order.orderNo">
-              <VIcon>today</VIcon>
-              日期：{{ order.createTime }}
-              <VSpacer />
-              <VIcon>payment</VIcon>
-              总金额：￥{{ order.totalAmount }}
-            </VSubheader>
-          </template>
-        </VList>
+      <VTabItem lazy>
+        <MemberOrder :id="id" />
       </VTabItem>
-      <VTabItem>
-        <VList subheader>
-          <VSubheader>
-            抵用资产
-          </VSubheader>
-          <VListTile :to="{name:'member-point',params:{memberID:id}}">
-            <VListTileContent>
-              <VListTileTitle>购物积分</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ assets.integralCount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile :to="{name:'member-balance',params:{memberID:id}}">
-            <VListTileContent>
-              <VListTileTitle>余额</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>￥{{ assets.memberAmount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VSubheader>
-            优惠券
-          </VSubheader>
-          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
-            <VListTileContent>
-              <VListTileTitle>可使用</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ assets.couponUsableCount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
-            <VListTileContent>
-              <VListTileTitle>已使用</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ assets.couponUsedCount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-          <VDivider />
-          <VListTile :to="{name:'member-coupon',params:{memberID:id}}">
-            <VListTileContent>
-              <VListTileTitle>已过期</VListTileTitle>
-            </VListTileContent>
-            <VListTileAction>
-              <VListTileActionText>{{ assets.couponEexpiredCount }}</VListTileActionText>
-            </VListTileAction>
-          </VListTile>
-        </VList>
+      <VTabItem lazy>
+        <MemberAssets :id="id" />
       </VTabItem>
-      <VTabItem>
-        <VList>
-          <template v-for="(activity,index) of memberInformation.activities">
-            <VDivider
-              v-if="index"
-              :key="'divider'+activity.id"
-              inset
-            />
-            <VListTile
-              :key="activity.id"
-              avatar
-              @click="toggle(index)"
-            >
-              <VListTileAvatar>
-                <VImg
-                  :src="activity.cover || ''"
-                  :lazy-src="activity.cover || ''"
-                  aspect-ratio="2"
-                >
-                  <VLayout
-                    slot="placeholder"
-                    fill-height
-                    align-center
-                    justify-center
-                    ma-0
-                  >
-                    <VProgressCircular
-                      indeterminate
-                      color="grey lighten-5"
-                    />
-                  </VLayout>
-                </VImg>
-              </VListTileAvatar>
-              <VListTileContent>
-                <VListTileTitle>{{ activity.name }}</VListTileTitle>
-                <VListTileSubTitle>
-                  {{ activity.shop }}
-                </VListTileSubTitle>
-              </VListTileContent>
-            </VListTile>
-          </template>
-        </VList>
+      <VTabItem lazy>
+        <MemberActivity :id="id" />
       </VTabItem>
     </VTabsItems>
   </Layout>
@@ -551,25 +316,6 @@ export default {
     font-size: 15px;
   }
 }
-.order {
-  // stylelint-disable selector-class-pattern
-  :global(.v-list__tile) {
-    height: 100%;
-  }
-  :global(.container.fluid) {
-    padding-top: 0;
-    padding-right: 0;
-    padding-left: 0;
-  }
-
-  :global(.flex.d-flex) {
-    flex-basis: 20%;
-    flex-grow: 0;
-  }
-}
-.itemQuantity {
-  background-color: $color-button-bg;
-}
 .nameplate {
   display: inline-block;
   padding: 2px 6px;
@@ -586,8 +332,5 @@ export default {
 }
 .isEditing {
   color: $color-brand-light;
-}
-.imageContainer {
-  height: 70px;
 }
 </style>

@@ -121,7 +121,7 @@ export default {
       this.$snotify.success(this.body, '支付完成')
       this.$router.replace('/order/detail/' + this.orderID)
     },
-    async change() {
+    async changePrice() {
       try {
         await this.$api.order.changeOrder({
           orderID: this.orderID,
@@ -207,7 +207,7 @@ export default {
           </VBtn>
           <VBtn
             color="primary"
-            @click="change"
+            @click="changePrice"
           >
             确定
           </VBtn>

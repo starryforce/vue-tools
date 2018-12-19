@@ -142,6 +142,25 @@ export const getAssets = id => {
 }
 
 /**
+ * @param {string} id - 用户id
+ * @returns {string} ActivePicPath - 活动主图
+ * @returns {string} ActiveState - 状态
+ * @returns {string} EndTime - 结束时间
+ * @returns {string} StoreName - 店铺
+ * @returns {string} IntegralActiveName - 活动名称
+ * @returns {datetime} StartTime - 开始时间
+ *
+ */
+export const getActivityList = id => {
+  return request({
+    url: '/ShoppingMall/getXianXIaActiveByCustomer',
+    data: {
+      CustomerId: id,
+    },
+  })
+}
+
+/**
  *
  * @param {string} [request.memberID] - 会员id（导购端要，c端不用填）
  * @param {number} request.pageNo - 页码
@@ -276,4 +295,5 @@ export default {
   getPointList,
   getBalanceList,
   verifyRealName,
+  getActivityList,
 }
