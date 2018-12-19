@@ -179,12 +179,12 @@ export default {
 <template>
   <Layout :class="$style.container">
     <VToolbar
-      dense
       dark
       color="primary"
     >
       <VTextField
         v-model="keyword"
+        color="white"
         hide-details
         prepend-icon="search"
         single-line

@@ -63,7 +63,7 @@ export default {
         <VListTileContent>
           <VListTileTitle>{{ detail.integralActiveName }}</VListTileTitle>
           <VListTileSubTitle>{{ detail.consumptionIntegral }}积分</VListTileSubTitle>
-          <VListTileSubTitle>{{ detail.endTime }}截止 {{ detail.participateCount }}人已报名</VListTileSubTitle>
+          <VListTileSubTitle>{{ detail.registrationTime }}截止 {{ detail.participateCount }}人已报名</VListTileSubTitle>
         </VListTileContent>
       </VListTile>
     </VList>
@@ -72,7 +72,7 @@ export default {
         <VListTileContent>
           <VListTileTitle>活动时间:</VListTileTitle>
         </VListTileContent>
-        <VListTileAction>{{ detail.startTime }} - {{ detail.endTime }}</VListTileAction>
+        <VListTileAction>{{ detail.registrationTime }} - {{ detail.endTime }}</VListTileAction>
       </VListTile>
       <VDivider />
       <VListTile>

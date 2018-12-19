@@ -46,7 +46,7 @@ export default {
           <VListTileContent>
             <VListTileTitle>{{ item.integralActiveName }}</VListTileTitle>
             <VListTileSubTitle>{{ item.consumptionIntegral }}积分</VListTileSubTitle>
-            <VListTileSubTitle>{{ item.endTime }}截止 {{ item.participateCount || 0 }}人已报名</VListTileSubTitle>
+            <VListTileSubTitle>{{ item.registrationTime }}截止 {{ item.participateCount || 0 }}人已报名</VListTileSubTitle>
           </VListTileContent>
         </VListTile>
       </template>

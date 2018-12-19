@@ -39,10 +39,11 @@ export const getStoreActivitys = ({
  * @property {string} StoreNum - 限制人数
  * @property {number} ParticipateCount - 参与人数
  * @property {string} IntegralActiveId - 活动id
- * @property {datetime} StartTime - 开始时间
+ * @property {datetime} StartTime - 报名开始时间
+ * @property {string} registrationTime - 报名截止时间（活动开始时间为报名截止时间前一天）
+ * @property {string} EndTime - 活动结束时间
  * @property {string} ConsumptionIntegral - 消耗积分
  * @property {string} ActivePicPath - 活动图片地址
- * @property {string} EndTime - 结束时间
  *
  * @param {Object} request - 请求体
  * @param {string} request.pageNo - 页码
