@@ -52,18 +52,6 @@ export default {
         </VListTile>
       </template>
     </VList>
-
-    <VFooter fixed>
-      <VBtn
-        color="primary"
-        dark
-        block
-        large
-        to="/member/label/add"
-      >
-        新增标签
-      </VBtn>
-    </VFooter>
   </Layout>
 </template>
 
