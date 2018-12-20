@@ -142,7 +142,8 @@ export const getAssets = id => {
 }
 
 /**
- * @param {string} id - 用户id
+ * @description 根据用户id获取参与活动列表
+ * @param {string} memberID - 用户 ID
  * @returns {string} ActivePicPath - 活动主图
  * @returns {string} ActiveState - 状态
  * @returns {string} EndTime - 结束时间
@@ -151,11 +152,11 @@ export const getAssets = id => {
  * @returns {datetime} StartTime - 开始时间
  *
  */
-export const getActivityList = id => {
+export const getActivityList = memberID => {
   return request({
     url: '/ShoppingMall/getXianXIaActiveByCustomer',
     data: {
-      CustomerId: id,
+      CustomerId: memberID,
     },
   })
 }

@@ -2,6 +2,8 @@ import request from '@utils/request'
 
 /**
  *
+ * @description  导购端读取店员详情
+ *
  * @typedef {Object} GuideEmployeeKpiDetail - 对象属性
  * @property {string} activationCount - 激活人数
  * @property {string} customerCount - 会员数
@@ -31,12 +33,30 @@ export const getGuideEmployeeDetail = () => {
   })
 }
 
-export const getGuideEmployeeInviteList = ({ page = 1, size = 10 } = {}) => {
+/**
+ *
+ * @description 导购端读取店员邀请会员列表
+ *
+ * @typedef {Object} GuideEmployeeInviteHistory - 对象属性
+ * @property {string} employeeId - 店员id
+ * @property {string} customerMobile - 会员手机号
+ * @property {string} customerId - 会员id
+ * @property {string} id - 记录id
+ * @property {string} customerName - 会员名称
+ *
+ * @param {number} request.pageNo - 页码 例子：1
+ * @param {number} request.pageSize - 页大小 例子：10
+ * @returns {GuideEmployeeInviteHistory[]} 邀请会员列表
+ */
+export const getGuideEmployeeInviteList = ({
+  pageNo = 1,
+  pageSize = 10,
+} = {}) => {
   return request({
     url: '/GuideEmployee/GetGuideEmployeeInviteList',
     data: {
-      currentPage: page, // 页码
-      pageSize: size, // 分页大小
+      currentPage: pageNo,
+      pageSize: pageSize,
     },
   })
 }

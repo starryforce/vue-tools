@@ -23,11 +23,11 @@ export default {
     <template v-for="(activity,index) of activityList">
       <VDivider
         v-if="index"
-        :key="'divider'+activity.activePicPath"
+        :key="'divider'+activity.activePicPath +activity.integralActiveName"
         inset
       />
       <VListTile
-        :key="activity.activePicPath"
+        :key="activity.activePicPath+activity.integralActiveName"
         avatar
         @click="toggle(index)"
       >

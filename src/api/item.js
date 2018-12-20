@@ -33,6 +33,23 @@ export const searchItem = ({
 
 /**
  *
+ * @description 商品详情
+ *
+ * @param {string} itemID - 商品 ID
+ */
+export const getItemDetail = itemID => {
+  return request({
+    url: '/GuideItem/ItemDetailGet',
+    data: {
+      Id: itemID,
+    },
+  })
+}
+
+/**
+ *
+ * @description 搜索商品
+ *
  * @param {Object} request - 关键字
  * @param {string} [request.keyword] - 关键字
  * @param {string} [request.classID] - 分类Id
@@ -51,18 +68,29 @@ export const getItemList = ({ keyword, classID, pageNo, pageSize }) => {
   })
 }
 
+/**
+ *
+ * @description 获取商品目录
+ */
 export const getItemClassList = () => {
   return request({
     url: '/GuideItem/GetItemClassList',
   })
 }
 
-export const getItems = () => {
+/**
+ *
+ * @description 获取本店有货商品列表
+ *
+ * @param {number} request.pageNo - 页码
+ * @param {number} request.pageSize - 页大小
+ */
+export const myStoreItemList = ({ pageNo = 1, pageSize = 2000 } = {}) => {
   return request({
     url: '/GuideItem/MyStoreItemSearch',
     data: {
-      CurrentPage: 1,
-      PageSize: 2000,
+      CurrentPage: pageNo,
+      PageSize: pageSize,
     },
   })
 }
@@ -79,7 +107,8 @@ export const getTicket = () => {
 export default {
   searchItem,
   getItemList,
+  getItemDetail,
   getItemClassList,
-  getItems,
+  myStoreItemList,
   getTicket,
 }

@@ -1,6 +1,9 @@
 import request from '@utils/request'
 
 /**
+ *
+ * @description 获取充值策略(活动)
+ *
  * @returns {number} activityPrice - 价格
  * @returns {string} endTime - 结束时间
  * @returns {string} id - 活动ID

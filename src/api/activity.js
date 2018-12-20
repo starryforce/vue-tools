@@ -1,6 +1,9 @@
 import request from '@utils/request'
 
 /**
+ *
+ * @description 获取线上活动列表
+ *
  * @param {Object} request - 请求
  * @param {number} request.pageNo - 页码
  * @param {string} request.pageSize - 分页大小
@@ -33,6 +36,9 @@ export const getStoreActivitys = ({
 }
 
 /**
+ *
+ * @description 获取线下活动的列表数据
+ *
  * @typedef {Object} XianXIaActiveResponse - 线下活动信息
  * @property {string} IntegralActiveDetialPicPath - 活动内容地址
  * @property {string} IntegralActiveName - 活动名称
@@ -61,14 +67,15 @@ export const getOfflineActivitys = ({ pageNo = 1, pageSize = 20 } = {}) => {
   })
 }
 /**
- * @param {string} id - 积分活动记录id
- * @param {*} id
+ *
+ * @description  获取线下活动的详情
  *
  * @typedef {Object} customer - 客户信息
  * @property {string} PicUrl - 会员头像
  * @property {string} BuyerNick - 昵称
  * @property {string} CustomerId - 会员id
  *
+ * @param {string} activityID - 积分活动记录id
  * @returns {number} ConsumptionIntegral - 消耗积分
  * @returns {customer[]} Listcustomers - 参与会员的列表
  * @returns {string} ActivePicPath - 活动图片地址
@@ -81,16 +88,18 @@ export const getOfflineActivitys = ({ pageNo = 1, pageSize = 20 } = {}) => {
  * @returns {string} ActiveState - 状态
  * @returns {datetime} StartTime - 开始时间
  */
-export const getOfflineActivityDetail = id => {
+export const getOfflineActivityDetail = activityID => {
   return request({
     url: '/ShoppingMall/getXianXIaActiveDetial',
     data: {
-      IntegralactiveMangerId: id,
+      IntegralactiveMangerId: activityID,
     },
   })
 }
 
 /**
+ *
+ * @description  线下活动兑换
  *
  * @param {string} request.activityID - 积分活动ID
  * @param {string} request.memberID - 用户id
@@ -101,6 +110,21 @@ export const pointExchange = ({ activityID, memberID }) => {
     data: {
       IntegralactivemangerId: activityID,
       CustomerId: memberID,
+    },
+  })
+}
+
+/**
+ *
+ * @description 核销兑换记录详情
+ *
+ * @param {string} exchangeRecordID - 活动兑换记录id
+ */
+export const integralactiveRecordId = exchangeRecordID => {
+  return request({
+    url: '/ShoppingMall/WriteoffIntegralMallL',
+    data: {
+      IntegralactiveRecordId: exchangeRecordID,
     },
   })
 }

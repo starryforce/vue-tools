@@ -1,6 +1,8 @@
 import request from '@utils/request'
 /**
  *
+ * @description 获取会员标签
+ *
  * @param {Object} [request] - 请求体
  * @param {number} [request.pageNo] - 页码
  * @param {number} [request.pageSize] - 页大小
@@ -15,6 +17,7 @@ export const getLabelList = ({ pageNo = 1, pageSize = 100 } = {}) => {
   })
 }
 /**
+ * @description 获取会员标签详情
  *
  * @param {string} id - 标签ID
  */

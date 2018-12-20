@@ -60,7 +60,7 @@ export default {
     async scan() {
       if (!this.list) {
         this.$snotify.warning('', '商品数据下载中')
-        this.list = (await this.$api.item.getItems()).data
+        this.list = (await this.$api.item.myStoreItemList()).data
       }
       await this.scanSearch(this.list)
     },
