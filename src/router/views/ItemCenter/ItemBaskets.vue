@@ -8,15 +8,11 @@ export default {
   },
   name: 'ItemBaskets',
   components: { Layout },
-  data() {
-    return {}
-  },
   computed: {
     basketList() {
       return this.$store.state.itemStorage.baskets
     },
   },
-  created() {},
   methods: {
     totalQuantity(items) {
       return items.reduce((accumulator, current) => {
@@ -43,8 +39,8 @@ export default {
   <Layout>
     <VList
       v-if="basketList.length"
-      :class="$style.baskets"
       subheader
+      three-line
     >
       <template v-for="(basket, index) of basketList">
         <VDivider
@@ -54,7 +50,6 @@ export default {
         <VSubheader :key="'header1'+basket.basketID">
           {{ basket.member.customerName?`${basket.member.customerName} ${basket.member.mobile}`:'散客' }}
           <VSpacer />
-          2018-09-09 12:00
         </VSubheader>
         <VDivider
           :key="'divider2'+basket.basketID"
@@ -64,14 +59,15 @@ export default {
         >
           <VListTileContent>
             <VContainer
-              fluid
+              :class="$style.itemContainer"
               grid-list-md
             >
-              <VLayout>
+              <VLayout :class="$style.itemList">
                 <VFlex
                   v-for="item of basket.items"
                   :key="item.id"
-                  d-flex
+                  xs3
+                  :class="$style.item"
                 >
                   <VImg
                     :src="item.itemCover || ''"
@@ -110,7 +106,7 @@ export default {
           </VChip>
           <VSpacer />
           共 {{ totalQuantity(basket.items) }} 件
-          合计：￥{{ totalPrice(basket.items) }}
+          合计{{ totalPrice(basket.items) | currency }}
         </VSubheader>
         <VSubheader :key="'header3'+basket.basketID">
           <VSpacer />
@@ -142,18 +138,15 @@ export default {
 <style lang="scss" module>
 @import '@design';
 
-.baskets {
-  // stylelint-disable selector-class-pattern
-  :global(.v-list__tile) {
-    height: 100%;
-  }
-  :global(.container.fluid) {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  :global(.flex.d-flex) {
-    flex-basis: 20%;
-    flex-grow: 0;
-  }
+.itemContainer {
+  padding-right: 0;
+  padding-left: 0;
+}
+.itemList {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.item {
+  flex-shrink: 0;
 }
 </style>

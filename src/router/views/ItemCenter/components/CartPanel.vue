@@ -74,9 +74,7 @@ export default {
               :key="item.skuId"
             >
               <VListTileAvatar>
-                <VAvatar
-                  tile
-                >
+                <VAvatar tile>
                   <img
                     :src="item.itemCover"
                     :alt="item.spuName"

@@ -159,10 +159,6 @@ export default {
 
 <style lang="scss" module>
 @import '@design';
-// stylelint-disable-next-line selector-class-pattern
-:global(.v-list__tile) {
-  padding: 0 5px;
-}
 .subInfo {
   flex: none;
   flex-basis: 73px;
