@@ -491,7 +491,7 @@ export default {
 <style lang="scss" module>
 @import '@design';
 .container {
-  padding-bottom: 75px;
+  padding-bottom: 90px;
   background-color: #eee;
 }
 .section {

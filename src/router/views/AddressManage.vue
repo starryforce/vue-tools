@@ -86,7 +86,14 @@ export default {
               </VLayout>
             </VListTileTitle>
             <VListTileSubTitle>
-              {{ address.provName }}{{ address.cityName }}{{ address.distName }}{{ address.detail }}
+              <VChip
+                v-if="address.isDefault"
+                outline
+                small
+                color="secondary"
+              >
+                默认
+              </VChip>{{ address.provName }}{{ address.cityName }}{{ address.distName }}{{ address.detail }}
             </VListTileSubTitle>
           </VListTileContent>
 

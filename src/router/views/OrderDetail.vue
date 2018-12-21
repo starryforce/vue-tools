@@ -20,7 +20,7 @@ export default {
     }
   },
   computed: {
-    priceDetail() {
+    priceList() {
       return [
         {
           labelName: '优惠前的总金额',
@@ -69,6 +69,43 @@ export default {
         },
       ]
     },
+    infoList() {
+      const isCommonOrder = this.orderDetail.orderType === '普通订单'
+      const list = [
+        {
+          labelName: '订单号',
+          value: this.orderDetail.orderNo,
+        },
+        {
+          labelName: '订单类型',
+          value: this.orderDetail.orderType,
+        },
+        {
+          labelName: '订单名称',
+          value: this.orderDetail.productName,
+        },
+        {
+          labelName: '订单时间',
+          value: this.orderDetail.createTime,
+        },
+        {
+          labelName: '收件人姓名：',
+          value: this.orderDetail.receiverName,
+          hide: !isCommonOrder,
+        },
+        {
+          labelName: '收件人电话：',
+          value: this.orderDetail.receiverPhone,
+          hide: !isCommonOrder,
+        },
+        {
+          labelName: '收件人地址：',
+          value: this.orderDetail.receiverAddress,
+          hide: !isCommonOrder,
+        },
+      ]
+      return list.filter(item => !item.hide)
+    },
   },
   created() {
     this.getOrderDetail()
@@ -96,61 +133,43 @@ export default {
 
 <template>
   <Layout>
-    <VSubheader>
-      <VLayout
-        justify-space-between
-        align-center
-      >
-        <VFlex xs10>
-          <VChip
-            label
-            small
-            color="#409EFF"
-            text-color="white"
-          >
-            {{ orderDetail.payType }}
-          </VChip>
-          {{ orderDetail.orderNo }}
-        </VFlex>
-        <VFlex xs2>
+    <VToolbar
+      dense
+      flat
+    >
+      <VToolbarTitle>
+        <VChip
+          label
+          small
+          color="#409EFF"
+          text-color="white"
+        >
+          {{ orderDetail.payType }}
+        </VChip>
+      </VToolbarTitle>
+      <VSpacer />
+      <VToolbarItems>
+        <VBtn flat>
           {{ orderDetail.orderStatus }}
-        </VFlex>
-      </VLayout>
-    </VSubheader>
-    <ul :class="$style.infoList">
-      <li>
-        <label :class="$style.listLabel">
-          订单类型：
-        </label>{{ orderDetail.orderType }}
-      </li>
-      <li>
-        <label :class="$style.listLabel">
-          订单名称：
-        </label>{{ orderDetail.productName }}
-      </li>
-      <li>
-        <label :class="$style.listLabel">
-          订单时间：
-        </label>{{ orderDetail.createTime }}
-      </li>
-      <template v-if="orderDetail.orderType=='普通订单'">
-        <li>
-          <label :class="$style.listLabel">
-            收件人姓名：
-          </label>{{ orderDetail.receiverName }}
-        </li>
-        <li>
-          <label :class="$style.listLabel">
-            收件人电话：
-          </label>{{ orderDetail.receiverPhone }}
-        </li>
-        <li>
-          <label :class="$style.listLabel">
-            收件人地址：
-          </label>{{ orderDetail.receiverAddress }}
-        </li>
+        </VBtn>
+      </VToolbarItems>
+    </VToolbar>
+
+    <!-- 订单信息列表 -->
+    <VList dense>
+      <template v-for="info in infoList">
+        <VListTile :key="info.labelName">
+          <VListTileContent>
+            <VListTileTitle>{{ info.labelName }}</VListTileTitle>
+          </VListTileContent>
+          <VListTileAction>
+            <VListTileActionText> {{ info.value }} </VListTileActionText>
+          </VListTileAction>
+        </VListTile>
       </template>
-    </ul>
+    </VList>
+
+    <!-- 商品列表 -->
     <VList
       v-if="orderDetail.orderType=='普通订单'"
       two-line
@@ -188,27 +207,30 @@ export default {
         </VListTileContent>
       </VListTile>
     </VList>
-    <ul :class="$style.priceList">
-      <template v-for="priceItem of priceDetail">
-        <li
-          v-if="priceItem.value"
-          :key="priceItem.labelName"
-          :class="$style.priceItem"
-        >
-          <label :class="$style.listLabel">
-            {{ priceItem.labelName }}：
-          </label><span>{{ priceItem.sign }} ¥{{ priceItem.value }}</span>
-        </li>
+
+    <!-- 价格明细表 -->
+    <VList dense>
+      <template v-for="price in priceList">
+        <VListTile :key="price.labelName">
+          <VListTileContent>
+            <VListTileTitle>{{ price.labelName }}</VListTileTitle>
+          </VListTileContent>
+          <VListTileAction>
+            <VListTileActionText> {{ price.sign }} ¥{{ price.value }} </VListTileActionText>
+          </VListTileAction>
+        </VListTile>
       </template>
-      <li :class="$style.priceItem">
-        <label :class="[$style.listLabel,$style.priceLabel]">
-          实际收款
-        </label><span :class="$style.price">
-          ¥ {{ orderDetail.totalAmount }}
-        </span>
-      </li>
-    </ul>
-    <VLayout :class="$style.panel">
+      <VDivider />
+      <VListTile>
+        <VListTileContent>
+          <VListTileTitle>实际收款</VListTileTitle>
+        </VListTileContent>
+        <VListTileAction>
+          <VListTileActionText> ¥ {{ orderDetail.totalAmount }} </VListTileActionText>
+        </VListTileAction>
+      </VListTile>
+    </VList>
+    <VFooter fixed>
       <VFlex
         xs4
       >
@@ -256,41 +278,10 @@ export default {
           </VBtn>
         </VFlex>
       </template>
-    </VLayout>
+    </VFooter>
   </Layout>
 </template>
 
 <style lang="scss" module>
 @import '@design';
-.infoList,
-.priceItem {
-  line-height: 2;
-  list-style-type: none;
-}
-.listLabel {
-  color: #969696;
-}
-.priceItem {
-  display: flex;
-  justify-content: space-between;
-  padding-right: 18px;
-}
-.priceLabel {
-  font-size: 16px;
-  font-weight: bold;
-  color: #212121;
-}
-.price {
-  font-size: 16px;
-  font-weight: bold;
-  color: $color-brand;
-}
-.priceList {
-  margin-bottom: 50px;
-}
-.panel {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
 </style>

@@ -56,13 +56,8 @@ export default {
 </script>
 
 <template>
-  <VList>
-    <template v-for="(price, index) in priceList">
-      <VDivider
-        v-if="index"
-        :key="index"
-      />
-
+  <VList dense>
+    <template v-for="price in priceList">
       <VListTile :key="price.labelName">
         <VListTileContent>
           <VListTileTitle>{{ price.labelName }}</VListTileTitle>
