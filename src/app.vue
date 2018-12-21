@@ -26,7 +26,8 @@ export default {
       this.$snotify.info('持久化链接初始化失败', '提示')
     }
     try {
-      this.initWX()
+      // 微信冲突，暂时关闭
+      // this.initWX()
     } catch (error) {
       this.$snotify.info('微信初始化失败', '提示')
     }
@@ -85,7 +86,7 @@ export default {
     -->
     <vue-snotify />
     <keep-alive
-      :include="['MemberLabelModify','OrderCreate']"
+      :include="['MemberLabelModify','OrderCreate','MemberLabelModify']"
       :max="1"
     >
       <router-view :key="$route.fullPath" />
