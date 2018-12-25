@@ -10,20 +10,36 @@ export default {
   components: { Layout },
   data() {
     return {
+      pageNo: 1,
+      pageSize: 20,
+      hasNext: true,
       activityList: [],
     }
   },
-  async created() {
-    this.activityList = (await this.$api.activity.getStoreActivitys()).data
+  methods: {
+    async infiniteHandler($state) {
+      let newData = (await this.$api.activity.getStoreActivitys({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      })).data
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.activityList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
+    },
   },
 }
 </script>
 
 <template>
   <Layout>
-    <VList
-      two-line
-    >
+    <VList two-line>
       <VSubheader>活动中</VSubheader>
       <template v-for="(item, index) in activityList">
         <VDivider
@@ -36,18 +52,24 @@ export default {
           ripple
           @click="$router.push({name:'item-center',params:{activityID:item.id}})"
         >
-          <VListTileAvatar>
+          <VListTileAvatar
+            tile
+            :class="$style.label"
+          >
             {{ item.activityType }}
           </VListTileAvatar>
           <VListTileContent>
             <VListTileTitle>{{ item.activityName }}</VListTileTitle>
             <VListTileSubTitle>{{ item.productCount }}件商品</VListTileSubTitle>
           </VListTileContent>
-
-          <VListTileAction>
-            <VListTileActionText>{{ item.beginTime }}</VListTileActionText>
-            <VListTileActionText>{{ item.endTime }}</VListTileActionText>
-          </VListTileAction>
+          <VListTileContent>
+            <VListTileSubTitle class="text-xs-right body-1">
+              开始时间：{{ item.beginTime | date }}
+            </VListTileSubTitle>
+            <VListTileSubTitle class="text-xs-right body-1">
+              结束时间：{{ item.endTime | date }}
+            </VListTileSubTitle>
+          </VListTileContent>
           <VListTileAction :class="$style.icon">
             <VIcon>
               chevron_right
@@ -55,6 +77,9 @@ export default {
           </VListTileAction>
         </VListTile>
       </template>
+      <infinite-loading
+        @infinite="infiniteHandler"
+      />
     </VList>
   </Layout>
 </template>
@@ -63,5 +88,13 @@ export default {
 @import '@design';
 .icon {
   min-width: 20px;
+}
+.label {
+  // stylelint-disable
+  :global(.v-avatar) {
+    font-size: 14px !important;
+    color: #fff;
+    background-color: #e6a23c;
+  }
 }
 </style>

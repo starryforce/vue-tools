@@ -10,11 +10,29 @@ export default {
   components: { Layout },
   data() {
     return {
+      pageNo: 1,
+      pageSize: 20,
+      hasNext: true,
       activityList: [],
     }
   },
-  async created() {
-    this.activityList = (await this.$api.activity.getOfflineActivitys()).data
+  methods: {
+    async infiniteHandler($state) {
+      let newData = (await this.$api.activity.getOfflineActivitys({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      })).data
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.activityList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
+    },
   },
 }
 </script>
@@ -50,6 +68,9 @@ export default {
           </VListTileContent>
         </VListTile>
       </template>
+      <infinite-loading
+        @infinite="infiniteHandler"
+      />
     </VList>
   </Layout>
 </template>

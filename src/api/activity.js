@@ -22,15 +22,15 @@ import request from '@utils/request'
  */
 export const getStoreActivitys = ({
   pageNo = 1,
-  pageSize = 30,
+  pageSize = 20,
   isWorking = true,
 } = {}) => {
   return request({
     url: '/CActivity/GetStoreActivitys',
     data: {
-      pageNo,
-      pageSize,
-      isWorking,
+      Page: pageNo,
+      Size: pageSize,
+      IsWorking: isWorking,
     },
   })
 }
