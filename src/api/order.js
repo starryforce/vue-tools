@@ -280,11 +280,25 @@ export const payOrderbyCode2 = () => {
 
 export const changeOrder = ({ orderID, newPrice, newPost } = {}) => {
   return request({
-    url: 'BOrders/ChangePriceBySeller',
+    url: '/BOrders/ChangePriceBySeller',
     data: {
       orderID,
       newPrice,
       newPost,
+    },
+  })
+}
+
+/**
+ *
+ * @description 自提订单生成时会检验门店库存状态，此时门店一定是有所有商品的，立即可以自提
+ * @param {String} orderID - 订单号
+ */
+export const confirmPickUp = orderID => {
+  return request({
+    url: '/BOrders/PostBySelfSend',
+    data: {
+      Id: orderID,
     },
   })
 }
@@ -366,4 +380,5 @@ export default {
   returnPass,
   returnGoods,
   getReturnDetail,
+  confirmPickUp,
 }

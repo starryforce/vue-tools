@@ -11,18 +11,30 @@ export default {
   components: { Layout, ItemListCard },
   data() {
     return {
+      pageNo: 1,
+      pageSize: 20,
+      hasNext: true,
       orderList: [],
     }
   },
-  created() {
-    this.getOrderList()
-  },
   methods: {
-    async getOrderList() {
-      this.orderList = (await this.$api.order.getOrderList({
+    async infiniteHandler($state) {
+      let newData = (await this.$api.order.getOrderList({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
         orderStatus: 1, // 1 : 待发货
         postType: 0, // 0: 自提
-      })).data
+      })).data.orders
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.orderList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
     },
   },
 }
@@ -38,20 +50,22 @@ export default {
         v-for="order in orderList"
         :key="order.orderNo"
         :class="$style.orderContainer"
-        @click="$router.push({name:'order-pickup-detail',orderID:order.id})"
+        @click="$router.push({name:'order-pickup-detail',params:{orderID:order.id}})"
       >
         <VLayout>
-          <VFlex>
-            订单编号{{ order.orderNo }}
+          <VFlex class="caption">
+            订单号：{{ order.orderNo }}
           </VFlex>
-          <VSpacer />
-          <VFlex>
-            {{ order.totalAmount }}
+          <VFlex class="text-xs-right">
+            {{ order.buyerNick }}
           </VFlex>
         </VLayout>
         <VDivider />
         <ItemListCard :item-list="order.detailList" />
       </VContainer>
+      <infinite-loading
+        @infinite="infiniteHandler"
+      />
     </VList>
   </Layout>
 </template>

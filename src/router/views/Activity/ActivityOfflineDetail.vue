@@ -72,7 +72,7 @@ export default {
         <VListTileContent>
           <VListTileTitle>活动时间:</VListTileTitle>
         </VListTileContent>
-        <VListTileAction>{{ detail.registrationTime }} - {{ detail.endTime }}</VListTileAction>
+        <VListTileAction>{{ detail.registrationTime | date }} - {{ detail.endTime | date }}</VListTileAction>
       </VListTile>
       <VDivider />
       <VListTile>

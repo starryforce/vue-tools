@@ -83,7 +83,7 @@ export default {
             justify-space-between
             align-center
           >
-            <span>{{ turnover }}元</span>
+            <span>{{ turnover | currency }}元</span>
             <SelectorOrder @fetch:order-options="fetchOrderOptions" />
           </VLayout>
           <VLayout column>

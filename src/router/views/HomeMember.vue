@@ -94,7 +94,10 @@ export default {
 <template>
   <Layout>
     <SelectorMember @fetch:member-options="fetchMemberOptions" />
-    <VLayout :class="$style.brandable">
+    <VLayout
+      v-if="scene === 'list'"
+      :class="$style.brandable"
+    >
       <VFlex>
         <VDialog
           v-model="dialog"
@@ -208,8 +211,8 @@ export default {
                 right
                 overlap
               >
-                <span 
-                  v-if="item.labelInfo && item.labelInfo.length" 
+                <span
+                  v-if="item.labelInfo && item.labelInfo.length"
                   slot="badge"
                 >
                   {{ item.labelInfo ? item.labelInfo.length : 0 }}

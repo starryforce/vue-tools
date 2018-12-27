@@ -4,32 +4,54 @@ import Layout from '@layouts/MainLayout'
 export default {
   metaInfo: {
     title: '自提单详情',
-    meta: [{ name: 'description', content: 'OrderPickUpDetail' }],
+    meta: [{ name: 'description', content: '自提单详情' }],
   },
+  name: 'OrderPickUpDetail',
   components: { Layout },
+  props: {
+    orderID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      items: [
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: 'Brunch this weekend?',
-          subtitle:
-            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-        },
-      ],
+      orderDetail: {},
     }
+  },
+  created() {
+    this.getOrderDetail()
+  },
+  methods: {
+    async getOrderDetail() {
+      try {
+        this.orderDetail = (await this.$api.order.getOrderList({
+          OrderNo: this.orderID,
+          orderStatus: 1, // 1 : 待发货
+          postType: 0, // 0: 自提
+        })).data.orders[0]
+      } catch (error) {
+        this.$snotify.warning('获取订单详情失败', '错误')
+      }
+    },
+    confirmPick() {
+      // eslint-disable-next-line
+      wx.scanQRCode({
+        // 默认为0，扫描结果由微信处理，1则直接返回扫描结果
+        needResult: 1,
+        desc: '验证自提码',
+        success: async res => {
+          const result = res.resultStr
+          if (result === this.orderID) {
+            await this.$api.order.confirmPickUp(result)
+            this.$snotify.success('提货码验证成功')
+            this.$router.back()
+          } else {
+            this.$snotify.warning('自提码与订单不符')
+          }
+        },
+      })
+    },
   },
 }
 </script>
@@ -38,40 +60,36 @@ export default {
   <Layout>
     <VList :class="$style.form">
       <VListTile>
-        <VListTileSubTitle>退单号:</VListTileSubTitle>
-        <VListTileTitle>VX902324356</VListTileTitle>
+        <VListTileSubTitle>订单号:</VListTileSubTitle>
+        <VListTileTitle>{{ orderDetail.orderNo }}</VListTileTitle>
       </VListTile>
       <VListTile>
-        <VListTileSubTitle>申请人：</VListTileSubTitle>
-        <VListTileTitle>年糕妈妈</VListTileTitle>
+        <VListTileSubTitle>会员名：</VListTileSubTitle>
+        <VListTileTitle>{{ orderDetail.buyerNick }}</VListTileTitle>
       </VListTile>
       <VListTile>
-        <VListTileSubTitle>联系电话：</VListTileSubTitle>
-        <VListTileTitle>190000000000</VListTileTitle>
-      </VListTile>
-      <VListTile>
-        <VListTileSubTitle>申请时间：</VListTileSubTitle>
-        <VListTileTitle>2018-09-09 12:00</VListTileTitle>
+        <VListTileSubTitle>下单时间：</VListTileSubTitle>
+        <VListTileTitle>{{ orderDetail.createTime }}</VListTileTitle>
       </VListTile>
     </VList>
     <VList two-line>
-      <template v-for="(item, index) in items">
+      <template v-for="(item, index) in orderDetail.detailList">
         <VDivider
           v-if="index"
           :key="index"
         />
 
         <VListTile
-          :key="item.title"
+          :key="item.skuName"
           avatar
         >
           <VListTileAvatar>
-            <img :src="item.avatar">
+            <img :src="item.picUrl || ''">
           </VListTileAvatar>
 
           <VListTileContent>
-            <VListTileTitle>尤妮佳（Moony）纸尿裤 L68片（9-14kg）大号婴儿尿不湿</VListTileTitle>
-            <VListTileSubTitle>数量：2</VListTileSubTitle>
+            <VListTileTitle>{{ item.skuName }}</VListTileTitle>
+            <VListTileSubTitle>数量：{{ item.number }}</VListTileSubTitle>
           </VListTileContent>
         </VListTile>
       </template>
@@ -83,6 +101,7 @@ export default {
         dark
         large
         block
+        @click="confirmPick"
       >
         <VIcon
           left
