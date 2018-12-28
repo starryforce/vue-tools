@@ -1,8 +1,8 @@
 <script>
 import appConfig from '@src/app.config'
 import Layout from '@layouts/MainLayout'
-import ItemCard from './ItemCenter/components/ReturnItemCard'
 import ImageUpload from '@components/ImageUpload'
+import ItemCard from './components/ReturnItemCard'
 
 export default {
   metaInfo: {

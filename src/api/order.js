@@ -319,18 +319,79 @@ export const CreateReturnOrder = ({
   })
 }
 
-/// 订单状态0：顾客申请，1：门店同意，2：门店驳回，3：顾客已发货，4：已收货，5：收货拒绝，6：中台同意，7：中台驳回，8：已退款（已退换）不填全部
-export const getReturnOrders = ({ pageNo = 1, pageSize = 20, state } = {}) => {
+/**
+ *
+ * @description 导购端退货订单获取list
+ * @param {number} request.pageNo - 页码
+ * @param {number} request.pageSize - 一页个数
+ * @param {number} request.isPass - 门店是否审核 0未审核1审核过
+ * @param {number} [request.state] - 订单状态 0：顾客申请，1：门店同意，2：门店驳回，3：顾客已发货，4：已收货，5：收货拒绝，6：中台同意，7：中台驳回，8：已退款（已退换）不填全部
+ * @param {number} [request.payType] - 支付类型0支付宝,1微信支付,2现金,3银行卡（不填全部）
+ * @param {string} [request.memberID] - 会员id
+ * @param {string} [request.orderNo] - 退单单号
+ * @param {string} [request.beginTime] - 开始时间
+ * @param {string} [request.endTime] - 结束时间
+ *
+ * @typedef {Object} ReturnInfo Info - 退款订单详情
+ * @property {string} Id - 退款订单id
+ * @property {string} returnOrderNo - 退款订单编号
+ * @property {string} time - 退货时间
+ * @property {string} receiverPhone - 手机号
+ * @property {string} orderStatus - 订单状态
+ * @property {string} returnType - 退货类型
+ * @property {string} buyerNick - 退款者昵称
+ * @property {string} payType - 关联订单支付方式
+ *
+ * @typedef {Object} ReturnOrderDetail Info - 退款订单详情
+ * @property {string} SkuName - 商品名
+ * @property {string} PicUrl - 商品图片
+ * @property {number} SalePrice - 售价
+ * @property {number} Num - 退款数量
+ *
+ * @returns {ReturnOrderDetail[]} DetailList - 退款订单退货详情
+ * @returns {ReturnInfo} Info - 退款订单详情
+ */
+export const getReturnOrders = ({
+  pageNo = 1,
+  pageSize = 20,
+  state,
+  payType,
+  orderNo,
+  beginTime,
+  endTime,
+  isPass,
+  memberID,
+} = {}) => {
   return request({
     url: '/GuideReturnOrder/BGetReturnOrderList',
     data: {
-      PageSize: pageSize,
       Page: pageNo,
+      PageSize: pageSize,
+      PayType: payType,
       State: state,
+      OrderNo: orderNo,
+      BeginTime: beginTime,
+      EndTime: endTime,
+      IsPass: isPass,
+      AccountId: memberID,
     },
   })
 }
 
+/**
+ * @description 导购端获取某个退款订单详细
+ * @param {string} orderID - 退款订单Id
+ *
+ * @returns {string} Nick - 购买人昵称
+ * @returns {[]} BackDetailList - 换货的商品详情
+ * @returns {string} Id - 退款订单Id
+ * @returns {string} Imgs - 退款时添加的退款照片照片
+ * @returns {string} Phone - 购买人电话
+ * @returns {string} No - 退款订单No
+ * @returns {string} Discribe - 退款原因
+ * @returns {[]} OrderDetailList - 退款单中的商品详情
+ * @returns {string} Time - 生成退款时间
+ */
 export const getReturnDetail = orderID => {
   return request({
     url: '/GuideReturnOrder/GetReturnOrderDetail',
@@ -340,7 +401,13 @@ export const getReturnDetail = orderID => {
   })
 }
 
-export const returnPass = ({ orderID, isPass, reason } = {}) => {
+/**
+ * @description 退货申请门店是否同意
+ * @param {string} request.orderID - 退款订单Id
+ * @param {bool} request.isPass - 是否同意
+ * @param {string} [request.reason] - 拒绝原因
+ */
+export const confirmReturn = ({ orderID, isPass, reason } = {}) => {
   return request({
     url: '/GuideReturnOrder/ShopPass',
     data: {
@@ -351,7 +418,14 @@ export const returnPass = ({ orderID, isPass, reason } = {}) => {
   })
 }
 
-export const returnGoods = ({ orderID, isPass, reason } = {}) => {
+/**
+ *
+ * @description 退货订单确认收货
+ * @param {string} request.orderID - 退货订单id
+ * @param {bool} request.IsPass - 是否确认
+ * @param {string} [request.Reason] - 不通过填写的理由
+ */
+export const confirmReturnItem = ({ orderID, isPass, reason } = {}) => {
   return request({
     url: '/GuideReturnOrder/ConfirmGood',
     data: {
@@ -377,8 +451,8 @@ export default {
   payOrderbyCode2,
   changeOrder,
   getReturnOrders,
-  returnPass,
-  returnGoods,
+  confirmReturn,
+  confirmReturnItem,
   getReturnDetail,
   confirmPickUp,
 }

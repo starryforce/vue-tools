@@ -3,45 +3,63 @@ import Layout from '@layouts/SubLayout'
 
 export default {
   metaInfo: {
-    title: 'OrderReturnDetail',
-    meta: [{ name: 'description', content: 'OrderReturnDetail' }],
+    title: '退单详情',
+    meta: [{ name: 'description', content: '退单详情' }],
   },
+  name: 'OrderReturnDetail',
   components: { Layout },
   props: {
     id: {
       type: String,
       required: true,
     },
+    state: {
+      type: Number,
+      required: true,
+    },
   },
-  data: function() {
-    return { order: {} }
+  data() {
+    return {
+      order: {},
+      reason: '',
+    }
+  },
+  computed: {
+    /**
+     * @description 退货商品，单笔退货仅有一种商品
+     */
+    returnItem() {
+      if (this.order.orderDetailList && this.order.orderDetailList.length) {
+        return this.order.orderDetailList.filter(item => item.num !== '0')
+      } else {
+        return []
+      }
+    },
   },
   created() {
-    this.loadOrder()
+    this.getReturnDetail()
   },
   methods: {
-    async submit(isPass) {
-      var func =
-        (this.order && this.order.state) === ''
-          ? this.$api.order.returnPass
-          : this.$api.order.returnGoods
+    async getReturnDetail() {
+      this.order = (await this.$api.order.getReturnDetail(this.id)).data
+    },
+    async confirm(isPass) {
+      let func
+      if (this.state === 0) {
+        func = this.$api.order.confirmReturn
+      } else if (this.state === 3) {
+        func = this.$api.order.confirmReturnItem
+      }
       try {
         await func({
           orderID: this.id,
           isPass,
-          reason: '',
+          reason: this.reason,
         })
         this.$snotify.success('请继续下一步', '审核完成')
-        this.loadOrder()
       } catch (error) {
         this.$snotify.warning(error.data.msg, '申请失败')
       }
-    },
-    async loadOrder() {
-      this.order = Object.assign(
-        {},
-        (await this.$api.order.getReturnDetail(this.id)).data
-      )
     },
   },
 }
@@ -51,12 +69,12 @@ export default {
   <Layout>
     <VList two-line>
       <VListTile
-        v-for="it in order.orderDetailList"
+        v-for="it in returnItem"
         :key="it.skuName"
         avatar
       >
-        <VListTileAvatar>
-          <VImg :src="it.picUrl" />
+        <VListTileAvatar tile>
+          <VImg :src="it.picUrl || ''" />
         </VListTileAvatar>
 
         <VListTileContent>
@@ -87,12 +105,17 @@ export default {
         <VListTileSubTitle>申请时间：</VListTileSubTitle>
         <VListTileTitle>{{ order.time }}</VListTileTitle>
       </VListTile>
+      <VListTile>
+        <VListTileSubTitle>退单金额：</VListTileSubTitle>
+        <VListTileTitle>{{ order.returnFee | currency }}</VListTileTitle>
+      </VListTile>
       <VListTile :class="$style.fullHeight">
         <VListTileSubTitle>退单描述：</VListTileSubTitle>
         <VListTileTitle>
           <VTextarea
             :value="order.discribe"
             auto-grow
+            disabled
           />
         </VListTileTitle>
       </VListTile>
@@ -108,8 +131,8 @@ export default {
               wrap
             >
               <VFlex
-                v-for="n in order.imgs"
-                :key="n"
+                v-for="imgUrl in order.imgs"
+                :key="imgUrl"
                 xs4
                 d-flex
               >
@@ -119,8 +142,8 @@ export default {
                   class="d-flex"
                 >
                   <VImg
-                    :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                    :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                    :src="imgUrl"
+                    :lazy-src="imgUrl"
                     aspect-ratio="1"
                     class="grey lighten-2"
                   >
@@ -143,13 +166,29 @@ export default {
           </VContainer>
         </VListTileTitle>
       </VListTile>
+      <VListTile
+        v-if="state === 0 || state === 3"
+        :class="$style.fullHeight"
+      >
+        <VListTileSubTitle>审核备注：</VListTileSubTitle>
+        <VListTileTitle>
+          <VTextarea
+            v-model="reason"
+            auto-grow
+            placeholder="例如：人为损坏"
+          />
+        </VListTileTitle>
+      </VListTile>
     </VList>
-    <VLayout :class="$style.panel">
+    <VLayout
+      v-if="state === 0 || state === 3"
+      :class="$style.panel"
+    >
       <VFlex>
         <VBtn
           block
-          text--primary
-          @click="submit(false)"
+          color="error"
+          @click="confirm(false)"
         >
           驳回
         </VBtn>
@@ -158,8 +197,7 @@ export default {
         <VBtn
           block
           color="primary"
-          dark
-          @click="submit(true)"
+          @click="confirm(true)"
         >
           确认
         </VBtn>

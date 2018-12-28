@@ -108,7 +108,7 @@ export default [
         meta: {
           showMainNav: true,
         },
-        component: () => lazyLoadView(import('@views/OrderReturn')),
+        component: () => lazyLoadView(import('@views/OrderReturn/OrderReturn')),
       },
       {
         path: 'pickup',
@@ -119,13 +119,6 @@ export default [
         component: () => lazyLoadView(import('@views/OrderPickUp')),
       },
     ],
-  },
-  {
-    path: '/order/return/detail/:id',
-    name: 'order-return-detail',
-    meta: {},
-    props: true,
-    component: () => lazyLoadView(import('@views/OrderReturnDetail')),
   },
   {
     path: '/order/detail/:orderID',
@@ -159,13 +152,15 @@ export default [
     name: 'order-return-create',
     meta: {},
     props: true,
-    component: () => import('@views/OrderReturnCreate'),
+    component: () => import('@views/OrderReturn/OrderReturnCreate'),
   },
   {
-    path: '/order/return/confirm',
-    name: 'order-return-confirm',
+    path: '/order/return/detail/:id',
+    name: 'order-return-detail',
     meta: {},
-    component: () => lazyLoadView(import('@views/OrderReturnDetail')),
+    props: true,
+    component: () =>
+      lazyLoadView(import('@views/OrderReturn/OrderReturnDetail')),
   },
   {
     path: '/order/pickup/detail/:orderID',
