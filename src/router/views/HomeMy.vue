@@ -83,7 +83,7 @@ export default {
       </VLayout>
     </VContainer>
     <VList>
-      <!-- <VListTile>
+      <VListTile :to="{name:'my-information'}">
         <VListTileContent>
           <VListTileTitle>个人信息</VListTileTitle>
         </VListTileContent>
@@ -91,7 +91,7 @@ export default {
           <VIcon>chevron_right</VIcon>
         </VListTileAction>
       </VListTile>
-      <VDivider /> -->
+      <VDivider />
       <VListTile :to="{name:'limit-manage'}">
         <VListTileContent>
           <VListTileTitle>额度管理</VListTileTitle>

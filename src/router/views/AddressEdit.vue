@@ -73,8 +73,8 @@ export default {
         this.sheet = false
       }
     },
-    saveAddress() {
-      this.$api.address.editMemberAddress(
+    async saveAddress() {
+      await this.$api.address.editMemberAddress(
         Object.assign({}, this.editingData, {
           provinceCode: this.selectedRegion[0].value,
           provinceName: this.selectedRegion[0].label,

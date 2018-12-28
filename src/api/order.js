@@ -207,29 +207,29 @@ export const cancelOrder = orderID => {
 /**
  * @param {string} orderID - 订单 ID
  *
- * @returns {string} SkuList - 所有的商品集合
- * @returns {string} VipAmount - vip优惠金额
+ * @returns {string} OrderNo - 订单编号
  * @returns {string} OrderStatus - 订单状态
  * @returns {string} OrderType - 订单类型
  * @returns {string} PayType - 支付类型
- * @returns {string} OldTotalAmount - 优惠前的总金额
- * @returns {string} ReceiverAddress - 收货地址
  * @returns {string} BuyerId - 购买人Id
- * @returns {string} UsePoint - 使用的积分数量
- * @returns {string} CreateTime -
- * @returns {string} CutList - 所有的优惠集合
- * @returns {string} LimitAmount - 限时折扣优惠的金额
+ * @returns {string} CreateTime - 创建时间
  * @returns {string} ProductName - 订单名称
- * @returns {string} ReceiverName - 收货人姓名
+ * @returns {string} OldTotalAmount - 优惠前的总金额
  * @returns {string} FullAmount - 满减优惠金额
- * @returns {string} TotalAmount - 订单总金额
  * @returns {string} CouponAmount - 优惠券优惠的金额
  * @returns {string} CouponPostAmount - 优惠优惠的邮费金额
- * @returns {string} UseBalance - 使用的余额
+ * @returns {string} LimitAmount - 限时折扣优惠的金额
+ * @returns {string} VipAmount - vip优惠金额
+ * @returns {string} CutList - 所有的优惠集合
  * @returns {string} PostAmount - 邮费
- * @returns {string} BuyerMsg - 买家留言
- * @returns {string} OrderNo - 订单编号
+ * @returns {string} TotalAmount - 订单总金额
+ * @returns {string} UsePoint - 使用的积分数量
+ * @returns {string} UseBalance - 使用的余额
+ * @returns {string} SkuList - 所有的商品集合
+ * @returns {string} ReceiverName - 收货人姓名
  * @returns {string} ReceiverPhone - 收货人电话
+ * @returns {string} ReceiverAddress - 收货地址
+ * @returns {string} BuyerMsg - 买家留言
  */
 export const getOrderDetail = orderID => {
   return request({

@@ -44,7 +44,7 @@ export default {
         <VListTileTitle>{{ name }}</VListTileTitle>
       </VListTileContent>
       <VListTileAction>
-        <!-- <VDialog
+        <VDialog
           v-model="dialog"
           lazy
           persistent
@@ -93,7 +93,7 @@ export default {
               </VBtn>
             </VCardActions>
           </VCard>
-        </VDialog> -->
+        </VDialog>
       </VListTileAction>
     </VListTile>
     <VDivider />

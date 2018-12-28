@@ -35,12 +35,12 @@ export default {
     async confirmDelete() {
       try {
         await this.$api.face.unbindFace(this.faceDeleting.ksFaceID)
-        this.dialog = false
         this.faceDeleting = {}
         this.$snotify.success('删除成功')
       } catch (error) {
         this.$snotify.error(error.message)
       }
+      this.dialog = false
     },
     selectFace(face) {
       this.faceDeleting = face
@@ -129,7 +129,7 @@ export default {
           <VToolbarTitle>人脸识别编辑</VToolbarTitle>
         </VToolbar>
         <VImg
-          :class="$style.preview"
+          class="mt-5"
           :aspect-ratio="1"
           src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
         />
@@ -148,7 +148,7 @@ export default {
           <VDialog
             v-model="confirmDialog"
             persistent
-            :class="$style.button"
+            full-width
           >
             <VBtn
               slot="activator"
@@ -197,15 +197,10 @@ export default {
   border-style: dashed;
   border-radius: 0;
 }
-.preview {
-  margin-top: 20vw;
-}
+
 .panel {
   position: absolute;
   bottom: 0;
-  width: 100%;
-}
-.button {
   width: 100%;
 }
 </style>

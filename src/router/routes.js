@@ -184,6 +184,12 @@ export default [
     component: () => lazyLoadView(import('@views/MyStatistics')),
   },
   {
+    path: '/my/information',
+    name: 'my-information',
+    meta: {},
+    component: () => lazyLoadView(import('@views/MyInformation')),
+  },
+  {
     path: '/member/face/:id',
     name: 'member-face',
     meta: {},
