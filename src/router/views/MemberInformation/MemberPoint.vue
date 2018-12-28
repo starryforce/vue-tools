@@ -26,12 +26,18 @@
         />
         <VListTile :key="point.id">
           <VListTileContent>
-            <VListTileTitle>关联订单:{{ point.relationTid }}</VListTileTitle>
-            <VListTileSubTitle>{{ point.changeType?'消耗':'充值' }}</VListTileSubTitle>
+            <VListTileTitle class="body-2">
+              关联订单:{{ point.relationTid }}
+            </VListTileTitle>
+            <VListTileSubTitle>{{ point.changeTime }}</VListTileSubTitle>
           </VListTileContent>
           <VListTileAction>
-            <VListTileTitle>{{ point.changeCount }}</VListTileTitle>
-            <VListTileSubTitle>{{ point.changeTime }}</VListTileSubTitle>
+            <VListTileTitle class="text-xs-right">
+              {{ point.changeType?'消耗':'充值' }}
+            </VListTileTitle>
+            <VListTileSubTitle class="text-xs-right">
+              {{ point.changeType?'-':'+' }}{{ point.changeCount }}
+            </VListTileSubTitle>
           </VListTileAction>
         </VListTile>
       </template>
@@ -70,24 +76,21 @@ export default {
   },
   methods: {
     async infiniteHandler($state) {
-      try {
-        let newData = (await this.$api.member.getPointList({
-          memberID: this.memberID,
-          changeType: this.selectedTab,
-          pageNo: this.pageNo,
-          pageSize: this.pageSize,
-        })).data
-        this.hasNext = newData.length === this.pageSize
-        if (newData.length) {
-          this.pointList.push(...newData)
-        }
-        if (this.hasNext) {
-          this.pageNo += 1
-          $state.loaded()
-        } else {
-          $state.complete()
-        }
-      } catch (error) {
+      let newData = (await this.$api.member.getPointList({
+        memberID: this.memberID,
+        changeType: this.selectedTab,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      })).integralList
+
+      this.hasNext = newData.length === this.pageSize
+      if (newData.length) {
+        this.pointList.push(...newData)
+      }
+      if (this.hasNext) {
+        this.pageNo += 1
+        $state.loaded()
+      } else {
         $state.complete()
       }
     },
