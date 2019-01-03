@@ -49,7 +49,7 @@ export default {
     },
     openWS() {
       const ws = new WebSocket(
-        'wss://www.m.bebefocus.com/bksoc?socketid=toshop123'
+        'wss://malldev.bebefocus.com:9002/bksoc?socketid=toshop123'
       )
 
       ws.onopen = event => {
