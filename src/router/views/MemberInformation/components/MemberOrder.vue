@@ -24,18 +24,17 @@ export default {
     :class="$style.order"
     subheader
   >
-    <template v-for="(order, index) in orders.orderInfo">
-      <VDivider
-        v-if="index"
-        :key="'divider'+order.orderNo"
-      />
-      <VSubheader :key="'id'+order.orderNo">
+    <div
+      v-for="(order, index) in orders.orderInfo"
+      :key="order.orderId"
+      @click="$router.push({name:'order-detail',params:{orderID:order.orderId}})"
+    >
+      <VDivider v-if="index" />
+      <VSubheader>
         <VIcon>assignment</VIcon>
         订单号：{{ order.orderNo }}
       </VSubheader>
-      <VListTile
-        :key="'order'+order.orderNo"
-      >
+      <VListTile>
         <VListTileContent>
           <VContainer
             fluid
@@ -94,14 +93,14 @@ export default {
           </VContainer>
         </VListTileContent>
       </VListTile>
-      <VSubheader :key="'header'+order.orderNo">
+      <VSubheader>
         <VIcon>today</VIcon>
         日期：{{ order.createTime }}
         <VSpacer />
         <VIcon>payment</VIcon>
         总金额：￥{{ order.totalAmount }}
       </VSubheader>
-    </template>
+    </div>
   </VList>
 </template>
 
