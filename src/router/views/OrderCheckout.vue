@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      code: '12',
       paymentList: [
         {
           icon: 'crop_free',
@@ -34,26 +33,28 @@ export default {
           id: 3,
         },
       ],
-      orderInfo: {},
       bargainDialog: false,
-      orderAmount: 0,
-      postAmount: 0,
-      lowestAmount: 0,
+      orderInfo: {},
+      expectPrice: 0,
     }
   },
   computed: {
-    sumAmount() {
-      return (this.orderAmount - 0 + this.postAmount).toFixed(2)
+    minLimitPrice() {
+      try {
+        return this.orderInfo.skuList.reduce((prev, curr) => {
+          return prev + curr.minPrice * curr.number
+        }, 0)
+      } catch (error) {
+        return this.maxLimitPrice
+      }
     },
-    serverOrderAmount() {
+    maxLimitPrice() {
+      // 不含运费的实际价格
       return (this.orderInfo.totalAmount - this.orderInfo.postAmount).toFixed(2)
     },
   },
   async created() {
-    this.orderInfo = (await this.$api.order.getOrderDetail(this.orderID)).data
-    this.lowestAmount = this.orderInfo.lowestAmount || 1000
-    this.orderAmount = this.serverOrderAmount
-    this.postAmount = this.orderInfo.postAmount
+    this.getOrderDetail()
   },
   methods: {
     async pay(type) {
@@ -117,6 +118,10 @@ export default {
         })
       }
     },
+    async getOrderDetail() {
+      this.orderInfo = (await this.$api.order.getOrderDetail(this.orderID)).data
+      this.expectPrice = this.maxLimitPrice
+    },
     success() {
       this.$snotify.success(this.body, '支付完成')
       this.$router.replace('/order/detail/' + this.orderID)
@@ -125,10 +130,11 @@ export default {
       try {
         await this.$api.order.changeOrder({
           orderID: this.orderID,
-          newPrice: this.orderAmount,
-          newPost: this.postAmount,
+          newPrice: this.expectPrice,
+          newPost: this.orderInfo.postAmount,
         })
         this.$snotify.success('', '改价完成')
+        this.getOrderDetail()
       } catch (error) {
         this.$snotify.warning(error.msg, '改价失败')
       }
@@ -169,6 +175,7 @@ export default {
             改价
           </span>
         </VCardTitle>
+        <VSubheader>改价范围{{ minLimitPrice | currency }} - {{ maxLimitPrice | currency }}</VSubheader>
         <VCardText>
           <VLayout
             row
@@ -176,9 +183,9 @@ export default {
           >
             <VFlex xs6>
               <VTextField
-                v-model="orderAmount"
+                v-model.number="expectPrice"
                 label="商品金额"
-                :rules="[() => (orderAmount >= lowestAmount && orderAmount <= serverOrderAmount)|| `改价范围${lowestAmount} - ${ serverOrderAmount }`]"
+                :rules="[() => (expectPrice >= minLimitPrice && expectPrice <= maxLimitPrice)|| `改价范围${minLimitPrice} - ${ maxLimitPrice }`]"
                 required
               />
             </VFlex>
@@ -187,15 +194,12 @@ export default {
             </VFlex>
             <VFlex xs5>
               <VTextField
-                v-model="postAmount"
+                :value="orderInfo.postAmount"
+                disabled
                 label="运费金额"
-                :rules="[() => (postAmount >= 0 && postAmount <= orderInfo.postAmount)|| `改价范围${0} - ${orderInfo.postAmount }`]"
-                required
               />
             </VFlex>
           </VLayout>
-          <div>原价{{ orderInfo.totalAmount }}</div>
-          <div>预计改到{{ sumAmount }}</div>
         </VCardText>
         <VCardActions>
           <VSpacer />

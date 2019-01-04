@@ -59,8 +59,8 @@ export default {
         },
         {
           labelName: '使用的积分数量',
-          value: this.orderDetail.usePoint,
-          sign: '',
+          value: this.orderDetail.usePointAmount,
+          sign: '-',
         },
         {
           labelName: '使用的余额',
