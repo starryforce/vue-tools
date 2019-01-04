@@ -91,10 +91,7 @@ export default {
     >
       <router-view :key="$route.fullPath" />
     </keep-alive>
-    <MainNav
-      v-show="$route.meta.showMainNav"
-      style="z-index:1"
-    />
+    <MainNav />
     <div
       v-show="spinnerVisible"
       id="spinner"
