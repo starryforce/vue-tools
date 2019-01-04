@@ -185,7 +185,7 @@ export const getCouponList = ({
   pageSize,
 }) => {
   return request({
-    url: '/CCoupon/CGetCouponList',
+    url: '/GuideCoupon/CGetCouponList',
     data: {
       AccountId: memberID,
       Page: pageNo,
