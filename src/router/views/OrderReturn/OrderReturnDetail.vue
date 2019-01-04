@@ -13,10 +13,6 @@ export default {
       type: String,
       required: true,
     },
-    state: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
@@ -34,6 +30,9 @@ export default {
       } else {
         return []
       }
+    },
+    state() {
+      return this.order.state
     },
   },
   created() {

@@ -71,7 +71,7 @@ export default {
       <VContainer
         v-for="(order) in orderList"
         :key="order.info.id"
-        @click="$router.push({name:'order-return-detail',params:{id:order.info.id,state}})"
+        @click="$router.push({name:'order-return-detail',params:{id:order.info.id}})"
       >
         <VLayout>
           <VFlex class="caption">
