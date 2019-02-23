@@ -20,14 +20,14 @@ let _requests = []
 
 const requestUtil = axios.create(config)
 
-const authInfo = store.state.auth
-const authorization = new Authorization(authInfo)
-
 // request 拦截器
 requestUtil.interceptors.request.use(
   config => {
     // 2. 带上token
+    const authInfo = store.state.auth
+    const authorization = new Authorization(authInfo)
     const authHeaders = authorization.getHeaders()
+
     if (authHeaders) {
       config.headers = Object.assign({}, config.headers, authHeaders)
     } else {
