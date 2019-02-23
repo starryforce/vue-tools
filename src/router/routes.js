@@ -262,6 +262,12 @@ export default [
     component: () => lazyLoadView(import('@views/AddressEdit')),
   },
   {
+    path: '/user/login',
+    name: 'user-login',
+    meta: {},
+    component: () => lazyLoadView(import('@views/UserLogin')),
+  },
+  {
     path: '/member/label/edit/:id',
     name: 'member-label-edit',
     meta: {},

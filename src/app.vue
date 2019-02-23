@@ -21,7 +21,7 @@ export default {
   /* global wx */
   async created() {
     try {
-      this.openWS()
+      // this.openWS()
     } catch (error) {
       this.$snotify.info('持久化链接初始化失败', '提示')
     }

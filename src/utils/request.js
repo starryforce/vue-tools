@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Authorization from './authorization'
 import store from '@state/store'
+import router from '@router'
 
 const config = {
   method: 'post',
@@ -19,28 +20,7 @@ let _requests = []
 
 const requestUtil = axios.create(config)
 
-function getAuthInfo() {
-  function getQueryString(name) {
-    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-    var r = window.location.search.substr(1).match(reg)
-    if (r != null) return unescape(r[2])
-    return null
-  }
-  const storeId = getQueryString('storeId')
-  const token = getQueryString('token')
-  if (token) {
-    store.dispatch('auth/setAuth', {
-      storeId,
-      token,
-    })
-    return { storeId, token }
-  } else {
-    return store.state.auth || {}
-  }
-}
-
-const authInfo = getAuthInfo()
-
+const authInfo = store.state.auth
 const authorization = new Authorization(authInfo)
 
 // request 拦截器
@@ -108,6 +88,10 @@ requestUtil.interceptors.response.use(
     switch (data.code) {
       case 200:
         // console.log(data.msg)
+        break
+      case 401:
+        // console.log(data.msg)
+        router.push({ name: 'user-login' })
         break
       default:
         const err = new Error(data.msg)

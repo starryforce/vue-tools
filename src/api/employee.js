@@ -67,6 +67,16 @@ export const getTicketUrl = () => {
   })
 }
 
+export const employeeLogin = ({ mobile, password }) => {
+  return request({
+    url: '/GuideEmployee/EmployeeLogin',
+    data: {
+      Mobile: mobile,
+      passWord: password,
+    },
+  })
+}
+
 export const getEmpleeAssignAmounts = () => {
   return request({
     url: '/GuideEmployee/GetEmpleeAssignAmounts',
@@ -84,4 +94,5 @@ export default {
   getGuideEmployeeInviteList,
   getTicketUrl,
   getEmpleeAssignAmounts,
+  employeeLogin,
 }
